@@ -1,3 +1,4 @@
+import 'package:eloit/screens/auth/authenticate.dart';
 import 'package:eloit/screens/home.dart';
 import 'package:flutter/material.dart';
 
@@ -6,6 +7,6 @@ class Wrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Home();
+    return AuthBox();
   }
 }

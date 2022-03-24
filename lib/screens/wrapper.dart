@@ -7,6 +7,8 @@ class Wrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: Return Home if the user is signed in.
+    // Else return Auth
     return AuthBox();
   }
 }

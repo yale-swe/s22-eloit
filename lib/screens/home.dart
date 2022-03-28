@@ -1,3 +1,6 @@
+import 'package:eloit/screens/category_page.dart';
+import 'package:eloit/screens/search_page.dart';
+import 'package:eloit/screens/settings_page.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -19,15 +22,9 @@ class _HomeState extends State<Home> {
   }
 
   final List<Widget> _pages = [
-    Container(
-      color: Colors.amber,
-    ),
-    Container(
-      color: Colors.blueAccent,
-    ),
-    Container(
-      color: Colors.green,
-    ),
+    const CategoryPage(),
+    const SearchPage(),
+    const SettingsPage(),
   ];
 
   @override
@@ -42,8 +39,8 @@ class _HomeState extends State<Home> {
         currentIndex: _selectedIndex,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+            icon: Icon(Icons.category),
+            label: 'Category',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),

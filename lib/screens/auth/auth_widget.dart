@@ -1,14 +1,26 @@
 import 'dart:math';
 
+import 'package:eloit/screens/auth/registration.dart';
 import 'package:eloit/services/auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../home.dart';
+import 'auth_helper_widgets.dart';
+
+
+// This defines the 2 initial authentication pages.
+enum AuthPage {
+  signInPage, 
+  registerEmailPage, 
+}
 
 
 class AuthBox extends StatefulWidget {
-  const AuthBox({ Key? key }) : super(key: key);
+  const AuthBox ({
+    Key? key,
+  }): super(key: key);
 
   @override
   State<AuthBox> createState() => _AuthBoxState();
@@ -18,6 +30,9 @@ class _AuthBoxState extends State<AuthBox> {
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
 
+  // TODO: Only come to this widget if there is no user signed in.
+  var currentState = AuthPage.signInPage;
+
   // This is for form validation
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
 
@@ -26,161 +41,164 @@ class _AuthBoxState extends State<AuthBox> {
 
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    double side = min(width, height);
+
+    // If you're on a wide screen, make the width short.
+    double scaleFactor = 1.5;
+    if (width > height) {
+      width = height / scaleFactor;
+    }
+
+    void toggleSigninSignup() => setState(() {
+      if (currentState == AuthPage.signInPage) {
+        currentState = AuthPage.registerEmailPage;
+      }
+      else if (currentState == AuthPage.registerEmailPage) {
+        currentState = AuthPage.signInPage;
+      }
+    });
     
-    // TODO: Use setState(() {}) to improve the authentication page.
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Eloit')
-      ),
-      body: SizedBox(
-        width: side,
-        height: side/1.2,
-        child: Form(
-          // TODO: See what the line below would do
-          // autovalidateMode: AutovalidateMode.onUserInteraction,
-          key: _key,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            // crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                child: TextFormField(
-                  validator: inspectEmail,
-                  controller: emailController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Email',
-                  ),
-                ),
-              ),
-              Padding (
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                child: TextFormField(
-                  validator: inspectSigninPassword,
-                  controller: passwordController,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Password',
-                  ),
-                ),
-              ),
-              Row (
+    switch(currentState) {
+      case AuthPage.signInPage:
+        // TODO: maybe place the common widgets outside
+        return Scaffold(
+          backgroundColor: COLOR_BACKGROUND,
+          appBar: AppBar(
+            title: const Text(APP_NAME)
+          ),
+          body: SingleChildScrollView(
+            child: Form(
+              // TODO: See what the line below would do
+              // autovalidateMode: AutovalidateMode.onUserInteraction,
+              key: _key,
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                // crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                    child: TextButton(
+                  const FormPaddingLayer(),
+                  EmailField(controller: emailController),
+                  const FormPaddingLayer(),
+                  SignInPasswordField(controller: passwordController),
+                  const FormPaddingLayer(),
+                  SizedBox(
+                    width: width,
+                    child: ElevatedButton(
                       onPressed: () async {
                         if (_key.currentState!.validate()) {
                           bool readyToSignIn = await SignInFunc(
-                            emailController.text, passwordController.text
-                            );
+                            emailController.text.trim(), 
+                            passwordController.text.trim()
+                          );
                           if (readyToSignIn) {
                             // REDIRECT to home
-                            Navigator.push(
+                            Navigator.pushReplacement(
                               context, 
                               MaterialPageRoute(
                                 builder: (context) => Home())
                             );
                           }
                           else {
-                            // STAY here
+                            // TODO: Show this message on the app
                             print('Login failed!');
                           }
                         }
                       },
-                      child: Text('Continue'),
-                    )
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                    child: TextButton(
-                      onPressed: () async {
-                        bool registerAndLogIn = await RegisterFunc(
-                          emailController.text, passwordController.text
-                        );
-                        if (registerAndLogIn) {
-                          // Redirect to home
-                          Navigator.push(
-                            context, 
-                            MaterialPageRoute(
-                              builder: (context) => Home())
-                          );
-                        }
-                        else {
-                          // Stay here
-                          print('Registration failed!');
-                        }
-                      },
-                      child: Text('Register'),
+                      child: Text('Sign in'),
                     ),
                   ),
+                  const FormPaddingLayer(),
+                  RichText(
+                    text: TextSpan(
+                      style: const TextStyle(
+                        color: COLOR_FLOATING_TEXT,
+                      ),
+                      text: 'New to $APP_NAME? ',
+                      children: [
+                        TextSpan(
+                          recognizer: TapGestureRecognizer()
+                              ..onTap = toggleSigninSignup,
+                          text: 'Sign up.',
+                          style: const TextStyle (
+                            decoration: TextDecoration.underline,
+                            color: COLOR_FLOATING_LINK_TEXT,
+                          ),
+                        ),
+                      ]
+                    ),
+                  ),
+
                 ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
-    );
-  }
-}
+        );
 
+      case AuthPage.registerEmailPage:
+        return Scaffold(
+          backgroundColor: COLOR_BACKGROUND,
+          appBar: AppBar(
+            title: const Text(APP_NAME)
+          ),
+          body: SingleChildScrollView(
+            child: SizedBox(
+              child: Form(
+                // TODO: See what the line below would do
+                // autovalidateMode: AutovalidateMode.onUserInteraction,
+                key: _key,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  // crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    const FormPaddingLayer(),
+                    EmailField(controller: emailController),
+                    const FormPaddingLayer(),
+                    SizedBox(
+                      width: width,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          if (_key.currentState!.validate()) {
+                            // TODO: Send a request to check if the email exists.
+                            // TODO: Send some verification code to that email,
+                            // TODO: Set up page for receiving verification code.               
+                            Navigator.push (
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => RegistrationBox(
+                                  email: emailController.text.trim(),
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                        child: const Text('Continue'),
+                      ),
+                    ),
+                    const FormPaddingLayer(),
+                    RichText(
+                      text: TextSpan(
+                        style: const TextStyle(
+                          color: COLOR_FLOATING_TEXT,
+                        ),
+                        text: 'Already have an account? ',
+                        children: [
+                          TextSpan(
+                            recognizer: TapGestureRecognizer()
+                                ..onTap = toggleSigninSignup,
+                            text: 'Log in.',
+                            style: const TextStyle (
+                              decoration: TextDecoration.underline,
+                              color: COLOR_FLOATING_LINK_TEXT,
+                            ),
+                          ),
+                        ]
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );    
 
-String? inspectEmail(String? formEmail) {
-  // First check that the email field is not empty
-  if (formEmail == null || formEmail.isEmpty) {
-    return 'I need an email address here.';
-  }
-
-  // Then check if the email looks valid
-  String pattern = r'^.{1,}@.{1,}\..{1,}$';
-  RegExp regEx = RegExp(pattern);
-  if (!regEx.hasMatch(formEmail)) {
-    return "Email doesn't look valid";
-  }
-
-  // The email looks valid. Return null
-  return null;
-}
-
-String? inspectSigninPassword(String? formPassword) {
-  // First check that the password field is not empty
-  if (formPassword == null || formPassword.isEmpty) {
-    return 'I need your password pls.';
-  }
-
-  // Then check if the given password has the right number of characters...
-  if (formPassword.length < 6){
-    return 'Password needs to be at least 6 characters.';
-  }
-  if (formPassword.length > 20) {
-    return 'Password length cannot exceed 20 characters';
-  }
-
-  return null;
-}
-
-String? inspectRegisterPassword(String? formPassword) {
-  // First check that the password field is not empty
-  if (formPassword == null || formPassword.isEmpty) {
-    return 'Pls insert a password';
-  }
-
-  // Define the requirements for a password.
-  String rPattern = '^.[0-9a-zA-Z@#\\\$%^&-+=()]{6,20}\$';  
-  RegExp regex = RegExp(rPattern);
-
-  // If the
-  if (!regex.hasMatch(formPassword)) {
-    if (formPassword.length < 6 || formPassword.length > 20) {
-      return 'This must be between 6 and 20 characters long.';
     }
-
-    return 'Only use alphabets, numbers or one of @#\\\$%^&)(-+=';
   }
-
-  return null;
 }

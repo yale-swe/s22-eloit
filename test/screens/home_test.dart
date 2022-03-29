@@ -8,7 +8,7 @@ void main() {
   group('Home Page Widget Tests', () {
     testWidgets('Test for appbar with title', (tester) async {
       await tester.pumpWidget(createHomeScreen());
-      expect(find.text('Eloit'), findsOneWidget);
+      expect(find.text('Eloit. Logged in'), findsOneWidget);
     });
   });
 }

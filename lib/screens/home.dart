@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:eloit/screens/auth/auth_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-const String APP_NAME = 'EloRanker';
+const String APP_NAME = 'Eloit';
 
 const Color COLOR_BACKGROUND = Color(0xFF000452);
 const Color COLOR_OBJECTS = Color(0xFF00FF04);

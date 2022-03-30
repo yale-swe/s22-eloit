@@ -24,8 +24,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
 
-  PageController pageController = PageController();
-
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -82,3 +80,5 @@ class _HomeState extends State<Home> {
     );
   }
 }
+
+

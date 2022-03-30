@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:eloit/screens/auth/registration.dart';
 import 'package:eloit/services/auth.dart';
 
@@ -9,18 +7,16 @@ import 'package:flutter/material.dart';
 import '../home.dart';
 import 'auth_helper_widgets.dart';
 
-
 // This defines the 2 initial authentication pages.
 enum AuthPage {
-  signInPage, 
-  registerEmailPage, 
+  signInPage,
+  registerEmailPage,
 }
 
-
 class AuthBox extends StatefulWidget {
-  const AuthBox ({
+  const AuthBox({
     Key? key,
-  }): super(key: key);
+  }) : super(key: key);
 
   @override
   State<AuthBox> createState() => _AuthBoxState();
@@ -38,7 +34,6 @@ class _AuthBoxState extends State<AuthBox> {
 
   @override
   Widget build(BuildContext context) {
-
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
@@ -49,22 +44,19 @@ class _AuthBoxState extends State<AuthBox> {
     }
 
     void toggleSigninSignup() => setState(() {
-      if (currentState == AuthPage.signInPage) {
-        currentState = AuthPage.registerEmailPage;
-      }
-      else if (currentState == AuthPage.registerEmailPage) {
-        currentState = AuthPage.signInPage;
-      }
-    });
-    
-    switch(currentState) {
+          if (currentState == AuthPage.signInPage) {
+            currentState = AuthPage.registerEmailPage;
+          } else if (currentState == AuthPage.registerEmailPage) {
+            currentState = AuthPage.signInPage;
+          }
+        });
+
+    switch (currentState) {
       case AuthPage.signInPage:
         // TODO: maybe place the common widgets outside
         return Scaffold(
           backgroundColor: COLOR_BACKGROUND,
-          appBar: AppBar(
-            title: const Text(APP_NAME)
-          ),
+          appBar: AppBar(title: const Text(APP_NAME)),
           body: SingleChildScrollView(
             child: Form(
               // TODO: See what the line below would do
@@ -85,18 +77,15 @@ class _AuthBoxState extends State<AuthBox> {
                       onPressed: () async {
                         if (_key.currentState!.validate()) {
                           bool readyToSignIn = await SignInFunc(
-                            emailController.text.trim(), 
-                            passwordController.text.trim()
-                          );
+                              emailController.text.trim(),
+                              passwordController.text.trim());
                           if (readyToSignIn) {
                             // REDIRECT to home
                             Navigator.pushReplacement(
-                              context, 
-                              MaterialPageRoute(
-                                builder: (context) => Home())
-                            );
-                          }
-                          else {
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Home()));
+                          } else {
                             // TODO: Show this message on the app
                             print('Login failed!');
                           }
@@ -108,24 +97,22 @@ class _AuthBoxState extends State<AuthBox> {
                   const FormPaddingLayer(),
                   RichText(
                     text: TextSpan(
-                      style: const TextStyle(
-                        color: COLOR_FLOATING_TEXT,
-                      ),
-                      text: 'New to $APP_NAME? ',
-                      children: [
-                        TextSpan(
-                          recognizer: TapGestureRecognizer()
-                              ..onTap = toggleSigninSignup,
-                          text: 'Sign up.',
-                          style: const TextStyle (
-                            decoration: TextDecoration.underline,
-                            color: COLOR_FLOATING_LINK_TEXT,
-                          ),
+                        style: const TextStyle(
+                          color: COLOR_FLOATING_TEXT,
                         ),
-                      ]
-                    ),
+                        text: 'New to $APP_NAME? ',
+                        children: [
+                          TextSpan(
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = toggleSigninSignup,
+                            text: 'Sign up.',
+                            style: const TextStyle(
+                              decoration: TextDecoration.underline,
+                              color: COLOR_FLOATING_LINK_TEXT,
+                            ),
+                          ),
+                        ]),
                   ),
-
                 ],
               ),
             ),
@@ -135,9 +122,7 @@ class _AuthBoxState extends State<AuthBox> {
       case AuthPage.registerEmailPage:
         return Scaffold(
           backgroundColor: COLOR_BACKGROUND,
-          appBar: AppBar(
-            title: const Text(APP_NAME)
-          ),
+          appBar: AppBar(title: const Text(APP_NAME)),
           body: SingleChildScrollView(
             child: SizedBox(
               child: Form(
@@ -158,8 +143,8 @@ class _AuthBoxState extends State<AuthBox> {
                           if (_key.currentState!.validate()) {
                             // TODO: Send a request to check if the email exists.
                             // TODO: Send some verification code to that email,
-                            // TODO: Set up page for receiving verification code.               
-                            Navigator.push (
+                            // TODO: Set up page for receiving verification code.
+                            Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => RegistrationBox(
@@ -175,30 +160,28 @@ class _AuthBoxState extends State<AuthBox> {
                     const FormPaddingLayer(),
                     RichText(
                       text: TextSpan(
-                        style: const TextStyle(
-                          color: COLOR_FLOATING_TEXT,
-                        ),
-                        text: 'Already have an account? ',
-                        children: [
-                          TextSpan(
-                            recognizer: TapGestureRecognizer()
-                                ..onTap = toggleSigninSignup,
-                            text: 'Log in.',
-                            style: const TextStyle (
-                              decoration: TextDecoration.underline,
-                              color: COLOR_FLOATING_LINK_TEXT,
-                            ),
+                          style: const TextStyle(
+                            color: COLOR_FLOATING_TEXT,
                           ),
-                        ]
-                      ),
+                          text: 'Already have an account? ',
+                          children: [
+                            TextSpan(
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = toggleSigninSignup,
+                              text: 'Log in.',
+                              style: const TextStyle(
+                                decoration: TextDecoration.underline,
+                                color: COLOR_FLOATING_LINK_TEXT,
+                              ),
+                            ),
+                          ]),
                     ),
                   ],
                 ),
               ),
             ),
           ),
-        );    
-
+        );
     }
   }
 }

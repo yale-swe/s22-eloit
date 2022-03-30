@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build_and_deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,9 +20,15 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           flutter-version: '2.10.3'
-
       - name: Get all Flutter Packages
         run: flutter pub get
-
       - name: Run Flutter Test
         run: flutter test
+      - name: Build Web Folder
+        run: flutter build web
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_ELOIT_C4540 }}'
+          channelId: live
+          projectId: eloit-c4540

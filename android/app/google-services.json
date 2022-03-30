@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "705214352014",
+    "project_id": "eloit-c4540",
+    "storage_bucket": "eloit-c4540.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:705214352014:android:5cb31e0d05186a0aee17df",
+        "android_client_info": {
+          "package_name": "com.swe_s22.eloit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "705214352014-iu3kaquuhiqn6nlpk96sjqeuap0kehf3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNgjPDfc-Buvglan3Pd5h554MrVxze2wc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "705214352014-iu3kaquuhiqn6nlpk96sjqeuap0kehf3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

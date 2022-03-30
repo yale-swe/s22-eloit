@@ -53,7 +53,7 @@ class Category extends Equatable {
   final String name;
   final String coverPicURL;
 
-  Category({
+  const Category({
     required this.cid,
     required this.name,
     required this.coverPicURL
@@ -172,8 +172,13 @@ class Rivalry extends Equatable {
     };
   }
 
+  @override
+  List<Object> get props {
+    return [rid, item1ID, item2ID, votes1, votes2];
+  }
+
   Rivalry.fromDocumentSnapshot(DocumentSnapshot<Map<String, dynamic>> doc)
-      : id = doc.id,
+      : rid = doc.id,
         item1ID = doc.get("item1ID"),
         item2ID = doc.get("item2ID"),
         votes1 = doc.get("votes1"),
@@ -188,10 +193,10 @@ class Vote extends Equatable{
   final String competitorID;
   final DateTime time;
 
-  Vote({
+  const Vote({
     required this.vid,
     required this.categoryID,
-    required this.rivalry,
+    required this.rivalryID,
     required this.competitorID,
     required this.time,
   });
@@ -204,6 +209,11 @@ class Vote extends Equatable{
       'competitorID': competitorID,
       'time': time,
     };
+  }
+
+  @override
+  List<Object> get props {
+    return [vid, categoryID, rivalryID, competitorID, time];
   }
 
   Vote.fromDocumentSnapshot(DocumentSnapshot<Map<String, dynamic>> doc)

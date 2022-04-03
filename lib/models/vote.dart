@@ -34,7 +34,7 @@ class Vote extends Equatable {
   @override
   bool get stringify => true;
 
-  Vote.fromDocumentSnapshot(DocumentSnapshot<Map<String, dynamic>> doc)
+  Vote.fromDocumentSnapshot(DocumentSnapshot doc)
       : vid = doc.id,
         categoryID = doc.get("categoryID"),
         rivalryID = doc.get("rivalryID"),

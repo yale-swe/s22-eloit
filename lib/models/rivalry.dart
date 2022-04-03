@@ -1,42 +1,40 @@
+import 'package:eloit/models/competitor.dart';
 import 'package:equatable/equatable.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Rivalry extends Equatable {
   final String rid;
-  final String item1ID;
-  final String item2ID;
-  final int votes1;
-  final int votes2;
+  final List itemIDs;
+  final Map votes;
+  final List<Competitor> competitors;
 
   const Rivalry({
     required this.rid,
-    required this.item1ID,
-    required this.item2ID,
-    this.votes1 = 0,
-    this.votes2 = 0,
+    required this.itemIDs,
+    required this.votes,
+    required this.competitors,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'item1ID': item1ID,
-      'item2ID': item2ID,
-      'votes1': votes1,
-      'votes2': votes2,
+      'rid': rid,
+      'itemIDs': itemIDs,
+      'votes': votes,
     };
   }
 
   @override
   List<Object> get props {
-    return [rid, item1ID, item2ID, votes1, votes2];
+    return [rid, itemIDs, votes];
   }
 
   @override
   bool get stringify => true;
 
-  Rivalry.fromDocumentSnapshot(DocumentSnapshot<Map<String, dynamic>> doc)
+  Rivalry.fromDocumentSnapshot(
+      DocumentSnapshot doc, List<Competitor> competitorList)
       : rid = doc.id,
-        item1ID = doc.get("item1ID"),
-        item2ID = doc.get("item2ID"),
-        votes1 = doc.get("votes1"),
-        votes2 = doc.get("votes2");
+        itemIDs = doc.get("itemIDs"),
+        votes = doc.get("votes"),
+        competitors = competitorList;
 }

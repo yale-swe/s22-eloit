@@ -37,7 +37,7 @@ class CustomUser extends Equatable {
     };
   }
 
-  CustomUser.fromDocumentSnapshot(DocumentSnapshot<Map<String, dynamic>> doc)
+  CustomUser.fromDocumentSnapshot(DocumentSnapshot doc)
       : uid = doc.id,
         username = doc.get('username'),
         email = doc.get('email'),

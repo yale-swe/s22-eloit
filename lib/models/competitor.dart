@@ -7,13 +7,10 @@ class Competitor extends Equatable {
   final Item item;
   final int eloScore;
 
-  Competitor(
+  const Competitor(
       {required this.id,
       required this.item,
-      required String cid,
-      this.eloScore = 0}) {
-    item.categoryIDs.add(cid);
-  }
+      required this.eloScore});
 
   Map<String, dynamic> toMap() {
     return {
@@ -31,7 +28,7 @@ class Competitor extends Equatable {
   @override
   bool get stringify => true;
 
-  Competitor.fromDocumentSnapshot(DocumentSnapshot<Map<String, dynamic>> doc)
+  Competitor.fromDocumentSnapshot(DocumentSnapshot doc)
       : id = doc.id,
         item = Item.fromMap(doc.get("item")),
         eloScore = doc.get("eloScore");

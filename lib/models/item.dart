@@ -5,14 +5,14 @@ class Item extends Equatable {
   final String iid;
   final String name;
   final String avatarURL;
-  final List<String>
-      categoryIDs; // We add a category ID every time we construct a Competitor class
+  final List categoryIDs; // We add a category ID every time we construct a Competitor class
 
-  Item({
+  const Item({
     required this.iid,
     required this.name,
     required this.avatarURL,
-  }) : categoryIDs = <String>[];
+    required this.categoryIDs,
+  });
 
   Map<String, dynamic> toMap() {
     return {
@@ -37,7 +37,7 @@ class Item extends Equatable {
         avatarURL = itemMap["avatarURL"],
         categoryIDs = itemMap["categoryIDs"];
 
-  Item.fromDocumentSnapshot(DocumentSnapshot<Map<String, dynamic>> doc)
+  Item.fromDocumentSnapshot(DocumentSnapshot doc)
       : iid = doc.id,
         name = doc.get("name"),
         avatarURL = doc.get("avatarURL"),

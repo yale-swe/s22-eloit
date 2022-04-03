@@ -25,7 +25,7 @@ class Category extends Equatable {
   @override
   bool get stringify => true;
 
-  Category.fromDocumentSnapshot(DocumentSnapshot<Map<String, dynamic>> doc)
+  Category.fromDocumentSnapshot(DocumentSnapshot doc)
       : cid = doc.id,
         name = doc.get("name"),
         coverPicURL = doc.get("coverPicURL");

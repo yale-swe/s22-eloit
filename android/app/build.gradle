@@ -8,7 +8,7 @@ if (localPropertiesFile.exists()) {
 
 def flutterRoot = localProperties.getProperty('flutter.sdk')
 if (flutterRoot == null) {
-    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
+    throw new FileNotFoundException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
 }
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
@@ -45,7 +45,7 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.swe_s22.eloit"
-        minSdkVersion 19// flutter.minSdkVersion  // NOTE: Consider making this 21 (as per netNinja)
+        minSdkVersion 21// flutter.minSdkVersion  // NOTE: Consider making this 21 (as per netNinja) - switched by Harry to fix error
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -73,4 +73,7 @@ dependencies {
     // Add the dependency for the Firebase SDK for Google Analytics
     // When using the BoM, don't specify versions in Firebase dependencies
     implementation 'com.google.firebase:firebase-analytics'  // NOTE: Added for firebase
+
+    // Add multidex dependency to avoid errors
+    implementation 'com.android.support:multidex:1.0.3'
 }

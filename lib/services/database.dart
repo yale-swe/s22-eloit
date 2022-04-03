@@ -59,21 +59,27 @@ class DatabaseService {
     return Competitor.fromDocumentSnapshot(doc);
   }
 
-  Future vote(Category category, Rivalry rivalry, Competitor competitor) async {
-    await categoryCollection
-        .doc(category.cid)
-        .collection('competitors')
-        .doc(competitor.id)
-        .update({
-      'eloScore': FieldValue.increment(1),
-    });
+  Future voteResult(Category category, Rivalry rivalry, Competitor winner,
+      Competitor loser, int increase) {
+    WriteBatch batch = FirebaseFirestore.instance.batch();
 
-    return await categoryCollection
+    var competitors =
+        categoryCollection.doc(category.cid).collection('competitors');
+
+    batch.update(competitors.doc(winner.id),
+        {'eloScore': FieldValue.increment(increase)});
+    batch.update(competitors.doc(loser.id),
+        {'eloScore': FieldValue.increment(-increase)});
+
+    var docRivalry = categoryCollection
         .doc(category.cid)
         .collection('rivalries')
-        .doc(rivalry.rid)
-        .update({
-      'votes.${competitor.id}': FieldValue.increment(1),
+        .doc(rivalry.rid);
+
+    batch.update(docRivalry, {
+      'votes.${winner.id}': FieldValue.increment(1),
     });
+
+    return batch.commit();
   }
 }

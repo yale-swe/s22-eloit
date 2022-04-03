@@ -1,3 +1,4 @@
+import 'package:eloit/models/category.dart';
 import 'package:eloit/screens/category_page.dart';
 import 'package:eloit/screens/search_page.dart';
 import 'package:eloit/screens/settings_page.dart';
@@ -31,7 +32,12 @@ class _HomeState extends State<Home> {
   }
 
   final List<Widget> _pages = [
-    const CategoryPage(),
+    const CategoryPage(
+      category: Category(
+          cid: '9A7IO38o2kHDRXDgSIhb',
+          name: 'Avengers',
+          coverPicURL: 'gs://eloit-c4540.appspot.com/heroImages/iron_man.png'),
+    ),
     const SearchPage(),
     const SettingsPage(),
   ];
@@ -51,7 +57,7 @@ class _HomeState extends State<Home> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => AuthBox(),
+                  builder: (context) => const AuthBox(),
                 ),
               );
             },
@@ -80,5 +86,3 @@ class _HomeState extends State<Home> {
     );
   }
 }
-
-

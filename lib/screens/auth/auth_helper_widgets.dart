@@ -179,7 +179,7 @@ String? inspectRegisterPassword(String? formPassword) {
       return 'This must be between 6 and 20 characters long.';
     }
 
-    return 'Only use alphabets, numbers or one of @#\\\$%^&)(-+=';
+    return 'Must include alphabetical character, number, and one of @#\\\$%^&)(-+=';
   }
 
   return null;

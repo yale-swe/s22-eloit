@@ -66,6 +66,7 @@ class _AuthBoxState extends State<AuthBox> {
             title: const Text(APP_NAME)
           ),
           body: SingleChildScrollView(
+            padding: const EdgeInsets.all(20.0),
             child: Form(
               // TODO: See what the line below would do
               // autovalidateMode: AutovalidateMode.onUserInteraction,

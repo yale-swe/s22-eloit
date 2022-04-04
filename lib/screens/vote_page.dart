@@ -81,6 +81,7 @@ class _VotePageState extends State<VotePage> {
                     }),
               ],
             ),
+            const SizedBox(height: 10.0),
             VoteBar(
               category: widget.category,
               rivalry: widget.rivalry,

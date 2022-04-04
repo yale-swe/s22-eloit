@@ -6,7 +6,10 @@ import 'package:eloit/models/rivalry.dart';
 import 'package:flutter/material.dart';
 
 class DatabaseService {
-  DatabaseService();
+  DatabaseService({FirebaseFirestore instance = })
+    : _instance = instance;
+
+  FirebaseFirestore? _instance;
 
   final CollectionReference itemCollection =
       FirebaseFirestore.instance.collection('items');

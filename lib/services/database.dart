@@ -2,21 +2,23 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eloit/models/category.dart';
 import 'package:eloit/models/competitor.dart';
 import 'package:eloit/models/item.dart';
+
 import 'package:eloit/models/rivalry.dart';
 import 'package:flutter/material.dart';
+import 'package:kiwi/kiwi.dart';
 
 class DatabaseService {
-  DatabaseService({FirebaseFirestore instance = })
-    : _instance = instance;
+  DatabaseService();
 
-  FirebaseFirestore? _instance;
-
-  final CollectionReference itemCollection =
-      FirebaseFirestore.instance.collection('items');
-  final CollectionReference categoryCollection =
-      FirebaseFirestore.instance.collection('categories');
-  final CollectionReference userCollection =
-      FirebaseFirestore.instance.collection('users');
+  final CollectionReference itemCollection = KiwiContainer()
+      .resolve<FirebaseFirestore>('firebase')
+      .collection('items');
+  final CollectionReference categoryCollection = KiwiContainer()
+      .resolve<FirebaseFirestore>('firebase')
+      .collection('categories');
+  final CollectionReference userCollection = KiwiContainer()
+      .resolve<FirebaseFirestore>('firebase')
+      .collection('users');
 
   Stream<List<Competitor>> rankings(Category category) {
     return categoryCollection
@@ -64,7 +66,8 @@ class DatabaseService {
 
   Future voteResult(Category category, Rivalry rivalry, Competitor winner,
       Competitor loser, int increase) {
-    WriteBatch batch = FirebaseFirestore.instance.batch();
+    WriteBatch batch =
+        KiwiContainer().resolve<FirebaseFirestore>('firebase').batch();
 
     var competitors =
         categoryCollection.doc(category.cid).collection('competitors');

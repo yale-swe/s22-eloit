@@ -4,7 +4,8 @@ import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 const uid = "abc";
 
 void main() {
-  const expectedDumpAfterset = '''{
+  const expectedDumpAfterset =
+      '''{
   "users": {
     "abc": {
       "name": "Bob"

@@ -72,7 +72,7 @@ class _AuthBoxState extends State<AuthBox> {
               // autovalidateMode: AutovalidateMode.onUserInteraction,
               key: _key,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //mainAxisAlignment: MainAxisAlignment.start,
                 // crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   const FormPaddingLayer(),

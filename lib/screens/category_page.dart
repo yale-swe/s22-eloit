@@ -57,6 +57,7 @@ class CategoryPage extends StatelessWidget {
                                         child: Row(
                                           children: <Widget>[
                                             Text(competitor.eloScore.toString()),
+                                            const SizedBox(width: 10.0),
                                             CircleAvatar(
                                               //trailing makes it so image is at end of the tile
                                               backgroundImage: NetworkImage(

@@ -2,6 +2,7 @@ import 'package:eloit/models/category.dart';
 import 'package:eloit/models/competitor.dart';
 import 'package:eloit/models/rivalry.dart';
 import 'package:eloit/services/database.dart';
+import 'package:eloit/services/elo.dart';
 import 'package:flutter/material.dart';
 
 class VotePage extends StatefulWidget {
@@ -25,7 +26,7 @@ class _VotePageState extends State<VotePage> {
 
   @override
   Widget build(BuildContext context) {
-    DatabaseService _db = DatabaseService();
+    EloService _elo = EloService();
 
     return Scaffold(
       appBar: AppBar(
@@ -58,7 +59,7 @@ class _VotePageState extends State<VotePage> {
                           ),
 
                           onTap: () async {
-                            await _db.vote(
+                            await _elo.vote(
                                 widget.category, widget.rivalry, competitorA);
                             setState(() {
                               votesA++;
@@ -77,7 +78,7 @@ class _VotePageState extends State<VotePage> {
                             color: voted ? Colors.redAccent : Colors.grey[600],
                           ),
                           onTap: () async {
-                            await _db.vote(
+                            await _elo.vote(
                                 widget.category, widget.rivalry, competitorB);
                             setState(() {
                               votesB++;

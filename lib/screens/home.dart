@@ -47,10 +47,10 @@ class _HomeState extends State<Home> {
     return Scaffold(
       backgroundColor: COLOR_BACKGROUND,
       appBar: AppBar(
-        title: const Text('$APP_NAME. Logged in'),
+        title: const Text('$APP_NAME'),
         actions: [
           ElevatedButton(
-            child: const Text('Log out'),
+            child: const Text('Log Out'),
             onPressed: () async {
               await FirebaseAuth.instance.signOut();
               // Now navigate to the auth page.

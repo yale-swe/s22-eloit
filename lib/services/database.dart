@@ -31,6 +31,16 @@ class DatabaseService {
             .toList());
   }
 
+  Stream<Map<String, int>> streamRivalryVotes(
+      Category category, Rivalry rivalry) {
+    return categoryCollection
+        .doc(category.cid)
+        .collection('rivalries')
+        .doc(rivalry.rid)
+        .snapshots()
+        .asyncMap((event) => event.get('votes'));
+  }
+
   Stream<List<Rivalry>> categoryRivalries(Category category) {
     return categoryCollection
         .doc(category.cid)

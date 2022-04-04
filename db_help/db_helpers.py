@@ -10,16 +10,10 @@ from competitor import Competitor
         - initialize_matchups(lst, cat_id, images)
 """
 
-main = "eloit-c4540-firebase-adminsdk-ery03-a3130de872.json"
-testing = "/Users/jackoconnor/Desktop/Code/439prac/practice-9893e-firebase-adminsdk-24nzu-ac333cd9ad.json"
-
-mainURL = "https://eloit-c4540.firebaseio.com/"
-testingURL = "https://practice-9893e.firebaseio.com/"
-
-cred = credentials.Certificate(testing)
+cred = credentials.Certificate("eloit-c4540-firebase-adminsdk-ery03-a3130de872.json")
 firebase_admin.initialize_app(cred, 
 {
-"databaseURL": testingURL,
+"databaseURL": "https://eloit-c4540.firebaseio.com/",
 }) 
 db = firestore.client()
 

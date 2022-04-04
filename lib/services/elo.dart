@@ -34,4 +34,9 @@ class EloService {
 
     await _db.voteResult(category, rivalry, winner, loser, delta);
   }
+
+  Stream<Map<String, int>> streamRivalryVotes(
+      Category category, Rivalry rivalry) {
+    return _db.streamRivalryVotes(category, rivalry);
+  }
 }

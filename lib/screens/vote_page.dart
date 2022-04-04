@@ -31,7 +31,8 @@ class _VotePageState extends State<VotePage> {
       appBar: AppBar(
         title: const Text('Vote'),
       ),
-      body: Center(
+    
+      body: Center( //Voting Bar is a card in middle of the page
         child: Card(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -48,12 +49,14 @@ class _VotePageState extends State<VotePage> {
                           child: AnimatedContainer(
                             duration: const Duration(milliseconds: 300),
                             height: 20.0,
-                            width: voted
+
+                            width: voted //Calculates length of bar depending on Elo Score
                                 ? constraints.minWidth *
                                     (votesA / (votesA + votesB))
                                 : constraints.minWidth * 0.5,
                             color: voted ? Colors.blue : Colors.grey[400],
                           ),
+
                           onTap: () async {
                             await _db.vote(
                                 widget.category, widget.rivalry, competitorA);

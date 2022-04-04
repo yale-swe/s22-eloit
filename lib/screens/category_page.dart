@@ -40,9 +40,19 @@ class CategoryPage extends StatelessWidget {
                                   return ListTile(
                                     leading: Text('${index + 1}'),
                                     title: Text(competitor.item.name),
-                                    trailing: CircleAvatar(
-                                      backgroundImage: NetworkImage(
-                                          competitor.item.avatarURL),
+                                    trailing: FittedBox(
+                                      fit: BoxFit.fill,
+                                      child: Row(
+                                        children: <Widget>[
+                                          Text(competitor.eloScore.toString()),
+                                          CircleAvatar(
+                                            //trailing makes it so image is at end of the tile
+                                            backgroundImage: NetworkImage(
+                                                //Get character image from cloud storage
+                                                competitor.item.avatarURL),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   );
                                 },

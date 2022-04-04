@@ -50,11 +50,13 @@ class _VotePageState extends State<VotePage> {
                     ],
                   ),
                   onTap: () async {
-                    await _elo.vote(widget.category, widget.rivalry,
-                        widget.rivalry.competitors[0]);
-                    setState(() {
-                      voted = voteState.afterVote;
-                    });
+                    if (voted == voteState.beforeVote) {
+                      await _elo.vote(widget.category, widget.rivalry,
+                          widget.rivalry.competitors[0]);
+                      setState(() {
+                        voted = voteState.afterVote;
+                      });
+                    }
                   },
                 ),
                 GestureDetector(
@@ -69,15 +71,18 @@ class _VotePageState extends State<VotePage> {
                       ],
                     ),
                     onTap: () async {
-                      await _elo.vote(widget.category, widget.rivalry,
-                          widget.rivalry.competitors[1]);
-                      setState(() {
-                        voted = voteState.afterVote;
-                      });
+                      if (voted == voteState.beforeVote) {
+                        await _elo.vote(widget.category, widget.rivalry,
+                            widget.rivalry.competitors[1]);
+                        setState(() {
+                          voted = voteState.afterVote;
+                        });
+                      }
                     }),
               ],
             ),
             VoteBar(
+              category: widget.category,
               rivalry: widget.rivalry,
               voted: voted,
             ),
@@ -87,19 +92,24 @@ class _VotePageState extends State<VotePage> {
 }
 
 class VoteBar extends StatefulWidget {
-  const VoteBar({Key? key, required this.rivalry, required this.voted})
+  const VoteBar(
+      {Key? key,
+      required this.rivalry,
+      required this.voted,
+      required this.category})
       : super(key: key);
 
   final Rivalry rivalry;
   final voteState voted;
+  final Category category;
 
   @override
   State<VoteBar> createState() => _VoteBarState();
 }
 
 class _VoteBarState extends State<VoteBar> {
-  double competitor_1_votes = 0.5;
-  double competitor_2_votes = 0.5;
+  double competitorOneProportion = 0.5;
+  double competitorTwoProportion = 0.5;
 
   // void addVote() {
   //   setState(() {
@@ -109,6 +119,7 @@ class _VoteBarState extends State<VoteBar> {
 
   @override
   Widget build(BuildContext context) {
+    EloService _elo = EloService();
     double width = MediaQuery.of(context).size.width;
     double barWidth = width / 1.2;
     // double height = MediaQuery.of(context).size.height;
@@ -117,31 +128,48 @@ class _VoteBarState extends State<VoteBar> {
       width: barWidth,
       decoration:
           BoxDecoration(borderRadius: BorderRadius.circular(barWidth / 20)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            height: width / 8,
-            width: (widget.voted == voteState.beforeVote
-                ? 0.5 * barWidth
-                : competitor_1_votes * barWidth),
-            color: widget.voted == voteState.beforeVote
-                ? Colors.grey[400]
-                : Colors.blue,
-          ),
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            height: width / 8,
-            width: (widget.voted == voteState.beforeVote
-                ? 0.5 * barWidth
-                : competitor_2_votes * barWidth),
-            color: widget.voted == voteState.beforeVote
-                ? Colors.grey[600]
-                : Colors.red,
-          )
-        ],
-      ),
+      child: StreamBuilder<Map<String, int>>(
+          stream: _elo.streamRivalryVotes(widget.category, widget.rivalry),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              int votes_1 =
+                  snapshot.data?[widget.rivalry.competitors[0].id] ?? 1;
+              int votes_2 =
+                  snapshot.data?[widget.rivalry.competitors[1].id] ?? 1;
+
+              competitorOneProportion =
+                  votes_1 + votes_2 > 0 ? votes_1 / (votes_1 + votes_2) : 0.5;
+              competitorTwoProportion = 1.0 - competitorOneProportion;
+              print("\n\ncompetitor 1 score: $competitorOneProportion\n\n");
+              print("competitor 2 score: $competitorTwoProportion\n\n");
+            }
+
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  height: width / 8,
+                  width: (widget.voted == voteState.beforeVote
+                      ? 0.5 * barWidth
+                      : competitorOneProportion * barWidth),
+                  color: widget.voted == voteState.beforeVote
+                      ? Colors.grey[400]
+                      : Colors.blue,
+                ),
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  height: width / 8,
+                  width: (widget.voted == voteState.beforeVote
+                      ? 0.5 * barWidth
+                      : competitorTwoProportion * barWidth),
+                  color: widget.voted == voteState.beforeVote
+                      ? Colors.grey[600]
+                      : Colors.red,
+                )
+              ],
+            );
+          }),
     );
   }
 }

@@ -1,0 +1,30 @@
+{
+    "name": "Avengers",
+    "coverPicURL": "None.png",
+    "competitors": [
+        {
+            "name":"Iron Man",
+            "avatarURL": "https://firebasestorage.googleapis.com/v0/b/eloit-c4540.appspot.com/o/heroImages%2Firon_man.png?alt=media&token=d34ae294-ded4-414e-9843-978f524e0d13"
+        },
+        {
+            "name": "Captain America",
+            "avatarURL": "https://firebasestorage.googleapis.com/v0/b/eloit-c4540.appspot.com/o/heroImages%2Fcaptain_america.png?alt=media&token=7e8850b2-b6da-444f-8453-d4afaf490fea"
+        },
+        {
+            "name":"Hulk",
+            "avatarURL": "https://firebasestorage.googleapis.com/v0/b/eloit-c4540.appspot.com/o/heroImages%2Fhulk.png?alt=media&token=ded32566-7e73-47b9-aba0-204f9bec2e84"
+        },
+        {
+            "name":"Hawkeye",
+            "avatarURL": "https://firebasestorage.googleapis.com/v0/b/eloit-c4540.appspot.com/o/heroImages%2Fhawkeye.png?alt=media&token=4bf9c79c-e0ae-48a7-aab0-2150243f6f44"
+        },
+        {
+            "name": "Black Widow",
+            "avatarURL": "https://firebasestorage.googleapis.com/v0/b/eloit-c4540.appspot.com/o/heroImages%2Fblack_widow.png?alt=media&token=cee2182f-ab5d-4765-849a-cd546a9bb171"
+        },
+        {
+            "name":"Thor",
+            "avatarURL": "https://firebasestorage.googleapis.com/v0/b/eloit-c4540.appspot.com/o/heroImages%2Fthor.png?alt=media&token=00e8d0da-6ea3-4468-9340-6fb71100363e"
+        }
+    ]
+}

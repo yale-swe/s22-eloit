@@ -1,0 +1,18 @@
+{
+    "name": "Dining Hall Foods",
+    "coverPicURL": "None.png", 
+    "competitors": [
+        {
+            "name": "coconut pound cake",
+            "avatarURL": "pound_cake.png"
+        },
+        {
+            "name": "lemon meltaway ring",
+            "avatarURL": "lemon_ring.png"
+        },
+        {
+            "name": "banana pudding",
+            "avatarURL": "bpudding.png"
+        }
+    ]
+}

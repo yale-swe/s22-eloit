@@ -3,43 +3,63 @@ from firebase_admin import credentials, firestore
 from item import Item
 from rivalry import Rivalry
 from competitor import Competitor
+import json
 
-""" Key functions: 
-        - reset_all_rivalry_votes(cat_id)
-        - delete_all_rivalries(cat_id)
-        - initialize_matchups(lst, cat_id, images)
+""" Several functions to help set up and manage the database
+
+Most useful functions: 
+        - create_category_from_json(path)
+        - reset_all_rivalry_votes(cid)
+        - delete_all_rivalries(cid)
 """
 
-cred = credentials.Certificate("eloit-c4540-firebase-adminsdk-ery03-a3130de872.json")
+# These links not important. Only use elo_db and elo_URL when working w/ Eloit
+test_db = "practice-9893e-firebase-adminsdk-24nzu-ac333cd9ad.json"
+test_URL = "https://practice-9893e.firebaseio.com/"
+
+elo_db = "eloit-c4540-firebase-adminsdk-ery03-a3130de872.json"
+elo_URL = "https://eloit-c4540.firebaseio.com/"
+
+cred = credentials.Certificate(test_db) # test_db or elo_db here
 firebase_admin.initialize_app(cred, 
 {
-"databaseURL": "https://eloit-c4540.firebaseio.com/",
+"databaseURL": test_URL, #test_URL or elo_URL here
 }) 
 db = firestore.client()
 
-def find_rivalry(cat_id, c1, c2):
+def find_rivalry(cid, c1, c2):
     #TODO
-    rivs_ref = db.collection("categories/{0}/rivalries".format(cat_id))
+    rivs_ref = db.collection("categories/{0}/rivalries".format(cid))
     query_result = rivs_ref.where(u"itemIDs", u"array_contains", c1).where(u"itemIDs", u"array_contains", c2)
     print(query_result.get())
 
-""" Translates a competitor id to a competitor name """
+
 def id_to_name(comp_id):
+    """ Translates a competitor id to a competitor name 
+    
+    Args:
+        comp_id (str): The competitor id
+
+    Returns: 
+        str: The competitor's name
+    """
     items_ref = db.collection("items")
     query_result = items_ref.where(u"iid", u"==", comp_id).get()[0]
     return query_result.get("name")
 
-""" For each rivalry, reset the votes to 0 for both competitors
-parameters: 
-    - cat_id : String (the category id)
-"""
-def reset_all_rivalry_votes(cat_id):
-    rivs_ref = db.collection("categories/{0}/rivalries".format(cat_id))
+
+def reset_all_rivalry_votes(cid):
+    """ Resets the votes to 0 for both competitors for all rivalries in a given category
+    
+    Arguments:
+        cid (str): The category id
+    """
+    rivs_ref = db.collection("categories/{0}/rivalries".format(cid))
     rivalries = rivs_ref.get()
     for riv in rivalries:
-        reset_riv_votes(cat_id, riv)
+        reset_riv_votes(cid, riv)
 
-def reset_riv_votes(cat_id, riv_doc):
+def reset_riv_votes(riv_doc):
     votes = riv_doc.get("votes")
     new_votes = {}
     for id in votes.keys():
@@ -51,30 +71,46 @@ def reset_riv_votes(cat_id, riv_doc):
     ref.set(update, merge = True)
 
 
-""" Deletes all of the rivalries from the given category. Use for resetting the database 
-parameters: 
-    - cat_id : String (The category ID)
-"""
-def delete_all_rivalries(cat_id):
-    rivs_ref = db.collection("categories/{0}/rivalries".format(cat_id))
+
+def delete_all_rivalries(cid):
+    """ Deletes all of the rivalries from the given category. Use for resetting the database.
+        
+    Args:
+        cid (str): The category ID
+    """
+    rivs_ref = db.collection("categories/{0}/rivalries".format(cid))
     rivalries = rivs_ref.get()
     for riv in rivalries:
         riv.reference.delete()
 
-"""" Creates all of the possible rivalries given a list of the users
-Initializes the items if they do not already exist, then initializes all Competitors (also if they do not exist)
-and Rivalries (creates new rivalries even if they already exist) in the database
-parameters:
-    - lst : List<String> (list of competitor names)
-    - cat_id : String (category id)
-    - images : dict (list of the avatarURLs with the name as keys and URLs as values)
-"""
-def initialize_matchups(lst, cat_id, images):
+def cat_exists(cid):
+    """ Checks if a cid already exists in the database """
+    existing_cats = db.collection("categories").get()
+    existing_cids = [x.id for x in existing_cats]
+    if cid in existing_cids:
+        return True
+    else:
+        return False
+
+def initialize_matchups(lst, cid, images):
+    """" Creates all of the possible rivalries given a list of the users
+    Initializes the items, then initializes all Competitors
+    and Rivalries in the database
+
+    Arguments:
+        lst (List[str]): The list of competitor names
+        cid (str): The category id
+        images (Dict[str, str]): list of the avatarURLs with the name as keys and URLs as values
+    """
     items_ref = db.collection("items")
-    rivs_ref = db.collection("categories/{0}/rivalries".format(cat_id))
-    comps_ref = db.collection("categories/{0}/competitors".format(cat_id))
-    competitors = []
-    rivalries = [] # just for bookkeeping
+    rivs_ref = db.collection("categories/{0}/rivalries".format(cid))
+    comps_ref = db.collection("categories/{0}/competitors".format(cid))
+    # These lists are just for bookkeeping
+    competitors = [] 
+    rivalries = []
+
+    if not cat_exists(cid):
+        raise ValueError("Category ID does not already exist in the database.")
 
     for name in lst:
         new_it = None
@@ -91,7 +127,7 @@ def initialize_matchups(lst, cat_id, images):
             new_it = Item(name, avatarURL=images[name])
             new_it_doc = items_ref.document()
             new_it.set_id(new_it_doc.id)
-        new_comp = Competitor(new_it, cat_id)
+        new_comp = Competitor(new_it, cid)
         new_comp_doc = comps_ref.document(new_it_doc.id)
         new_comp.set_id(new_comp_doc.id)
 
@@ -105,17 +141,49 @@ def initialize_matchups(lst, cat_id, images):
         competitors.append(new_comp)
 
 
+def initialize_matchups_from_json(obj, cid):
+    """ Calls initialize_matchups (see above) but takes in only a json object and the cid
+
+    Args:
+        obj (json): A json object representing the category. Has 'name' (str), 'avatarURL' (str), and a 'competitors' array
+        cid (str): The category ID
+
+    """
+    competitors = obj.get("competitors")
+    images = {x.get("name"):x.get("avatarURL") for x in competitors}
+    names = list(images.keys())
+    initialize_matchups(names, cid, images)
+
+
+def create_new_category_doc(name, coverPicURL=None):
+    """ Inserts a new document into the database and returns its id"""
+    if coverPicURL is None:
+        coverPicURL = ""
+    
+    cats_ref = db.collection("categories")
+    new_data = {
+        "name": name,
+        "coverPicURL": coverPicURL
+    }
+    new_doc = cats_ref.document()
+    new_doc.set(new_data)
+    return new_doc.id
+
+
+def create_category_from_json(path):
+    """ Creates and initializes a new category fully given a json file
+
+    Args: 
+        path (str): The path to the json file which contains all of the necessary data to set up a category, its
+        competitors and its rivalries--see some sample files in the 'new_categories' folder.
+    """
+    with open(path) as f:
+        data_obj = json.load(f)
+    name = data_obj.get("name")
+    coverPicURL = data_obj.get("coverPicURL")
+    new_cid = create_new_category_doc(name, coverPicURL=coverPicURL)
+    initialize_matchups_from_json(data_obj, new_cid)
+
+
 if __name__ == "__main__":
-    # full_lst = ["Iron Man", "Captain America", "Hulk", "Hawkeye", "Black Widow", "Thor"]
-    # images = {
-    #     "Iron Man": r"https://firebasestorage.googleapis.com/v0/b/eloit-c4540.appspot.com/o/heroImages%2Firon_man.png?alt=media&token=d34ae294-ded4-414e-9843-978f524e0d13",
-    #     "Captain America": r"https://firebasestorage.googleapis.com/v0/b/eloit-c4540.appspot.com/o/heroImages%2Fcaptain_america.png?alt=media&token=7e8850b2-b6da-444f-8453-d4afaf490fea",
-    #     "Hulk": r"https://firebasestorage.googleapis.com/v0/b/eloit-c4540.appspot.com/o/heroImages%2Fhulk.png?alt=media&token=ded32566-7e73-47b9-aba0-204f9bec2e84",
-    #     "Hawkeye": r"https://firebasestorage.googleapis.com/v0/b/eloit-c4540.appspot.com/o/heroImages%2Fhawkeye.png?alt=media&token=4bf9c79c-e0ae-48a7-aab0-2150243f6f44",
-    #     "Black Widow": r"https://firebasestorage.googleapis.com/v0/b/eloit-c4540.appspot.com/o/heroImages%2Fblack_widow.png?alt=media&token=cee2182f-ab5d-4765-849a-cd546a9bb171",
-    #     "Thor": r"https://firebasestorage.googleapis.com/v0/b/eloit-c4540.appspot.com/o/heroImages%2Fthor.png?alt=media&token=00e8d0da-6ea3-4468-9340-6fb71100363e"
-    # }
-    # cat_id = "9A7IO38o2kHDRXDgSIhb" 
-    # initialize_matchups(full_lst, cat_id, images)
-    comp_id = "1iFXUfSk9J8wLI8oE5QZ"
-    print(id_to_name(comp_id))
+    initialize_matchups(["a", "b", "c"], "abc", {"a": "asdf", "b": "asdf", "c": "asdf"})

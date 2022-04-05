@@ -1,5 +1,5 @@
 
-class Item():
+class Item:
     
     def __init__(self, name, avatarURL="", catIDs = None):
         self._name = name
@@ -8,9 +8,14 @@ class Item():
             self._categoryIDs = catIDs
         else:
             self._categoryIDs = []
+    
+    def __str__(self):
+        return "name : {}, avatarURL : {}".format(self._name, self._avatarURL)
 
     def add_category(self, cid):
-        self._categoryIDs.append(cid)
+        # Prevent duplicate categoryIDs
+        if cid not in self._categoryIDs:
+            self._categoryIDs.append(cid)
 
     def set_id(self, id):
         self._id = id
@@ -22,6 +27,10 @@ class Item():
     def fromDocumentSnapshot(doc):
         new = Item(doc.get("name"), doc.get("avatarURL"), doc.get("categoryIDs"))
         new.set_id(doc.id)
+        return new
+    
+    def fromJson(jobj):
+        new = Item(jobj.get("name"), jobj.get("avatarURL"))
         return new
 
     def toMap(self):

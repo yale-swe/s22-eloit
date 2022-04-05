@@ -129,7 +129,7 @@ class _VoteBarState extends State<VoteBar> {
       width: barWidth,
       decoration:
           BoxDecoration(borderRadius: BorderRadius.circular(barWidth / 20)),
-      child: StreamBuilder<Map<String, int>>(
+      child: StreamBuilder<Map>(
           stream: _elo.streamRivalryVotes(widget.category, widget.rivalry),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -141,8 +141,6 @@ class _VoteBarState extends State<VoteBar> {
               competitorOneProportion =
                   votes_1 + votes_2 > 0 ? votes_1 / (votes_1 + votes_2) : 0.5;
               competitorTwoProportion = 1.0 - competitorOneProportion;
-              print("\n\ncompetitor 1 score: $competitorOneProportion\n\n");
-              print("competitor 2 score: $competitorTwoProportion\n\n");
             }
 
             return Row(

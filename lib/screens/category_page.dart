@@ -14,78 +14,91 @@ class CategoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     DatabaseService _db = DatabaseService();
 
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: StreamBuilder<List<Rivalry>>(
-        //listening for stream of data to update the UI
-        stream:
-            _db.categoryRivalries(category), //stream where data is coming from
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            //if there is data to show...
-            return Column(
-              children: [
-                Card(
-                  //rounder corner rectangle UI element
-                  //This card shows the Elo rankings
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const ListTile(
-                        title: Text('RANKINGS:'),
-                      ),
-                      Flexible(
-                        //making wideget flexible lets it resize to its parent
-                        child: StreamBuilder<List<Competitor>>(
-                            stream: _db.rankings(category),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                return ListView.builder(
-                                  primary: false, //Listview will not use the default scrollController
-                                  shrinkWrap:
-                                      true, //The ListView only occupies the space it needs (it will still scroll when there more items).
-                                  itemCount: snapshot.data?.length,
-                                  itemBuilder: (BuildContext context, int index) {
-                                    Competitor competitor = snapshot.data![index];
-                                    return ListTile(
-                                      leading:
-                                          Text('${index + 1}'), //Rating number
-                                      title: Text(
-                                          competitor.item.name), //Character Name
-                                      trailing: FittedBox(
-                                        fit: BoxFit.fill,
-                                        child: Row(
-                                          children: <Widget>[
-                                            Text(competitor.eloScore.toString()),
-                                            const SizedBox(width: 10.0),
-                                            CircleAvatar(
-                                              //trailing makes it so image is at end of the tile
-                                              backgroundImage: NetworkImage(
-                                                  //Get character image from cloud storage
-                                                  competitor.item.avatarURL),
+    return StreamBuilder<List<Rivalry>>(
+      //listening for stream of data to update the UI
+      stream:
+          _db.categoryRivalries(category), //stream where data is coming from
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          //if there is data to show...
+          return CustomScrollView(
+            slivers: [
+              SliverPadding(
+                padding: const EdgeInsets.all(15.0),
+                sliver: SliverList(
+                  delegate: SliverChildListDelegate(
+                    [
+                      Card(
+                        //rounder corner rectangle UI element
+                        //This card shows the Elo rankings
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const ListTile(
+                              title: Text('RANKINGS:'),
+                            ),
+                            Flexible(
+                              //making wideget flexible lets it resize to its parent
+                              child: StreamBuilder<List<Competitor>>(
+                                  stream: _db.rankings(category),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      return ListView.builder(
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        primary:
+                                            false, //Listview will not use the default scrollController
+                                        shrinkWrap:
+                                            true, //The ListView only occupies the space it needs (it will still scroll when there more items).
+                                        itemCount: snapshot.data?.length,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          Competitor competitor =
+                                              snapshot.data![index];
+                                          return ListTile(
+                                            leading: Text(
+                                                '${index + 1}'), //Rating number
+                                            title: Text(competitor
+                                                .item.name), //Character Name
+                                            trailing: FittedBox(
+                                              fit: BoxFit.fill,
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Text(competitor.eloScore
+                                                      .toString()),
+                                                  const SizedBox(width: 10.0),
+                                                  CircleAvatar(
+                                                    //trailing makes it so image is at end of the tile
+                                                    backgroundImage: NetworkImage(
+                                                        //Get character image from cloud storage
+                                                        competitor
+                                                            .item.avatarURL),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                );
-                              } else {
-                                //if data stream is not producing data...
-                                return const LinearProgressIndicator(); //Straight line indicator
-                              }
-                            }),
+                                          );
+                                        },
+                                      );
+                                    } else {
+                                      //if data stream is not producing data...
+                                      return const LinearProgressIndicator(); //Straight line indicator
+                                    }
+                                  }),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 20.0),
-                Flexible(
+              ),
+              SliverPadding(
+                padding: const EdgeInsets.all(15.0),
+                sliver: SliverList(
                   //Scrollable list of current comparrisons between characters
-                  child: ListView.builder(
-                    itemCount: snapshot.data
-                        ?.length, //number of comparisons is pulled from database
-                    itemBuilder: (BuildContext context, int index) {
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
                       Rivalry rivalry = snapshot.data![index];
                       return Card(
                         //Create a card for each comparison, format is below
@@ -121,18 +134,20 @@ class CategoryPage extends StatelessWidget {
                         ),
                       );
                     },
+                    childCount: snapshot.data
+                        ?.length, //number of comparisons is pulled from database
                   ),
                 ),
-              ],
-            );
-          } else {
-            //show bar with loading status because data has not been fetched
-            return const LinearProgressIndicator(
-              backgroundColor: Colors.grey,
-            );
-          }
-        },
-      ),
+              ),
+            ],
+          );
+        } else {
+          //show bar with loading status because data has not been fetched
+          return const LinearProgressIndicator(
+            backgroundColor: Colors.grey,
+          );
+        }
+      },
     );
   }
 }

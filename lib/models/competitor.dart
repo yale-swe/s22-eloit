@@ -31,5 +31,5 @@ class Competitor extends Equatable {
   Competitor.fromDocumentSnapshot(DocumentSnapshot doc)
       : id = doc.id,
         item = Item.fromMap(doc.get("item")),
-        eloScore = doc.get("eloScore");
+        eloScore = (doc.get("eloScore")).toInt();
 }

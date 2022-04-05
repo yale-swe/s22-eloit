@@ -20,29 +20,15 @@ test_URL = "https://practice-9893e.firebaseio.com/"
 elo_db = "eloit-c4540-firebase-adminsdk-ery03-a3130de872.json"
 elo_URL = "https://eloit-c4540.firebaseio.com/"
 
-cred = credentials.Certificate(test_db) # test_db or elo_db here
+cred = credentials.Certificate(elo_db) # test_db or elo_db here
 firebase_admin.initialize_app(cred, 
 {
-"databaseURL": test_URL, #test_URL or elo_URL here
+"databaseURL": elo_db, #test_URL or elo_URL here
 }) 
 db = firestore.client()
 
-def find_rivalry(cid, c1, c2):
-    #TODO
-    rivs_ref = db.collection("categories/{0}/rivalries".format(cid))
-    query_result = rivs_ref.where(u"itemIDs", u"array_contains", c1).where(u"itemIDs", u"array_contains", c2)
-    print(query_result.get())
-
-
 def id_to_name(comp_id):
-    """ Translates a competitor id to a competitor name 
-    
-    Args:
-        comp_id (str): The competitor id
-
-    Returns: 
-        str: The competitor's name
-    """
+    """ Translates a competitor id (str) to a competitor name (str) """
     items_ref = db.collection("items")
     query_result = items_ref.where(u"iid", u"==", comp_id).get()[0]
     return query_result.get("name")
@@ -156,7 +142,7 @@ def initialize_matchups_from_json(obj, cid):
 
 
 def create_new_category_doc(name, coverPicURL=None):
-    """ Inserts a new document into the database and returns its id"""
+    """ Inserts a new document into the categories collection in the database and returns its id """
     if coverPicURL is None:
         coverPicURL = ""
     
@@ -186,4 +172,5 @@ def create_category_from_json(path):
 
 
 if __name__ == "__main__":
-    initialize_matchups(["a", "b", "c"], "abc", {"a": "asdf", "b": "asdf", "c": "asdf"})
+    # can call functions here
+    pass

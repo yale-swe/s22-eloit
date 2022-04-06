@@ -11,9 +11,9 @@ void main() {
 
   test('Sets data for a document within a collection', () async {
     final instance = FakeFirebaseFirestore();
-    await instance.collection('users').doc(uid).set({
+    await instance.collection('users').doc('s').set({
       'name': 'Bob',
     });
-    expect(instance.dump(), equals(expectedDumpAfterset));
+    expect(instance.dump(), equals(''));
   });
 }

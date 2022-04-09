@@ -3,6 +3,5 @@ import 'package:kiwi/kiwi.dart';
 
 void iocLocator() {
   KiwiContainer container = KiwiContainer();
-  container.registerInstance<FirebaseFirestore>(FirebaseFirestore.instance,
-      name: 'firebase');
+  container.registerInstance(FirebaseFirestore.instance, name: 'firebase');
 }

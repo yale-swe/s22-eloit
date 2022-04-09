@@ -20,9 +20,9 @@ class EloService {
 
   // assume A is the wining party
   int updateDelta(int winnerRating, int loserRating) {
-    double pa = 1 / (1 + pow(10, (winnerRating - loserRating) / 400));
+    double expectation = 1 / (1 + pow(10, (loserRating - winnerRating) / 400));
 
-    return (K * (1 - pa)).round();
+    return (K * (1 - expectation)).round();
   }
 
   Future vote(Category category, Rivalry rivalry, Competitor winner) async {
@@ -35,8 +35,7 @@ class EloService {
     await _db.voteResult(category, rivalry, winner, loser, delta);
   }
 
-  Stream<Map> streamRivalryVotes(
-      Category category, Rivalry rivalry) {
+  Stream<Map> streamRivalryVotes(Category category, Rivalry rivalry) {
     return _db.streamRivalryVotes(category, rivalry);
   }
 }

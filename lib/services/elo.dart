@@ -26,11 +26,13 @@ class EloService {
   }
 
   Future vote(Category category, Rivalry rivalry, Competitor winner) async {
+    assert(rivalry.competitors.contains(winner));
     var loser = rivalry.competitors[0] == winner
         ? rivalry.competitors[1]
         : rivalry.competitors[0];
 
     int delta = updateDelta(winner.eloScore, loser.eloScore);
+    // print("delta ${winner.eloScore} ${loser.eloScore} $delta");
 
     await _db.voteResult(category, rivalry, winner, loser, delta);
   }

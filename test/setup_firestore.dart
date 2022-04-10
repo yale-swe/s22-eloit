@@ -3,12 +3,18 @@ import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kiwi/kiwi.dart';
 
-void setupFakeFirestore() {
+FakeFirebaseFirestore setupKiwi() {
   final instance = FakeFirebaseFirestore();
   KiwiContainer container = KiwiContainer();
   container.registerInstance<FirebaseFirestore>(instance, name: 'firebase');
   container.registerInstance<FakeFirebaseFirestore>(instance,
       name: 'fakefirebase');
+  return instance;
+}
+
+void cleanupKiwi() {
+  KiwiContainer container = KiwiContainer();
+  container.clear();
 }
 
 void dumpInstance(label) {
@@ -27,15 +33,21 @@ Future<String> generateCategory() async {
   return id;
 }
 
+Future<DocumentReference> getCategoryDoc() async {
+  final instance = KiwiContainer().resolve<FirebaseFirestore>('firebase');
+  var snapshot = await instance.collection('categories').snapshots().first;
+  return snapshot.docs.first.reference;
+}
+
 Future<List<DocumentReference>> generateItems() async {
   final CollectionReference itemCollection = KiwiContainer()
       .resolve<FirebaseFirestore>('firebase')
       .collection('items');
 
-  var ironman = await itemCollection
-      .add({"name": "ironman", "avartarURL": "", "categoryIDs": []});
+  var ironman = await itemCollection.add(
+      {"name": "ironman", "avatarURL": "ironmanItem.png", "categoryIDs": []});
   var hulk = await itemCollection
-      .add({"name": "hulk", "avartarURL": "", "categoryIDs": []});
+      .add({"name": "hulk", "avatarURL": "hulkItem.png", "categoryIDs": []});
   return [ironman, hulk];
 }
 
@@ -46,10 +58,17 @@ Future<List<DocumentReference>> generateCompetitors() async {
   final competitorCollection =
       instance.collection('categories').doc(catId).collection('competitors');
   final itemCollection = instance.collection('items');
+  final objectList = await Future.wait(l.map((e) async => await e.get()));
+
+  final data = objectList.map((e) {
+    final m = Map<String, dynamic>.from(e.data() as Map<dynamic, dynamic>);
+    m.addAll({"iid": e.id});
+    return m;
+  }).toList();
 
   final ironman = await competitorCollection.add({
     "eloScore": 1400,
-    "item": l[0],
+    "item": data[0],
   });
 
   await itemCollection.doc(l[0].id).update({
@@ -58,10 +77,50 @@ Future<List<DocumentReference>> generateCompetitors() async {
 
   final hulk = await competitorCollection.add({
     "eloScore": 1400,
-    "item": l[1],
+    "item": data[1],
   });
   await itemCollection.doc(l[1].id).update({
     "categoryIds": FieldValue.arrayUnion([catId])
   });
+  // dumpInstance("after generateCompetitors");
   return [ironman, hulk];
+}
+
+Future<DocumentReference> generateRivalry() async {
+  final l = await generateCompetitors();
+  final instance = KiwiContainer().resolve<FirebaseFirestore>('firebase');
+  final rivalryCollection = await instance
+      .collection('categories')
+      .get()
+      .then((value) => value.docs.first.reference.collection('rivalries'));
+  return await rivalryCollection.add({
+    'itemIDs': [l[0].id, l[1].id],
+    'votes': {
+      l[0].id: 0,
+      l[1].id: 0,
+    }
+  });
+}
+
+Future dropCollection(CollectionReference collection) async {
+  var snapshot = await collection.get();
+  final futures = snapshot.docs.map((e) => e.reference.delete());
+  await Future.wait(futures);
+}
+
+Future dropCategories() async {
+  final instance = KiwiContainer().resolve<FirebaseFirestore>('firebase');
+  var snapshot = await instance.collection('categories').get();
+  var futures = snapshot.docs.map((e) {
+    return dropCollection(e.reference.collection('competitors'));
+  });
+  await Future.wait(futures);
+
+  futures = snapshot.docs.map((e) => e.reference.delete());
+  await Future.wait(futures);
+}
+
+Future dropItems() async {
+  final instance = KiwiContainer().resolve<FirebaseFirestore>('firebase');
+  await dropCollection(instance.collection('items'));
 }

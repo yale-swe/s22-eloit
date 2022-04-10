@@ -10,7 +10,7 @@ Widget createHomeScreen() => const MaterialApp(home: Home());
 // https://stackoverflow.com/questions/63662031/how-to-mock-the-firebaseapp-in-flutter
 void main() async {
   setupFirebaseAuthMocks();
-  setupFakeFirestore();
+  setupKiwi();
   WidgetsFlutterBinding.ensureInitialized();
 
   setUpAll(() async {

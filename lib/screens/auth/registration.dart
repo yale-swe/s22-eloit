@@ -117,7 +117,7 @@ class ConfirmEmailPage extends StatefulWidget {
 
 class _ConfirmEmailPageState extends State<ConfirmEmailPage> {
   bool isEmailVerified = false;
-  late Timer timer;
+  Timer? timer;
   late User user;
   int resendCount = 0;
 
@@ -147,27 +147,33 @@ class _ConfirmEmailPageState extends State<ConfirmEmailPage> {
 
   @override
   void dispose() {
-    timer.cancel();
+    timer?.cancel();
     super.dispose();
   }
 
   Future<void> checkEmailVerified() async {
     user = FirebaseAuth.instance.currentUser!;
     // Reload the user
-    user.reload();
+    await user.reload();
 
     if (user.emailVerified) {
-      timer.cancel();
+      timer?.cancel();
+      setState(() {
+        isEmailVerified = true;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (isEmailVerified) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => Home(),
         ),
       );
     }
-  }
 
-  @override
-  Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     // TODO: print the email to which the verification was sent.

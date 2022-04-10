@@ -33,6 +33,12 @@ Future<String> generateCategory() async {
   return id;
 }
 
+Future<DocumentReference> getCategoryDoc() async {
+  final instance = KiwiContainer().resolve<FirebaseFirestore>('firebase');
+  var snapshot = await instance.collection('categories').snapshots().first;
+  return snapshot.docs.first.reference;
+}
+
 Future<List<DocumentReference>> generateItems() async {
   final CollectionReference itemCollection = KiwiContainer()
       .resolve<FirebaseFirestore>('firebase')
@@ -88,8 +94,11 @@ Future<DocumentReference> generateRivalry() async {
       .get()
       .then((value) => value.docs.first.reference.collection('rivalries'));
   return await rivalryCollection.add({
-    'itemIds': [l[0].id, l[1].id],
-    'votes': [0, 0]
+    'itemIDs': [l[0].id, l[1].id],
+    'votes': {
+      l[0].id: 0,
+      l[1].id: 0,
+    }
   });
 }
 

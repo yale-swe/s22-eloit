@@ -3,18 +3,11 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eloit/models/category.dart';
 import 'package:eloit/models/competitor.dart';
-import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:eloit/services/database.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kiwi/kiwi.dart';
 
 import '../setup_firestore.dart';
-
-Future<DocumentReference> getCategoryDoc() async {
-  final instance = KiwiContainer().resolve<FirebaseFirestore>('firebase');
-  var snapshot = await instance.collection('categories').snapshots().first;
-  return snapshot.docs.first.reference;
-}
 
 void main() {
   group('fake firestore functionalities', () {
@@ -63,7 +56,7 @@ void main() {
       final instance = KiwiContainer().resolve<FirebaseFirestore>('firebase');
       final docRef = await generateRivalry();
       var doc = await docRef.get();
-      final competitorIds = doc.get("itemIds");
+      final competitorIds = doc.get("itemIDs");
       var snapshot = await instance.collection('categories').get();
       var avengersRef = snapshot.docs.first.reference;
       var competitor0 = Competitor.fromDocumentSnapshot(await avengersRef
@@ -76,14 +69,14 @@ void main() {
   });
 
   group('test rankings', () {
-    test('base setup', () async {
+    test('under updates', () async {
       final instance = setupKiwi();
       final rivalryRef = await generateRivalry();
       final rivalrySnapshot = await rivalryRef.get();
       final catDocRef = await getCategoryDoc();
       final competitor0DocRef = catDocRef
           .collection('competitors')
-          .doc(rivalrySnapshot.get('itemIds')[0]);
+          .doc(rivalrySnapshot.get('itemIDs')[0]);
       Competitor competitor0 =
           Competitor.fromDocumentSnapshot(await competitor0DocRef.get());
 

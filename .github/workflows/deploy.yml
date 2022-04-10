@@ -17,7 +17,7 @@ jobs:
       - name: download artifact
         uses: actions/download-artifact@v3
         with:
-          name: build-web-latest
+          name: 'build-web-${{ github.ref_name }}-latest'
           path: build/web
 
       - uses: FirebaseExtended/action-hosting-deploy@v0

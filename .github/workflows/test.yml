@@ -42,6 +42,7 @@ jobs:
           path: build/web
           retention-days: 5
       - name: Deploy To Preview
+        if: ${{ github.ref_name != 'main' }} 
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'

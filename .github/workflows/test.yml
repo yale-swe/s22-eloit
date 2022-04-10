@@ -1,10 +1,14 @@
 name: Flutter Test and Build
-on: [push, workflow_call, workflow_dispatch]
+on: 
+  workflow_call:
+    outputs:
+      artifact_name:
+        description: "flutter build web output artifact name"
+        value: ${{ jobs.test_and_build_web.outputs.name }}
 
-outputs:
-  artifact_name:
-    description: "flutter build web output artifact name"
-    value: ${{ jobs.test_and_build_web.outputs.name }}
+  workflow_dispatch:
+  push:
+
 
 jobs:
   test_and_build_web:

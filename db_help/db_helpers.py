@@ -118,7 +118,7 @@ def initialize_matchups(lst, cid, images):
         new_comp.set_id(new_comp_doc.id)
 
         for comp in competitors:
-            new_rivalry = Rivalry(comp.get_id(), new_comp.get_id())
+            new_rivalry = Rivalry(cid, comp.get_id(), new_comp.get_id(), comp.get_name(), new_comp.get_name())
             rivs_ref.add(new_rivalry.toMap())
             rivalries.append(new_rivalry)
         
@@ -149,6 +149,7 @@ def create_new_category_doc(name, coverPicURL=None):
     cats_ref = db.collection("categories")
     new_data = {
         "name": name,
+        "searchKey": name.lower(),
         "coverPicURL": coverPicURL
     }
     new_doc = cats_ref.document()
@@ -173,4 +174,5 @@ def create_category_from_json(path):
 
 if __name__ == "__main__":
     # can call functions here
-    pass
+    create_category_from_json("./new_categories/test.json")
+    #pass

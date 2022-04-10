@@ -13,6 +13,9 @@ class Competitor:
     def get_id(self):
         return self._id
 
+    def get_name(self):
+        return self._item.get_name()
+
     def toMap(self):
         return {
             "item": self._item.toMap(),

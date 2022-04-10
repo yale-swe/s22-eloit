@@ -35,7 +35,7 @@ jobs:
           path: build/web
           retention-days: 5
       - name: deploy to preview
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_ELOIT_C4540 }}'

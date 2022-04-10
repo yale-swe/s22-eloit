@@ -19,6 +19,9 @@ class DatabaseService {
   final CollectionReference userCollection = KiwiContainer()
       .resolve<FirebaseFirestore>('firebase')
       .collection('users');
+  final CollectionReference voteCollection = KiwiContainer()
+      .resolve<FirebaseFirestore>('firebase')
+      .collection('votes');
 
   Stream<List<Category>> searchCategory(String searchText, {int limit = 3}) {
     return categoryCollection
@@ -148,6 +151,11 @@ class DatabaseService {
     batch.update(docRivalry, {
       'votes.${winner.id}': FieldValue.increment(1),
     });
+
+    batch.set(voteCollection.doc(),
+    {'categoryID': category.cid,
+      'rivalryID': rivalry.rid,
+      'competitorID': winner.id,});
 
     return batch.commit();
   }

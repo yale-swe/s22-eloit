@@ -28,25 +28,24 @@ jobs:
         run: flutter test
       - name: Build Web Folder
         run: flutter build web
-      - name: generate name
+      - name: Generate Name For Artifact
         id: gen_name
         run: |
-          name=$(echo 'build-web-${{ github.ref_name }}-${{github.run_number}}' | tr / _)
-          echo "ARTIFACT_NAME=$name" >> $GITHUB_ENV
-          echo "::set-output name=artifact_name::$name"
-      - name: echo artifact name
+          name=$(echo '${{ github.ref_name }}-${{github.run_number}}' | tr / _)
+          echo "::set-output name=artifact_name::build-web-$name"
+      - name: Echo Artifact Name
         run: echo ${{ steps.gen_name.outputs.artifact_name }}
-      - name: upload web build
+      - name: Upload Web Build Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: "${{ env.ARTIFACT_NAME }}"
+          name: "${{ steps.gen_name.outputs.artifact_name }}"
           path: build/web
           retention-days: 5
-      - name: deploy to preview
+      - name: Deploy To Preview
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_ELOIT_C4540 }}'
           projectId: eloit-c4540
           expires: 3d
-          channelId: ${{ github.ref_name }}
+          channelId: $(echo ${{ github.ref_name }} | tr / _)

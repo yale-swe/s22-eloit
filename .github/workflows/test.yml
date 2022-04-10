@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      name: build-web-${{ github.ref.name }}-${github.run.number}
+      name: build-web-${{ github.ref }}-${github.run.number}
 
     steps:
       - uses: actions/checkout@v2
@@ -31,6 +31,6 @@ jobs:
       - name: upload web build
         uses: actions/upload-artifact@v3
         with:
-          name: build-web-${{ github.ref.name }}-${github.run.number}
+          name: build-web-latest
           path: build/web
           retention-days: 5

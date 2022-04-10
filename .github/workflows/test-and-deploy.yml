@@ -1,4 +1,4 @@
-name: Flutter Test and Deploy
+name: Flutter Deploy
 on:
   push:
     branches: [ main ]

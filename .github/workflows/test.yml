@@ -1,5 +1,5 @@
-name: Flutter Test
-on: push, workflow_call, workflow_dispatch]
+name: Flutter Test and Build
+on: [push, workflow_call, workflow_dispatch]
 
 outputs:
   artifact_name:

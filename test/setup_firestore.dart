@@ -93,12 +93,15 @@ Future<DocumentReference> generateRivalry() async {
       .collection('categories')
       .get()
       .then((value) => value.docs.first.reference.collection('rivalries'));
+  final categoryDocRef = await getCategoryDoc();
+
   return await rivalryCollection.add({
     'itemIDs': [l[0].id, l[1].id],
     'votes': {
       l[0].id: 0,
       l[1].id: 0,
-    }
+    },
+    'cid': categoryDocRef.id
   });
 }
 

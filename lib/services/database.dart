@@ -102,6 +102,15 @@ class DatabaseService {
     return Competitor.fromDocumentSnapshot(doc);
   }
 
+  Future<Category> getCategory(String cid) async {
+    DocumentSnapshot doc = await categoryCollection
+        .doc(cid)
+        .snapshots()
+        .first;
+
+    return Category.fromDocumentSnapshot(doc);
+  }
+
   Future<Competitor> getCompetitorString(String categoryID, String cid) async {
     DocumentSnapshot doc = await categoryCollection
         .doc(categoryID)

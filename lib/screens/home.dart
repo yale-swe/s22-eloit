@@ -46,24 +46,6 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: COLOR_BACKGROUND,
-      appBar: AppBar(
-        title: const Text('$APP_NAME'),
-        actions: [
-          ElevatedButton(
-            child: const Text('Log Out'),
-            onPressed: () async {
-              await FirebaseAuth.instance.signOut();
-              // Now navigate to the auth page.
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const AuthBox(),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         onTap: _onItemTapped,

@@ -31,7 +31,7 @@ jobs:
       - name: generate name
         id: gen_name
         run: |
-          name=$(echo 'build-web-${{ github.action }}-${{github.run_number}}' | tr / -)
+          name=$(echo 'build-web-${{ github.ref_name }}-${{github.run_number}}' | tr / _)
           echo "ARTIFACT_NAME=$name" >> $GITHUB_ENV
           echo "::set-output name=artifact_name::$name"
       - name: echo artifact name
@@ -49,4 +49,4 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_ELOIT_C4540 }}'
           projectId: eloit-c4540
           expires: 3d
-          channelId: '${{ github.ref_name }}'
+          channelId: ${{ github.ref_name }}

@@ -1,0 +1,32 @@
+name: Flutter Test
+on: push, workflow_call, workflow_dispatch]
+
+outputs:
+  artifact_name:
+    description: "flutter build web output artifact name"
+    value: ${{ jobs.test_and_build_web.outputs.name }}
+
+jobs:
+  test_and_build_web:
+    runs-on: ubuntu-latest
+
+    outputs:
+      name: build-web-${{ github.ref.name }}-${github.run.number}
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '2.10.3'
+      - name: Get all Flutter Packages
+        run: flutter pub get
+      - name: Run Flutter Test
+        run: flutter test
+      - name: Build Web Folder
+        run: flutter build web
+      - name: upload web build
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-web-${{ github.ref.name }}-${github.run.number}
+          path: build/web
+          retention-days: 5

@@ -20,23 +20,24 @@ class EloService {
 
   // assume A is the wining party
   int updateDelta(int winnerRating, int loserRating) {
-    double pa = 1 / (1 + pow(10, (winnerRating - loserRating) / 400));
+    double expectation = 1 / (1 + pow(10, (loserRating - winnerRating) / 400));
 
-    return (K * (1 - pa)).round();
+    return (K * (1 - expectation)).round();
   }
 
   Future vote(Category category, Rivalry rivalry, Competitor winner) async {
+    assert(rivalry.competitors.contains(winner));
     var loser = rivalry.competitors[0] == winner
         ? rivalry.competitors[1]
         : rivalry.competitors[0];
 
     int delta = updateDelta(winner.eloScore, loser.eloScore);
+    // print("delta ${winner.eloScore} ${loser.eloScore} $delta");
 
     await _db.voteResult(category, rivalry, winner, loser, delta);
   }
 
-  Stream<Map> streamRivalryVotes(
-      Category category, Rivalry rivalry) {
+  Stream<Map> streamRivalryVotes(Category category, Rivalry rivalry) {
     return _db.streamRivalryVotes(category, rivalry);
   }
 }

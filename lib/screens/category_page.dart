@@ -1,6 +1,6 @@
 import 'package:eloit/models/category.dart';
-import 'package:eloit/models/competitor.dart';
 import 'package:eloit/models/rivalry.dart';
+import 'package:eloit/screens/rankings_page.dart';
 import 'package:eloit/screens/vote_page.dart';
 import 'package:eloit/services/database.dart';
 import 'package:flutter/material.dart';
@@ -39,53 +39,22 @@ class CategoryPage extends StatelessWidget {
                             ),
                             Flexible(
                               //making wideget flexible lets it resize to its parent
-                              child: StreamBuilder<List<Competitor>>(
-                                  stream: _db.rankings(category),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.hasData) {
-                                      return ListView.builder(
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
-                                        primary:
-                                            false, //Listview will not use the default scrollController
-                                        shrinkWrap:
-                                            true, //The ListView only occupies the space it needs (it will still scroll when there more items).
-                                        itemCount: snapshot.data?.length,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          Competitor competitor =
-                                              snapshot.data![index];
-                                          return ListTile(
-                                            leading: Text(
-                                                '${index + 1}'), //Rating number
-                                            title: Text(competitor
-                                                .item.name), //Character Name
-                                            trailing: FittedBox(
-                                              fit: BoxFit.fill,
-                                              child: Row(
-                                                children: <Widget>[
-                                                  Text(competitor.eloScore
-                                                      .toString()),
-                                                  const SizedBox(width: 10.0),
-                                                  CircleAvatar(
-                                                    //trailing makes it so image is at end of the tile
-                                                    backgroundImage: NetworkImage(
-                                                        //Get character image from cloud storage
-                                                        competitor
-                                                            .item.avatarURL),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      );
-                                    } else {
-                                      //if data stream is not producing data...
-                                      return const LinearProgressIndicator(); //Straight line indicator
-                                    }
-                                  }),
+                              child: TopFewRankings(
+                                category: category,
+                                numItems: 3,
+                              ),
                             ),
+                            ElevatedButton(
+                              onPressed: () async {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        RankingsPage(category: category),
+                                  ),
+                                );
+                              },
+                              child: Text('Veiw All Rankings'),
+                            ), // TODO: Add a button here saysing "view all rankings"
                           ],
                         ),
                       ),

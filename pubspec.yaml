@@ -55,7 +55,11 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
   dart_pre_commit: ^3.0.0
-  git_hooks: ^0.1.6
+  git_hooks: 
+    git:
+      url: https://github.com/xuzhongpeng/git_hooks.git
+      ref: nullsafety # branch name
+  riverpod: ^1.0.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

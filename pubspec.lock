@@ -84,21 +84,21 @@ packages:
       name: cloud_firestore
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.1.10"
+    version: "3.1.11"
   cloud_firestore_platform_interface:
     dependency: transitive
     description:
       name: cloud_firestore_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.5.1"
+    version: "5.5.2"
   cloud_firestore_web:
     dependency: transitive
     description:
       name: cloud_firestore_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.6.10"
+    version: "2.6.11"
   collection:
     dependency: transitive
     description:
@@ -196,28 +196,28 @@ packages:
       name: firebase_auth
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.3.11"
+    version: "3.3.13"
   firebase_auth_platform_interface:
     dependency: transitive
     description:
       name: firebase_auth_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.2.1"
+    version: "6.2.2"
   firebase_auth_web:
     dependency: transitive
     description:
       name: firebase_auth_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.3.9"
+    version: "3.3.11"
   firebase_core:
     dependency: "direct main"
     description:
       name: firebase_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.13.1"
+    version: "1.14.0"
   firebase_core_platform_interface:
     dependency: transitive
     description:
@@ -281,10 +281,12 @@ packages:
   git_hooks:
     dependency: "direct dev"
     description:
-      name: git_hooks
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.6"
+      path: "."
+      ref: nullsafety
+      resolved-ref: d11b14fe9df16d7ebf8493b3d6c3052c08189752
+      url: "https://github.com/xuzhongpeng/git_hooks.git"
+    source: git
+    version: "0.1.3-nullsafety.0"
   glob:
     dependency: transitive
     description:
@@ -473,7 +475,7 @@ packages:
     source: hosted
     version: "3.0.1+1"
   riverpod:
-    dependency: transitive
+    dependency: "direct dev"
     description:
       name: riverpod
       url: "https://pub.dartlang.org"

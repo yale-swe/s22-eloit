@@ -1,5 +1,6 @@
 import 'package:eloit/models/category.dart';
 import 'package:eloit/models/competitor.dart';
+import 'package:eloit/screens/home.dart';
 import 'package:eloit/services/database.dart';
 import 'package:flutter/material.dart';
 
@@ -10,37 +11,41 @@ class RankingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        SliverPadding(
-          padding: const EdgeInsets.all(15.0),
-          sliver: SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                Card(
-                  //rounder corner rectangle UI element
-                  //This card shows the Elo rankings
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const ListTile(
-                        title: Text('RANKINGS:'),
-                      ),
-                      Flexible(
-                        //making wideget flexible lets it resize to its parent
-                        child: TopFewRankings(
-                          category: category,
-                          separateCards: true,
+    return Scaffold(
+      backgroundColor: COLOR_BACKGROUND,
+      appBar: AppBar(
+        title: Text("Rankings for ${category.name}"),
+      ),
+      body: CustomScrollView(
+        slivers: [
+          SliverPadding(
+            padding: const EdgeInsets.all(15.0),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  Card(
+                    //rounder corner rectangle UI element
+                    //This card shows the Elo rankings
+                    color: COLOR_BACKGROUND,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Flexible(
+                          //making wideget flexible lets it resize to its parent
+                          child: TopFewRankings(
+                            category: category,
+                            separateCards: true,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

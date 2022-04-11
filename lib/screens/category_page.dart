@@ -44,8 +44,8 @@ class CategoryPage extends StatelessWidget {
                                 numItems: 3,
                               ),
                             ),
-                            ElevatedButton(
-                              onPressed: () async {
+                            InkWell(
+                              onTap: () async {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) =>
@@ -53,8 +53,10 @@ class CategoryPage extends StatelessWidget {
                                   ),
                                 );
                               },
-                              child: Text('Veiw All Rankings'),
-                            ), // TODO: Add a button here saysing "view all rankings"
+                              child: const ListTile(
+                                title: Center(child: Text('SEE FULL RANKINGS')),
+                              ),
+                            ),
                           ],
                         ),
                       ),

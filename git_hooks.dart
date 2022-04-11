@@ -16,7 +16,7 @@ Future<bool> _preCommit() async {
   // obtain the hooks instance from the IoC with your custom config
   final hook = await container.read(
     HooksProvider.hookProvider(
-      const HooksConfig(),
+      const HooksConfig(format: true),
     ).future,
   );
 

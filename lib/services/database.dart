@@ -156,17 +156,15 @@ class DatabaseService {
     batch.update(docRivalry, {
       'votes.${winner.id}': FieldValue.increment(1),
     });
-    await Firebase.initializeApp();
-    var currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser != null) {
-      DocumentReference voteRef = voteCollection.doc();
-      batch.set(voteRef, {
-        'userID': currentUser.uid,
-        'categoryID': category.cid,
-        'rivalryID': rivalry.rid,
-        'competitorID': winner.id,
-      });
-    } 
+
+    // TODO add a currentUser argument
+    DocumentReference voteRef = voteCollection.doc();
+    batch.set(voteRef, {
+      'userID': null,
+      'categoryID': category.cid,
+      'rivalryID': rivalry.rid,
+      'competitorID': winner.id,
+    });
 
     return batch.commit();
   }

@@ -2,10 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eloit/models/category.dart';
 import 'package:eloit/models/competitor.dart';
 import 'package:eloit/models/item.dart';
+import 'package:eloit/models/user.dart';
 
 import 'package:eloit/models/rivalry.dart';
 import 'package:flutter/material.dart';
 import 'package:kiwi/kiwi.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 class DatabaseService {
   DatabaseService();
@@ -22,6 +25,9 @@ class DatabaseService {
   final CollectionReference voteCollection = KiwiContainer()
       .resolve<FirebaseFirestore>('firebase')
       .collection('votes');
+
+  // needed to get the current user
+  FirebaseAuth auth = FirebaseAuth.instance;
 
   Stream<List<Category>> searchCategory(String searchText, {int limit = 3}) {
     return categoryCollection
@@ -152,11 +158,20 @@ class DatabaseService {
       'votes.${winner.id}': FieldValue.increment(1),
     });
 
-    batch.set(voteCollection.doc(),
-    {'categoryID': category.cid,
+    final User currUser = auth.currentUser();
+    var uid = currUser.uid;
+
+    batch.set(voteCollection.doc(), {
+      'userID': uid,
+      'categoryID': category.cid,
       'rivalryID': rivalry.rid,
-      'competitorID': winner.id,});
+      'competitorID': winner.id,
+    });
 
     return batch.commit();
+  }
+
+  Future addUser(String uid, String email) async {
+    await userCollection.doc(uid).set({"email": email});
   }
 }

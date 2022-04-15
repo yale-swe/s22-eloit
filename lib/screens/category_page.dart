@@ -72,8 +72,8 @@ class CategoryPage extends StatelessWidget {
                                           shrinkWrap:
                                               true, //The ListView only occupies the space it needs (it will still scroll when there more items).
                                           itemCount: snapshot.data?.length,
-                                          itemBuilder:
-                                              (BuildContext context, int index) {
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
                                             Competitor competitor =
                                                 snapshot.data![index];
                                             return ListTile(
@@ -90,10 +90,11 @@ class CategoryPage extends StatelessWidget {
                                                     const SizedBox(width: 10.0),
                                                     CircleAvatar(
                                                       //trailing makes it so image is at end of the tile
-                                                      backgroundImage: NetworkImage(
-                                                          //Get character image from cloud storage
-                                                          competitor
-                                                              .item.avatarURL),
+                                                      backgroundImage:
+                                                          NetworkImage(
+                                                              //Get character image from cloud storage
+                                                              competitor.item
+                                                                  .avatarURL),
                                                     ),
                                                   ],
                                                 ),

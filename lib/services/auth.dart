@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
-  
   // Create an instance of FirebaseAuth
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -10,7 +9,7 @@ class AuthService {
   //   try {
   //     UserCredential result = await _auth.signInAnonymously();
   //     final User? _user = result.user;
-  //   } 
+  //   }
   //   catch(e) {
 
   //   }
@@ -23,15 +22,12 @@ class AuthService {
   // TODO: Sign in
 }
 
-
-Future<bool> SignInFunc (_email, _password) async {
+Future<bool> SignInFunc(_email, _password) async {
   try {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: _email, password: _password
-    );
+    await FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: _email, password: _password);
     return true;
-  }
-  catch (e) {
+  } catch (e) {
     print(e.toString());
     return false;
   }
@@ -39,21 +35,16 @@ Future<bool> SignInFunc (_email, _password) async {
 
 Future<bool> RegisterFunc(email, password) async {
   try {
-    await FirebaseAuth.instance.createUserWithEmailAndPassword(
-      email: email,
-      password: password
-    );
+    await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(email: email, password: password);
     return true;
-  }
-  on FirebaseAuthException catch(e) {
+  } on FirebaseAuthException catch (e) {
     if (e.code == 'weak-password') {
       print("The password provided is too weak.");
-    }
-    else if (e.code == 'email-already-in-use') {
+    } else if (e.code == 'email-already-in-use') {
       print("The email provided is already in use.");
     }
-  }
-  catch (e) {
+  } catch (e) {
     print(e.toString());
   }
 

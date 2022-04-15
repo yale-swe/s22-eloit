@@ -158,15 +158,16 @@ class DatabaseService {
       'votes.${winner.id}': FieldValue.increment(1),
     });
 
-    final User currUser = auth.currentUser;
-    var uid = currUser.uid;
-
-    batch.set(voteCollection.doc(), {
-      'userID': uid,
-      'categoryID': category.cid,
-      'rivalryID': rivalry.rid,
-      'competitorID': winner.id,
-    });
+    var currentUser = auth.currentUser;
+    if (currentUser != null) {
+      DocumentReference voteRef = voteCollection.doc();
+      batch.set(voteRef, {
+        'userID': currentUser.uid,
+        'categoryID': category.cid,
+        'rivalryID': rivalry.rid,
+        'competitorID': winner.id,
+      });
+    } 
 
     return batch.commit();
   }

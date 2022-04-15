@@ -158,7 +158,7 @@ class DatabaseService {
       'votes.${winner.id}': FieldValue.increment(1),
     });
 
-    final User currUser = auth.currentUser();
+    final User currUser = auth.currentUser;
     var uid = currUser.uid;
 
     batch.set(voteCollection.doc(), {

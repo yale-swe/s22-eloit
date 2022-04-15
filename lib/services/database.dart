@@ -27,7 +27,6 @@ class DatabaseService {
       .collection('votes');
 
   // needed to get the current user
-  FirebaseAuth auth = FirebaseAuth.instance;
 
   Stream<List<Category>> searchCategory(String searchText, {int limit = 3}) {
     return categoryCollection
@@ -158,7 +157,7 @@ class DatabaseService {
       'votes.${winner.id}': FieldValue.increment(1),
     });
 
-    var currentUser = auth.currentUser;
+    var currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
       DocumentReference voteRef = voteCollection.doc();
       batch.set(voteRef, {

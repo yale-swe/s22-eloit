@@ -136,7 +136,7 @@ class DatabaseService {
   }
 
   Future voteResult(Category category, Rivalry rivalry, Competitor winner,
-      Competitor loser, int increase) {
+      Competitor loser, int increase) async{
     WriteBatch batch =
         KiwiContainer().resolve<FirebaseFirestore>('firebase').batch();
 
@@ -156,7 +156,7 @@ class DatabaseService {
     batch.update(docRivalry, {
       'votes.${winner.id}': FieldValue.increment(1),
     });
-
+    await Firebase.initializeApp();
     var currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
       DocumentReference voteRef = voteCollection.doc();

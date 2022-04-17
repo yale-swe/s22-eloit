@@ -20,7 +20,7 @@ void main() async {
   group('Home Page Widget Tests', () {
     testWidgets('Test for appbar with title', (tester) async {
       await tester.pumpWidget(createHomeScreen());
-      expect(find.text('Eloit'), findsOneWidget);
+      expect(find.text(APP_NAME), findsOneWidget);
     });
   });
 }

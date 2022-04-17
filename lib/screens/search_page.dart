@@ -2,6 +2,7 @@ import 'package:eloit/models/category.dart';
 import 'package:eloit/models/rivalry.dart';
 import 'package:eloit/screens/auth/auth_widget.dart';
 import 'package:eloit/screens/category_page.dart';
+import 'package:eloit/screens/home.dart';
 import 'package:eloit/screens/vote_page.dart';
 import 'package:eloit/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -23,7 +24,7 @@ class _SearchPageState extends State<SearchPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Eloit'),
+        title: const Text(APP_NAME),
         actions: [
           ElevatedButton(
             child: const Text('Log Out'),

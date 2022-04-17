@@ -1,7 +1,10 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:eloit/screens/auth/registration.dart';
+import 'package:eloit/screens/wrapper.dart';
 import 'package:eloit/services/auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -87,7 +90,7 @@ class _AuthBoxState extends State<AuthBox> {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Home()));
+                                    builder: (context) => Wrapper()));
                           } else {
                             // TODO: Show this message on the app
                             print('Login failed!');

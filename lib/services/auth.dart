@@ -1,27 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-class AuthService {
-  // Create an instance of FirebaseAuth
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
-  // // Sing in anonymously
-  // Future SignInAnonymously() async {
-  //   try {
-  //     UserCredential result = await _auth.signInAnonymously();
-  //     final User? _user = result.user;
-  //   }
-  //   catch(e) {
-
-  //   }
-  // }
-
-  // TODO: Register with email, password
-
-  // TODO: Sign in with email, password
-
-  // TODO: Sign in
-}
-
 Future<bool> SignInFunc(_email, _password) async {
   try {
     await FirebaseAuth.instance

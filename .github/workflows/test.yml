@@ -1,0 +1,52 @@
+name: Flutter Test and Build
+on: 
+  workflow_call:
+    outputs:
+      artifact_name:
+        description: "flutter build web output artifact name"
+        value: ${{ jobs.test_and_build_web.outputs.output1 }}
+
+  workflow_dispatch:
+  push:
+
+
+jobs:
+  test_and_build_web:
+    runs-on: ubuntu-latest
+
+    outputs:
+      output1: ${{ steps.gen_name.outputs.artifact_name }}
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+      - name: Get all Flutter Packages
+        run: flutter pub get
+      - name: Run Flutter Test
+        run: flutter test
+      - name: Build Web Folder
+        run: flutter build web
+      - name: Generate Name For Artifact
+        id: gen_name
+        run: |
+          name=$(echo '${{ github.ref_name }}-${{github.run_number}}' | tr / _)
+          echo "::set-output name=artifact_name::build-web-$name"
+      - name: Echo Artifact Name
+        run: echo ${{ steps.gen_name.outputs.artifact_name }}
+      - name: Upload Web Build Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: "${{ steps.gen_name.outputs.artifact_name }}"
+          path: build/web
+          retention-days: 5
+      - name: Deploy To Preview
+        if: ${{ github.ref_name != 'main' }} 
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_ELOIT_C4540 }}'
+          projectId: eloit-c4540
+          expires: 3d
+          channelId: $(echo ${{ github.ref_name }} | tr / _)

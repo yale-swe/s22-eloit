@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import '../home.dart';
 import 'auth_helper_widgets.dart';
 
-
 // TODO: Turn this page into state machine for getting username too
 enum ConfirmationPage {
   registerPasswordPage,
@@ -16,9 +15,9 @@ enum ConfirmationPage {
 }
 
 class RegistrationBox extends StatefulWidget {
-  const RegistrationBox({ 
+  const RegistrationBox({
     Key? key,
-    required this.email, 
+    required this.email,
   }) : super(key: key);
 
   final String email;
@@ -28,7 +27,6 @@ class RegistrationBox extends StatefulWidget {
 }
 
 class _RegistrationBoxState extends State<RegistrationBox> {
-  
   var passwordController = TextEditingController();
   var confirmPasswordController = TextEditingController();
 
@@ -37,7 +35,6 @@ class _RegistrationBoxState extends State<RegistrationBox> {
 
   @override
   Widget build(BuildContext context) {
-
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
@@ -48,66 +45,63 @@ class _RegistrationBoxState extends State<RegistrationBox> {
     }
 
     return Scaffold(
-          backgroundColor: COLOR_BACKGROUND,
-          appBar: AppBar(
-            title: const Text(APP_NAME)
-          ),
-          body: SingleChildScrollView(
-            child: SizedBox(
-              child: Form(
-                // TODO: See what the line below would do
-                // autovalidateMode: AutovalidateMode.onUserInteraction,
-                key: _key,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    const FormPaddingLayer(),
-                    const Text (
-                      'Create a password', 
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    const FormPaddingLayer(),
-                    RegisterPasswordField(controller: passwordController),
-                    const FormPaddingLayer(),
-                    ConfirmPasswordField(
-                      passwordController: passwordController, 
-                      confirmationController: confirmPasswordController
-                    ),
-                    const FormPaddingLayer(),
-                    SizedBox(
-                      width: width,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          if (_key.currentState!.validate()) {
-                            // TODO: Confirm the password from backend first
-                            // Now add the user with email and password
-                            bool registerAndLogIn = await RegisterFunc (
-                              widget.email, passwordController.text,
-                            );
-                            if (registerAndLogIn) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Home(),
-                                ),
-                              );
-                            }
-                            else {
-                              // TODO: Check what might cause this.
-                              print('Registration failed');
-                            }
-                          }
-                        },
-                        child: Text('Confirm Password'),
-                      ),
-                    ),
-                    const FormPaddingLayer(),
-                  ],
+      backgroundColor: COLOR_BACKGROUND,
+      appBar: AppBar(title: const Text(APP_NAME)),
+      body: SingleChildScrollView(
+        child: SizedBox(
+          child: Form(
+            // TODO: See what the line below would do
+            // autovalidateMode: AutovalidateMode.onUserInteraction,
+            key: _key,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                const FormPaddingLayer(),
+                const Text(
+                  'Create a password',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-              ),
+                const FormPaddingLayer(),
+                RegisterPasswordField(controller: passwordController),
+                const FormPaddingLayer(),
+                ConfirmPasswordField(
+                    passwordController: passwordController,
+                    confirmationController: confirmPasswordController),
+                const FormPaddingLayer(),
+                SizedBox(
+                  width: width,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      if (_key.currentState!.validate()) {
+                        // TODO: Confirm the password from backend first
+                        // Now add the user with email and password
+                        bool registerAndLogIn = await RegisterFunc(
+                          widget.email,
+                          passwordController.text,
+                        );
+                        if (registerAndLogIn) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Home(),
+                            ),
+                          );
+                        } else {
+                          // TODO: Check what might cause this.
+                          print('Registration failed');
+                        }
+                      }
+                    },
+                    child: Text('Confirm Password'),
+                  ),
+                ),
+                const FormPaddingLayer(),
+              ],
             ),
           ),
-        );
+        ),
+      ),
+    );
   }
 }

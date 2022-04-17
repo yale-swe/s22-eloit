@@ -57,7 +57,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '705214352014',
     projectId: 'eloit-c4540',
     storageBucket: 'eloit-c4540.appspot.com',
-    iosClientId: '705214352014-1r32lusgi6o2peh6bb5rc5u7340uc1rd.apps.googleusercontent.com',
+    iosClientId:
+        '705214352014-1r32lusgi6o2peh6bb5rc5u7340uc1rd.apps.googleusercontent.com',
     iosBundleId: 'com.example.eloit',
   );
 
@@ -67,7 +68,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '705214352014',
     projectId: 'eloit-c4540',
     storageBucket: 'eloit-c4540.appspot.com',
-    iosClientId: '705214352014-1r32lusgi6o2peh6bb5rc5u7340uc1rd.apps.googleusercontent.com',
+    iosClientId:
+        '705214352014-1r32lusgi6o2peh6bb5rc5u7340uc1rd.apps.googleusercontent.com',
     iosBundleId: 'com.example.eloit',
   );
 }

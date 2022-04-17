@@ -93,7 +93,7 @@ class RegisterPasswordField extends StatelessWidget {
   }
 }
 
-// 5. Text field for password confirmation.
+// 4. Text field for password confirmation.
 class ConfirmPasswordField extends StatelessWidget {
   const ConfirmPasswordField({
     Key? key,

@@ -93,7 +93,7 @@ class _RegistrationBoxState extends State<RegistrationBox> {
                           );
                         } else {
                           // TODO: Check what might cause this.
-                          print('Registration failed');
+                          print('\nDEBUG: Registration failed\n');
                         }
                       }
                     },
@@ -135,6 +135,8 @@ class _ConfirmEmailPageState extends State<ConfirmEmailPage> {
       timer = Timer.periodic(const Duration(seconds: 3), (timer) {
         checkEmailVerified();
       });
+    } else {
+      print("\n\nDEBUG: User is verified already????\n");
     }
   }
 
@@ -143,7 +145,10 @@ class _ConfirmEmailPageState extends State<ConfirmEmailPage> {
       user = FirebaseAuth.instance.currentUser!;
       // TODO: Find out why this verifications aren't being sent to @yale.edu emails.
       await user.sendEmailVerification();
+      resendCount++;
+      print("\n\nDEBUG: Sent verification email!\n\n");
     } catch (e) {
+      print("\n\nDEBUG: Could not send email verification for this reason: \n");
       print(e.toString());
     }
   }
@@ -160,10 +165,16 @@ class _ConfirmEmailPageState extends State<ConfirmEmailPage> {
     await user.reload();
 
     if (user.emailVerified) {
-      timer?.cancel();
-      setState(() {
-        isEmailVerified = true;
-      });
+      try {
+        timer?.cancel();
+        setState(() {
+          isEmailVerified = true;
+        });
+      } catch (e) {
+        print(
+            "\n\nDEBUG: Post-verification setState failed with this error:\n");
+        print(e);
+      }
     }
   }
 
@@ -176,9 +187,9 @@ class _ConfirmEmailPageState extends State<ConfirmEmailPage> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     // TODO: print the email to which the verification was sent.
-    String bodyContent = resendCount == 0
-        ? "A verification link has been sent. Go and click it."
-        : "Resent verification link, now $resendCount times.";
+    String bodyContent = resendCount == 1
+        ? "A verification link has been sent to ${user.email}. Go and click it."
+        : "Resent verification link to ${user.email}, now $resendCount times.";
 
     // If you're on a wide screen, make the width short.
     double scaleFactor = 1.5;
@@ -231,7 +242,7 @@ class _ConfirmEmailPageState extends State<ConfirmEmailPage> {
                           ..onTap = () {
                             user.sendEmailVerification();
                             setState(() {
-                              resendCount++;
+                              print("\n\nDEBUG: Verification resent\n");
                             });
                           },
                         text: 'Resend.',

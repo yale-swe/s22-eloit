@@ -23,6 +23,7 @@ Future<bool> RegisterFunc(email, password) async {
       print("The email provided is already in use.");
     }
   } catch (e) {
+    print("\n\nDEBUG: Registraion failed b/c of the error below\n");
     print(e.toString());
   }
 

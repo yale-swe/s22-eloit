@@ -136,7 +136,7 @@ class DatabaseService {
   }
 
   Future voteResult(Category category, Rivalry rivalry, Competitor winner,
-      Competitor loser, int increase, var uid) async{
+      Competitor loser, int increase, [String? uid]) async{
     WriteBatch batch =
         KiwiContainer().resolve<FirebaseFirestore>('firebase').batch();
 

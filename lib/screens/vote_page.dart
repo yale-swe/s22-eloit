@@ -52,7 +52,7 @@ class _VotePageState extends State<VotePage> {
                   onTap: () async {
                     if (voted == voteState.beforeVote) {
                       await _elo.vote(widget.category, widget.rivalry,
-                          widget.rivalry.competitors[0]);
+                          widget.rivalry.competitors[0], FireBaseAuth.instance.currentUser.uid);
                       setState(() {
                         voted = voteState.afterVote;
                       });
@@ -73,7 +73,7 @@ class _VotePageState extends State<VotePage> {
                     onTap: () async {
                       if (voted == voteState.beforeVote) {
                         await _elo.vote(widget.category, widget.rivalry,
-                            widget.rivalry.competitors[1]);
+                            widget.rivalry.competitors[1], FireBaseAuth.instance.currentUser.uid);
                         setState(() {
                           voted = voteState.afterVote;
                         });

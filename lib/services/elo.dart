@@ -25,7 +25,7 @@ class EloService {
     return (K * (1 - expectation)).round();
   }
 
-  Future vote(Category category, Rivalry rivalry, Competitor winner) async {
+  Future vote(Category category, Rivalry rivalry, Competitor winner, String uid) async {
     assert(rivalry.competitors.contains(winner));
     var loser = rivalry.competitors[0] == winner
         ? rivalry.competitors[1]
@@ -34,7 +34,7 @@ class EloService {
     int delta = updateDelta(winner.eloScore, loser.eloScore);
     // print("delta ${winner.eloScore} ${loser.eloScore} $delta");
 
-    await _db.voteResult(category, rivalry, winner, loser, delta);
+    await _db.voteResult(category, rivalry, winner, loser, delta, uid);
   }
 
   Stream<Map> streamRivalryVotes(Category category, Rivalry rivalry) {

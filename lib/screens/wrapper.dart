@@ -11,15 +11,10 @@ class Wrapper extends StatelessWidget {
     // This is just to double check that the _user should not be null if the stream fetches data.
     User? _user = FirebaseAuth.instance.currentUser;
 
-    return Scaffold(
-      body: StreamBuilder<User?>(builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          assert(_user != null);
-          return ConfirmEmailPage();
-        } else {
-          return AuthBox();
-        }
-      }),
-    );
+    if (_user != null) {
+      return ConfirmEmailPage();
+    } else {
+      return AuthBox();
+    }
   }
 }

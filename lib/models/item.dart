@@ -5,7 +5,8 @@ class Item extends Equatable {
   final String iid;
   final String name;
   final String avatarURL;
-  final List categoryIDs; // We add a category ID every time we construct a Competitor class
+  final List
+      categoryIDs; // We add a category ID every time we construct a Competitor class
 
   const Item({
     required this.iid,

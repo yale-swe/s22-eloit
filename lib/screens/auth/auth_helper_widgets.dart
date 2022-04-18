@@ -4,11 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-
 // Some custom widgets to make this easier...
 // 0. First setup an abstract widget for all text form fields.
 class CustomFormField extends StatelessWidget {
-  const CustomFormField({ 
+  const CustomFormField({
     Key? key,
     required this.controller,
     required this.validator,
@@ -44,23 +43,26 @@ class CustomFormField extends StatelessWidget {
     );
   }
 }
+
 // 1. Email Field
 class EmailField extends StatelessWidget {
-  const EmailField({ Key? key, required this.controller }) : super(key: key);
+  const EmailField({Key? key, required this.controller}) : super(key: key);
   final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
     return CustomFormField(
-      controller: controller, 
-      validator: inspectEmail, 
+      controller: controller,
+      validator: inspectEmail,
       hintText: 'Email',
     );
   }
 }
+
 // 2. Field for passord during signin
 class SignInPasswordField extends StatelessWidget {
-  const SignInPasswordField({ Key? key , required this.controller}) : super(key: key);
+  const SignInPasswordField({Key? key, required this.controller})
+      : super(key: key);
   final TextEditingController controller;
 
   @override
@@ -73,9 +75,11 @@ class SignInPasswordField extends StatelessWidget {
     );
   }
 }
+
 // 3. Field for password during registering
 class RegisterPasswordField extends StatelessWidget {
-  const RegisterPasswordField({ Key? key , required this.controller}) : super(key: key);
+  const RegisterPasswordField({Key? key, required this.controller})
+      : super(key: key);
   final TextEditingController controller;
 
   @override
@@ -88,13 +92,14 @@ class RegisterPasswordField extends StatelessWidget {
     );
   }
 }
-// 5. Text field for password confirmation.
+
+// 4. Text field for password confirmation.
 class ConfirmPasswordField extends StatelessWidget {
-  const ConfirmPasswordField({ 
-    Key? key, 
+  const ConfirmPasswordField({
+    Key? key,
     required this.passwordController,
     required this.confirmationController,
-    }) : super(key: key);
+  }) : super(key: key);
 
   final TextEditingController passwordController;
   final TextEditingController confirmationController;
@@ -102,18 +107,19 @@ class ConfirmPasswordField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomFormField(
-      validator: (String? givenText) => givenText == passwordController.text 
-                    ? null 
-                    : 'Passwords do not match.',
+      validator: (String? givenText) => givenText == passwordController.text
+          ? null
+          : 'Passwords do not match.',
       controller: confirmationController,
       obscureText: true,
-      hintText: 'Re-type password',        
-      );
+      hintText: 'Re-type password',
+    );
   }
 }
+
 // 5. Padding between textfields and buttons
 class FormPaddingLayer extends StatelessWidget {
-  const FormPaddingLayer({ Key? key }) : super(key: key);
+  const FormPaddingLayer({Key? key}) : super(key: key);
   final paddingAspectRatio = 20;
 
   @override
@@ -126,7 +132,6 @@ class FormPaddingLayer extends StatelessWidget {
     );
   }
 }
-
 
 // Helper functions for authentication
 String? inspectEmail(String? formEmail) {
@@ -153,7 +158,7 @@ String? inspectSigninPassword(String? formPassword) {
   }
 
   // Then check if the given password has the right number of characters...
-  if (formPassword.length < 6){
+  if (formPassword.length < 6) {
     return 'Password needs to be at least 6 characters.';
   }
   if (formPassword.length > 20) {
@@ -170,7 +175,7 @@ String? inspectRegisterPassword(String? formPassword) {
   }
 
   // Define the requirements for a password.
-  String rPattern = '^.[0-9a-zA-Z@#\\\$%^&-+=()]{6,20}\$';  
+  String rPattern = '^.[0-9a-zA-Z@#\\\$%^&-+=()]{6,20}\$';
   RegExp regex = RegExp(rPattern);
 
   // If the

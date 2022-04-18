@@ -40,14 +40,16 @@ class DatabaseService {
   }
 
   Stream<List<Rivalry>> searchRivalry(String searchText, {int limit = 3}) {
-    return FirebaseFirestore.instance.collectionGroup('rivalries')
+    return FirebaseFirestore.instance
+        .collectionGroup('rivalries')
         .where('name', isGreaterThanOrEqualTo: searchText)
         .where('name', isLessThanOrEqualTo: searchText + '\uf7ff')
         .limit(limit)
         .snapshots()
         .asyncMap(
           (event) => Future.wait([
-            for (DocumentSnapshot doc in event.docs) getRivalryString(doc.reference.parent.parent!.id, doc)
+            for (DocumentSnapshot doc in event.docs)
+              getRivalryString(doc.reference.parent.parent!.id, doc)
           ]),
         );
   }
@@ -94,10 +96,11 @@ class DatabaseService {
     return Rivalry.fromDocumentSnapshot(doc, competitorList);
   }
 
-  Future<Rivalry> getRivalryString(String categoryID, DocumentSnapshot doc) async {
+  Future<Rivalry> getRivalryString(
+      String categoryID, DocumentSnapshot doc) async {
     List itemIDs = doc.get('itemIDs');
     List<Future<Competitor>> competitorFutures =
-    itemIDs.map((cid) => getCompetitorString(categoryID, cid)).toList();
+        itemIDs.map((cid) => getCompetitorString(categoryID, cid)).toList();
     Future<List<Competitor>> futureCompetitors = Future.wait(competitorFutures);
     List<Competitor> competitorList = await futureCompetitors;
 
@@ -116,10 +119,7 @@ class DatabaseService {
   }
 
   Future<Category> getCategory(String cid) async {
-    DocumentSnapshot doc = await categoryCollection
-        .doc(cid)
-        .snapshots()
-        .first;
+    DocumentSnapshot doc = await categoryCollection.doc(cid).snapshots().first;
 
     return Category.fromDocumentSnapshot(doc);
   }

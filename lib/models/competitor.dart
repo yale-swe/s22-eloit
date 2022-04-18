@@ -8,9 +8,7 @@ class Competitor extends Equatable {
   final int eloScore;
 
   const Competitor(
-      {required this.id,
-      required this.item,
-      required this.eloScore});
+      {required this.id, required this.item, required this.eloScore});
 
   Map<String, dynamic> toMap() {
     return {

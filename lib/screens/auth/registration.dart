@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'dart:math';
 
+import 'package:eloit/screens/auth/auth_widget.dart';
 import 'package:eloit/screens/wrapper.dart';
 import 'package:eloit/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -62,7 +62,8 @@ class _RegistrationBoxState extends State<RegistrationBox> {
                 const Text(
                   'Create a password',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: COLOR_FLOATING_TEXT),
                 ),
                 const FormPaddingLayer(),
                 RegisterPasswordField(controller: passwordController),
@@ -83,9 +84,10 @@ class _RegistrationBoxState extends State<RegistrationBox> {
                           passwordController.text,
                         );
                         if (registerAndLogIn) {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
+                              // TODO: Fix this.
                               builder: (context) => ConfirmEmailPage(),
                             ),
                           );
@@ -139,6 +141,7 @@ class _ConfirmEmailPageState extends State<ConfirmEmailPage> {
   Future sendVerificationEmail() async {
     try {
       user = FirebaseAuth.instance.currentUser!;
+      // TODO: Find out why this verifications aren't being sent to @yale.edu emails.
       await user.sendEmailVerification();
     } catch (e) {
       print(e.toString());
@@ -167,11 +170,7 @@ class _ConfirmEmailPageState extends State<ConfirmEmailPage> {
   @override
   Widget build(BuildContext context) {
     if (isEmailVerified) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => Home(),
-        ),
-      );
+      return Home();
     }
 
     double width = MediaQuery.of(context).size.width;
@@ -189,7 +188,24 @@ class _ConfirmEmailPageState extends State<ConfirmEmailPage> {
 
     return Scaffold(
       backgroundColor: COLOR_BACKGROUND,
-      appBar: AppBar(title: const Text(APP_NAME)),
+      appBar: AppBar(
+        title: const Text(APP_NAME),
+        actions: [
+          ElevatedButton(
+            child: const Text('Log Out'),
+            onPressed: () async {
+              await FirebaseAuth.instance.signOut();
+              // Now navigate to the auth page.
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AuthBox(),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
         child: SizedBox(
           child: Column(
@@ -197,7 +213,10 @@ class _ConfirmEmailPageState extends State<ConfirmEmailPage> {
             // crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               const FormPaddingLayer(),
-              Text(bodyContent),
+              Text(
+                bodyContent,
+                style: TextStyle(color: COLOR_FLOATING_TEXT),
+              ),
               const FormPaddingLayer(),
               RichText(
                 text: TextSpan(

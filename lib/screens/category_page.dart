@@ -18,6 +18,7 @@ class CategoryPage extends StatelessWidget {
     DatabaseService _db = DatabaseService();
 
     return Scaffold(
+      backgroundColor: COLOR_BACKGROUND,
       appBar: AppBar(
         title: const Text(APP_NAME),
         actions: [

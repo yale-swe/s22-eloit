@@ -3,6 +3,7 @@ import 'package:eloit/models/competitor.dart';
 import 'package:eloit/models/rivalry.dart';
 import 'package:eloit/services/elo.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 enum voteState {
   beforeVote,
@@ -52,7 +53,7 @@ class _VotePageState extends State<VotePage> {
                   onTap: () async {
                     if (voted == voteState.beforeVote) {
                       await _elo.vote(widget.category, widget.rivalry,
-                          widget.rivalry.competitors[0]);
+                          widget.rivalry.competitors[0], FirebaseAuth.instance.currentUser?.uid);
                       setState(() {
                         voted = voteState.afterVote;
                       });
@@ -73,7 +74,7 @@ class _VotePageState extends State<VotePage> {
                     onTap: () async {
                       if (voted == voteState.beforeVote) {
                         await _elo.vote(widget.category, widget.rivalry,
-                            widget.rivalry.competitors[1]);
+                            widget.rivalry.competitors[1], FirebaseAuth.instance.currentUser?.uid);
                         setState(() {
                           voted = voteState.afterVote;
                         });

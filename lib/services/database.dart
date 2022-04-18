@@ -2,10 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eloit/models/category.dart';
 import 'package:eloit/models/competitor.dart';
 import 'package:eloit/models/item.dart';
+import 'package:eloit/models/user.dart';
 
 import 'package:eloit/models/rivalry.dart';
 import 'package:flutter/material.dart';
 import 'package:kiwi/kiwi.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 class DatabaseService {
   DatabaseService();
@@ -19,6 +22,9 @@ class DatabaseService {
   final CollectionReference userCollection = KiwiContainer()
       .resolve<FirebaseFirestore>('firebase')
       .collection('users');
+  final CollectionReference voteCollection = KiwiContainer()
+      .resolve<FirebaseFirestore>('firebase')
+      .collection('votes');
 
   Stream<List<Category>> searchCategory(String searchText, {int limit = 3}) {
     return categoryCollection
@@ -128,7 +134,7 @@ class DatabaseService {
   }
 
   Future voteResult(Category category, Rivalry rivalry, Competitor winner,
-      Competitor loser, int increase) {
+      Competitor loser, int increase, [String? uid]) async{
     WriteBatch batch =
         KiwiContainer().resolve<FirebaseFirestore>('firebase').batch();
 
@@ -149,6 +155,18 @@ class DatabaseService {
       'votes.${winner.id}': FieldValue.increment(1),
     });
 
+    DocumentReference voteRef = voteCollection.doc();
+    batch.set(voteRef, {
+      'userID': uid,
+      'categoryID': category.cid,
+      'rivalryID': rivalry.rid,
+      'competitorID': winner.id,
+    });
+
     return batch.commit();
+  }
+
+  Future addUser(String? uid, String? email) async {
+    await userCollection.doc(uid).set({"email": email});
   }
 }

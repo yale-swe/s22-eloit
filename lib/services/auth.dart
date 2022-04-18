@@ -1,4 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eloit/services/database.dart';
 
 Future<bool> SignInFunc(_email, _password) async {
   try {
@@ -14,7 +16,8 @@ Future<bool> SignInFunc(_email, _password) async {
 Future<bool> RegisterFunc(email, password) async {
   try {
     await FirebaseAuth.instance
-        .createUserWithEmailAndPassword(email: email, password: password);
+        .createUserWithEmailAndPassword(email: email, password: password)
+        .then((value) {DatabaseService().addUser(value.user?.uid, value.user?.email);});
     return true;
   } on FirebaseAuthException catch (e) {
     if (e.code == 'weak-password') {

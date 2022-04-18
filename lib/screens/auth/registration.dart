@@ -163,7 +163,7 @@ class _ConfirmEmailPageState extends State<ConfirmEmailPage> {
     user = FirebaseAuth.instance.currentUser!;
     // Reload the user
     await user.reload();
-
+    // TODO can add insert user statement here?
     if (user.emailVerified) {
       try {
         timer?.cancel();

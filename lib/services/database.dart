@@ -26,8 +26,6 @@ class DatabaseService {
       .resolve<FirebaseFirestore>('firebase')
       .collection('votes');
 
-  // needed to get the current user
-
   Stream<List<Category>> searchCategory(String searchText, {int limit = 3}) {
     return categoryCollection
         .where('name', isGreaterThanOrEqualTo: searchText)
@@ -168,7 +166,7 @@ class DatabaseService {
     return batch.commit();
   }
 
-  Future addUser(String uid, String email) async {
+  Future addUser(String? uid, String? email) async {
     await userCollection.doc(uid).set({"email": email});
   }
 }

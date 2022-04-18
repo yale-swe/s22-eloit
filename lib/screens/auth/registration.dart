@@ -62,7 +62,8 @@ class _RegistrationBoxState extends State<RegistrationBox> {
                 const Text(
                   'Create a password',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: COLOR_FLOATING_TEXT),
                 ),
                 const FormPaddingLayer(),
                 RegisterPasswordField(controller: passwordController),
@@ -140,6 +141,7 @@ class _ConfirmEmailPageState extends State<ConfirmEmailPage> {
   Future sendVerificationEmail() async {
     try {
       user = FirebaseAuth.instance.currentUser!;
+      // TODO: Find out why this verifications aren't being sent to @yale.edu emails.
       await user.sendEmailVerification();
     } catch (e) {
       print(e.toString());
@@ -211,7 +213,10 @@ class _ConfirmEmailPageState extends State<ConfirmEmailPage> {
             // crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               const FormPaddingLayer(),
-              Text(bodyContent),
+              Text(
+                bodyContent,
+                style: TextStyle(color: COLOR_FLOATING_TEXT),
+              ),
               const FormPaddingLayer(),
               RichText(
                 text: TextSpan(

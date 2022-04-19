@@ -43,6 +43,6 @@ class Rivalry extends Equatable {
         cid = doc.get("cid"),
         itemIDs = doc.get("itemIDs"),
         votes = doc.get("votes"),
-        name = doc.get("name"),
+        name = doc.get("name") ?? "noname",
         competitors = competitorList;
 }

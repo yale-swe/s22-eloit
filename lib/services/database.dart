@@ -25,6 +25,9 @@ class DatabaseService {
   final CollectionReference voteCollection = KiwiContainer()
       .resolve<FirebaseFirestore>('firebase')
       .collection('votes');
+  final CollectionReference rivalryCollection = KiwiContainer()
+      .resolve<FirebaseFirestore>('firebase')
+      .collection('rivalries');
 
   Stream<List<Category>> searchCategory(String searchText, {int limit = 3}) {
     return categoryCollection
@@ -168,5 +171,23 @@ class DatabaseService {
 
   Future addUser(String? uid, String? email) async {
     await userCollection.doc(uid).set({"email": email});
+  }
+
+  Future createRivalry(String cid, String iid1, String iid2) async {
+    DocumentReference p1Ref = itemCollection.doc(iid1); // could also make it get the data from competitors subcollection
+    DocumentSnapshot p1Snap = await p1Ref.get();
+    Item p1 = Item.fromDocumentSnapshot(p1Snap);
+
+    DocumentReference p2Ref = itemCollection.doc(iid2); // could also make it get the data from competitors subcollection
+    DocumentSnapshot p2Snap = await p2Ref.get();
+    Item p2 = Item.fromDocumentSnapshot(p2Snap);
+
+    DocumentReference rivDocRef = rivalryCollection.doc();
+    await rivDocRef.set({
+      'cid': cid,
+      'itemIDs': [p1.iid, p2.iid],
+      'name': p1.name + " vs " + p2.name,
+      'votes': {p1.iid: 0, p2.iid: 0},
+    });
   }
 }

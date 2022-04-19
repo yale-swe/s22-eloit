@@ -7,7 +7,8 @@ class Rivalry extends Equatable {
   final String cid;
   final List itemIDs;
   final Map votes;
-  final List<Competitor> competitors;
+  final List<Competitor> competitors; // feels unnecessary now
+  final String name;
 
   const Rivalry({
     required this.rid,
@@ -15,6 +16,7 @@ class Rivalry extends Equatable {
     required this.itemIDs,
     required this.votes,
     required this.competitors,
+    required this.name,
   });
 
   Map<String, dynamic> toMap() {
@@ -23,12 +25,13 @@ class Rivalry extends Equatable {
       'cid': cid,
       'itemIDs': itemIDs,
       'votes': votes,
+      'name': name,
     };
   }
 
   @override
   List<Object> get props {
-    return [rid, cid, itemIDs, votes];
+    return [rid, cid, itemIDs, votes, name];
   }
 
   @override
@@ -40,5 +43,6 @@ class Rivalry extends Equatable {
         cid = doc.get("cid"),
         itemIDs = doc.get("itemIDs"),
         votes = doc.get("votes"),
+        name = doc.get("name"),
         competitors = competitorList;
 }

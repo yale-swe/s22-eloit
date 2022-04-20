@@ -80,7 +80,7 @@ def cat_exists(cid):
     else:
         return False
 
-def initialize_matchups(lst, cid, images):
+def initialize_matchups(lst, cid, images, add_rivs=False):
     """" Creates all of the possible rivalries given a list of the users
     Initializes the items, then initializes all Competitors
     and Rivalries in the database
@@ -119,10 +119,11 @@ def initialize_matchups(lst, cid, images):
         new_comp_doc = comps_ref.document(new_it_doc.id)
         new_comp.set_id(new_comp_doc.id)
 
-        for comp in competitors:
-            new_rivalry = Rivalry(comp.get_id(), new_comp.get_id())
-            rivs_ref.add(new_rivalry.toMap())
-            rivalries.append(new_rivalry)
+        if add_rivs:
+            for comp in competitors:
+                new_rivalry = Rivalry(comp.get_id(), new_comp.get_id())
+                rivs_ref.add(new_rivalry.toMap())
+                rivalries.append(new_rivalry)
         
         new_it_doc.set(new_it.toMap())
         new_comp_doc.set(new_comp.toMap())
@@ -151,7 +152,8 @@ def create_new_category_doc(name, coverPicURL=None):
     cats_ref = db.collection("categories")
     new_data = {
         "name": name,
-        "coverPicURL": coverPicURL
+        "coverPicURL": coverPicURL,
+        "searchKey": name.lower()
     }
     new_doc = cats_ref.document()
     new_doc.set(new_data)

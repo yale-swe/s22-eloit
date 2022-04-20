@@ -7,6 +7,7 @@ import 'package:eloit/screens/vote_page.dart';
 import 'package:eloit/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:eloit/screens/addItem.dart';
 
 class CategoryPage extends StatelessWidget {
   const CategoryPage({Key? key, required this.category}) : super(key: key);
@@ -57,8 +58,33 @@ class CategoryPage extends StatelessWidget {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const ListTile(
+                              ListTile(
                                 title: Text('RANKINGS:'),
+                                trailing: TextButton(
+                                // style: TextButton.styleFrom(
+                                //   textStyle: const TextStyle(fontSize: 15,),  
+                                // ),
+                                  style: ButtonStyle(
+                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(18.0),
+                                        side: const BorderSide(color: Colors.green)
+                                      )
+                                    )
+                                  ),
+                                  
+                                  onPressed: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        //You are rerouted to the vote page
+                                        builder: (context) => addItem(
+                                          category: category,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: const Text('Add Item', style: TextStyle(color: Colors.green,) ),
+                                ),
                               ),
                               Flexible(
                                 //making wideget flexible lets it resize to its parent

@@ -3,13 +3,13 @@ import 'package:eloit/models/competitor.dart';
 import 'package:eloit/models/rivalry.dart';
 import 'package:eloit/services/elo.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:share_plus/share_plus.dart';
 
 enum voteState {
   beforeVote,
   afterVote,
 }
+
 
 class VotePage extends StatefulWidget {
   const VotePage({Key? key, required this.category, required this.rivalry})
@@ -60,7 +60,7 @@ class _VotePageState extends State<VotePage> {
                   onTap: () async {
                     if (voted == voteState.beforeVote) {
                       await _elo.vote(widget.category, widget.rivalry,
-                          widget.rivalry.competitors[0], FirebaseAuth.instance.currentUser?.uid);
+                          widget.rivalry.competitors[0]);
                       setState(() {
                         voted = voteState.afterVote;
                       });
@@ -81,7 +81,7 @@ class _VotePageState extends State<VotePage> {
                     onTap: () async {
                       if (voted == voteState.beforeVote) {
                         await _elo.vote(widget.category, widget.rivalry,
-                            widget.rivalry.competitors[1], FirebaseAuth.instance.currentUser?.uid);
+                            widget.rivalry.competitors[1]);
                         setState(() {
                           voted = voteState.afterVote;
                         });
@@ -102,7 +102,8 @@ class _VotePageState extends State<VotePage> {
                 label: const Text('Share Your Vote!')
             ),
           ],
-        ));
+        )
+    );
   }
 }
 

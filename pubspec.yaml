@@ -39,6 +39,8 @@ dependencies:
   cloud_firestore: ^3.1.10
   firebase_core: ^1.13.1
   kiwi: ^4.0.2
+  image_picker: ^0.8.5
+  share_plus: ^4.0.4
 
 dev_dependencies:
   flutter_test:

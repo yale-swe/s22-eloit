@@ -28,8 +28,8 @@ class DatabaseService {
 
   Stream<List<Category>> searchCategory(String searchText, {int limit = 3}) {
     return categoryCollection
-        .where('name', isGreaterThanOrEqualTo: searchText)
-        .where('name', isLessThanOrEqualTo: searchText + '\uf7ff')
+        .where('searchKey', isGreaterThanOrEqualTo: searchText.toLowerCase())
+        .where('searchKey', isLessThanOrEqualTo: searchText.toLowerCase() + '\uf7ff')
         .limit(limit)
         .snapshots()
         .map((event) => event.docs
@@ -40,8 +40,8 @@ class DatabaseService {
   Stream<List<Rivalry>> searchRivalry(String searchText, {int limit = 3}) {
     return FirebaseFirestore.instance
         .collectionGroup('rivalries')
-        .where('name', isGreaterThanOrEqualTo: searchText)
-        .where('name', isLessThanOrEqualTo: searchText + '\uf7ff')
+        .where('name', isGreaterThanOrEqualTo: searchText.toLowerCase())
+        .where('name', isLessThanOrEqualTo: searchText.toLowerCase() + '\uf7ff')
         .limit(limit)
         .snapshots()
         .asyncMap(

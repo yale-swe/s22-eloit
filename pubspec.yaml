@@ -41,6 +41,7 @@ dependencies:
   kiwi: ^4.0.2
   image_picker: ^0.8.5
   share_plus: ^4.0.4
+  firebase_storage: ^10.2.12
 
 dev_dependencies:
   flutter_test:

@@ -59,7 +59,10 @@ class _addItem extends State<addItem> {
                 children: <Widget>[
                   GestureDetector(
                     child: InkWell(
-                      child: const Text("Gallery"),
+                      child: const Padding(
+                        padding: EdgeInsets.all(5.0),
+                        child: Text("Gallery"),
+                      ),
                       onTap: () {
                         uploadImageGallery();
                       },
@@ -70,7 +73,10 @@ class _addItem extends State<addItem> {
                   const Padding(padding: EdgeInsets.all(8.0)),
                   GestureDetector(
                     child: InkWell(
-                      child: const Text("Camera"),
+                      child: const Padding(
+                        padding: EdgeInsets.all(5.0),
+                        child: Text("Camera"),
+                      ),
                       onTap: () {
                         uploadImageCamera();
                       },
@@ -108,7 +114,7 @@ class _addItem extends State<addItem> {
       return CircleAvatar(
         radius: 100,
         backgroundColor: Colors.blue,
-        backgroundImage: Image.file(globalFile!) as ImageProvider,
+        backgroundImage: Image.file(globalFile!).image,
       );
     }
   }
@@ -152,7 +158,8 @@ class _addItem extends State<addItem> {
                         },
                         decoration: const InputDecoration(
                           border:
-                              UnderlineInputBorder(), //Alternative UI: OutlineInputBorder(),
+                              //UnderlineInputBorder(),
+                              OutlineInputBorder(),
                           labelText: 'Enter the item name',
                           hintStyle: TextStyle(color: Colors.white),
                           //iconColor: Color.fromARGB(255, 255, 255, 255),
@@ -161,18 +168,21 @@ class _addItem extends State<addItem> {
                       Container(
                         padding: const EdgeInsets.only(top: 40.0),
                         child: ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
                             // Validate returns true if the form is valid, or false otherwise.
                             if (_formKey.currentState!.validate()) {
                               // If the form is valid, display a snackbar. In the real world,
                               // you'd often call a server or save the information in a database.
+                              await DatabaseService().addItem(
+                                  widget.category.cid,
+                                  nameHolder.text,
+                                  globalFile);
+                              Navigator.of(context).pop();
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                     content: Text('Successfully Uploaded')),
                               );
-                              nameHolder.clear();
                             }
-                            globalFile = Null as File?;
                           },
                           child: const Text('Submit'),
                         ),

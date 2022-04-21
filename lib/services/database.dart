@@ -3,12 +3,12 @@ import 'package:eloit/models/category.dart';
 import 'package:eloit/models/competitor.dart';
 import 'package:eloit/models/item.dart';
 import 'package:eloit/models/user.dart';
-
+import 'dart:io';
 import 'package:eloit/models/rivalry.dart';
 import 'package:flutter/material.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:firebase_storage/firebase_storage.dart';
 
 class DatabaseService {
   DatabaseService();
@@ -134,7 +134,8 @@ class DatabaseService {
   }
 
   Future voteResult(Category category, Rivalry rivalry, Competitor winner,
-      Competitor loser, int increase, [String? uid]) async{
+      Competitor loser, int increase,
+      [String? uid]) async {
     WriteBatch batch =
         KiwiContainer().resolve<FirebaseFirestore>('firebase').batch();
 
@@ -168,5 +169,39 @@ class DatabaseService {
 
   Future addUser(String? uid, String? email) async {
     await userCollection.doc(uid).set({"email": email});
+  }
+
+  Future addItem(String categoryID, String name, File? imageFile) async {
+    String imageFileURL;
+    TaskSnapshot audioSnapshot = await FirebaseStorage.instance
+        .ref('$categoryID/${name}_${DateTime.now()}')
+        .putFile(imageFile!);
+    imageFileURL = await audioSnapshot.ref.getDownloadURL();
+
+    DocumentReference doc = await itemCollection.add({
+      'avatarURL': imageFileURL,
+      'categoryIDs': [categoryID],
+      'name': name,
+    });
+    await itemCollection.doc(doc.id).update({
+      'iid': doc.id,
+    });
+
+    await categoryCollection
+        .doc(categoryID)
+        .collection('competitors')
+        .doc(doc.id)
+        .set(
+      {
+        'eloScore': 1400,
+        'item': {
+          'avatarURL': imageFileURL,
+          'categoryIDs': [categoryID],
+          'iid': doc.id,
+          'name': name,
+        },
+      },
+      SetOptions(merge: true),
+    );
   }
 }

@@ -60,7 +60,6 @@ class _AuthBoxState extends State<AuthBox> {
       case AuthPage.signInPage:
         // TODO: maybe place the common widgets outside
         return Scaffold(
-          backgroundColor: COLOR_BACKGROUND,
           appBar: AppBar(title: const Text(APP_NAME)),
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(20.0),
@@ -127,9 +126,9 @@ class _AuthBoxState extends State<AuthBox> {
 
       case AuthPage.registerEmailPage:
         return Scaffold(
-          backgroundColor: COLOR_BACKGROUND,
           appBar: AppBar(title: const Text(APP_NAME)),
           body: SingleChildScrollView(
+            padding: const EdgeInsets.all(20.0),
             child: SizedBox(
               child: Form(
                 // TODO: See what the line below would do

@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
-
 class addItem extends StatefulWidget {
   addItem({Key? key, required this.category}) : super(key: key);
   final Category category;
@@ -16,25 +15,23 @@ class addItem extends StatefulWidget {
 }
 
 class _addItem extends State<addItem> {
-
-  double deviceHeight(BuildContext context) => MediaQuery.of(context).size.height;
+  double deviceHeight(BuildContext context) =>
+      MediaQuery.of(context).size.height;
   double deviceWidth(BuildContext context) => MediaQuery.of(context).size.width;
   bool validURL(String url) => Uri.parse(url).host == '' ? false : true;
   final _formKey = GlobalKey<FormState>();
 
   File? globalFile;
   var nameHolder = TextEditingController();
-  
 
   uploadImageGallery() async {
     //final _firebaseStorage = FirebaseStorage.instance;
     final _imagePicker = ImagePicker();
     var image = await _imagePicker.pickImage(source: ImageSource.gallery);
     // ignore: unrelated_type_equality_checks
-    if (image!=Null){
+    if (image != Null) {
       globalFile = File(image!.path);
-      setState(() { 
-      });
+      setState(() {});
     }
     Navigator.of(context).pop();
   }
@@ -44,87 +41,84 @@ class _addItem extends State<addItem> {
     final _imagePicker = ImagePicker();
     var image = await _imagePicker.pickImage(source: ImageSource.camera);
     // ignore: unrelated_type_equality_checks
-    if (image!=Null){
+    if (image != Null) {
       globalFile = File(image!.path);
-      setState(() {
-        
-      });
+      setState(() {});
     }
     Navigator.of(context).pop();
   }
 
-  Future<void> _showChoiceDiaolog(BuildContext context){
+  Future<void> _showChoiceDiaolog(BuildContext context) {
     return showDialog(
-      context: context, builder: (BuildContext context){
-        return AlertDialog(
-          title: const Text("Select Upload Option"),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                GestureDetector(
-                  child: InkWell(
-                    child: const Text("Gallary"),
-                    onTap: (){
-                    uploadImageGallery();
-                    },
-                    highlightColor: Colors.grey,
-                    splashColor: Colors.grey,
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("Select Upload Option"),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  GestureDetector(
+                    child: InkWell(
+                      child: const Text("Gallery"),
+                      onTap: () {
+                        uploadImageGallery();
+                      },
+                      highlightColor: Colors.grey,
+                      splashColor: Colors.grey,
+                    ),
                   ),
-
-                ),
-                const Padding(padding: EdgeInsets.all(8.0)),
-                GestureDetector(
-                  child: InkWell(
-                    child: const Text("Camera"),
-                    onTap: (){
-                    uploadImageCamera();
-                    },
-                    highlightColor: Colors.grey,
-                    splashColor: Colors.grey,
+                  const Padding(padding: EdgeInsets.all(8.0)),
+                  GestureDetector(
+                    child: InkWell(
+                      child: const Text("Camera"),
+                      onTap: () {
+                        uploadImageCamera();
+                      },
+                      highlightColor: Colors.grey,
+                      splashColor: Colors.grey,
+                    ),
                   ),
-
-                ),
-              ],
-            ), 
-          ),
-        );
-      }
-    );
+                ],
+              ),
+            ),
+          );
+        });
   }
 
-  Widget decideImageView(){
-    if (globalFile==null){
+  Widget decideImageView() {
+    if (globalFile == null) {
       return const CircleAvatar(
         radius: 100,
         backgroundColor: Colors.grey,
-        child: Center(
+        child: Padding(
+          padding: EdgeInsets.all(5.0),
+          child: Center(
             child: Text(
-              "Tap To\nUpload Image",
+              "Tap To Upload Image",
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 30,
               ),
             ),
-              
+          ),
         ),
       );
-    }
-    else{
+    } else {
       return CircleAvatar(
         radius: 100,
         backgroundColor: Colors.blue,
-        //backgroundImage: Image.file(globalFile!) as ImageProvider,
-      ); 
+        backgroundImage: Image.file(globalFile!) as ImageProvider,
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF000452),
+      //backgroundColor: Color(0xFF000452),
       appBar: AppBar(
-        title:  Text("Add New Item: " + widget.category.name.toString()),  
+        title: Text("Add New Item: " + widget.category.name.toString()),
       ),
       body: Center(
         child: Column(
@@ -134,13 +128,13 @@ class _addItem extends State<addItem> {
               height: deviceHeight(context) * 0.1,
             ),
             GestureDetector(
-                onTap: () {
-                  _showChoiceDiaolog(context);
-                },
+              onTap: () {
+                _showChoiceDiaolog(context);
+              },
               child: decideImageView(),
             ),
             Form(
-              key: _formKey,
+                key: _formKey,
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(30, 10, 30, 10), //ltrb
                   child: Column(
@@ -149,29 +143,32 @@ class _addItem extends State<addItem> {
                         controller: nameHolder,
                         // The validator receives the text that the user has entered.
                         validator: (value) {
-                          if (value == null || value.isEmpty || globalFile==null) {
+                          if (value == null ||
+                              value.isEmpty ||
+                              globalFile == null) {
                             return 'Make Sure To Have Image and Text!';
                           }
                           return null;
                         },
                         decoration: const InputDecoration(
-                          border: UnderlineInputBorder(), //Alternative UI: OutlineInputBorder(),
-                          labelText: 'Enter your username',
-                          hintStyle: const TextStyle(color: Colors.white),
+                          border:
+                              UnderlineInputBorder(), //Alternative UI: OutlineInputBorder(),
+                          labelText: 'Enter the item name',
+                          hintStyle: TextStyle(color: Colors.white),
                           //iconColor: Color.fromARGB(255, 255, 255, 255),
                         ),
                       ),
-
                       Container(
                         padding: const EdgeInsets.only(top: 40.0),
-                        child: ElevatedButton( 
+                        child: ElevatedButton(
                           onPressed: () {
                             // Validate returns true if the form is valid, or false otherwise.
                             if (_formKey.currentState!.validate()) {
                               // If the form is valid, display a snackbar. In the real world,
                               // you'd often call a server or save the information in a database.
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Successfully Uploaded')),
+                                const SnackBar(
+                                    content: Text('Successfully Uploaded')),
                               );
                               nameHolder.clear();
                             }
@@ -182,12 +179,10 @@ class _addItem extends State<addItem> {
                       ),
                     ],
                   ),
-                )             
-            ),
+                )),
           ],
         ),
       ),
-
     );
   }
 }

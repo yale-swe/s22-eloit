@@ -25,7 +25,8 @@ class EloService {
     return (K * (1 - expectation)).round();
   }
 
-  Future vote(Category category, Rivalry rivalry, Competitor winner, [String? uid]) async {
+  Future vote(Category category, Rivalry rivalry, Competitor winner,
+      [String? uid]) async {
     assert(rivalry.competitors.contains(winner));
     var loser = rivalry.competitors[0] == winner
         ? rivalry.competitors[1]

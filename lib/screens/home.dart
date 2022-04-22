@@ -2,6 +2,7 @@ import 'package:eloit/models/category.dart';
 import 'package:eloit/screens/category_page.dart';
 import 'package:eloit/screens/search_page.dart';
 import 'package:eloit/screens/settings_page.dart';
+import 'package:eloit/screens/vote_history_page.dart';
 import 'package:flutter/material.dart';
 import 'package:eloit/screens/auth/auth_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -39,7 +40,7 @@ class _HomeState extends State<Home> {
           coverPicURL: 'gs://eloit-c4540.appspot.com/heroImages/iron_man.png'),
     ),
     const SearchPage(),
-    const SettingsPage(),
+    const VoteHistoryPage(),
   ];
 
   @override
@@ -60,8 +61,8 @@ class _HomeState extends State<Home> {
             label: 'Search',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
+            icon: Icon(Icons.history),
+            label: 'Vote History',
           ),
         ],
       ),

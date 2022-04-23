@@ -72,26 +72,29 @@ class _CreateRivalryState extends State<CreateRivalry> {
                       backgroundImage: NetworkImage(
                           selectedCompetitor1?.item.avatarURL ?? 'none'),
                     ),
-                    DropdownButton<Competitor>(
-                      hint: const Text('Select Competitor 1'),
-                      // Initial Value
-                      value: selectedCompetitor1,
-                      // Down Arrow Icon
-                      icon: const Icon(Icons.keyboard_arrow_down),
-                      // Array list of items
-                      items: competitors.map((Competitor competitor) {
-                        return DropdownMenuItem(
-                          value: competitor,
-                          child: Text(competitor.item.name),
-                        );
-                      }).toList(),
-                      // After selecting the desired option,it will
-                      // change button value to selected value
-                      onChanged: (Competitor? newValue) {
-                        setState(() {
-                          selectedCompetitor1 = newValue!;
-                        });
-                      },
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: DropdownButton<Competitor>(
+                        hint: const Text('Select Competitor 1'),
+                        // Initial Value
+                        value: selectedCompetitor1,
+                        // Down Arrow Icon
+                        icon: const Icon(Icons.keyboard_arrow_down),
+                        // Array list of items
+                        items: competitors.map((Competitor competitor) {
+                          return DropdownMenuItem(
+                            value: competitor,
+                            child: Text(competitor.item.name),
+                          );
+                        }).toList(),
+                        // After selecting the desired option,it will
+                        // change button value to selected value
+                        onChanged: (Competitor? newValue) {
+                          setState(() {
+                            selectedCompetitor1 = newValue!;
+                          });
+                        },
+                      ),
                     ),
                   ],
                 ),
@@ -104,26 +107,29 @@ class _CreateRivalryState extends State<CreateRivalry> {
                       backgroundImage: NetworkImage(
                           selectedCompetitor2?.item.avatarURL ?? 'none'),
                     ),
-                    DropdownButton<Competitor>(
-                      hint: const Text('Select Competitor 2'),
-                      // Initial Value
-                      value: selectedCompetitor2,
-                      // Down Arrow Icon
-                      icon: const Icon(Icons.keyboard_arrow_down),
-                      // Array list of items
-                      items: competitors.map((Competitor competitor) {
-                        return DropdownMenuItem(
-                          value: competitor,
-                          child: Text(competitor.item.name),
-                        );
-                      }).toList(),
-                      // After selecting the desired option,it will
-                      // change button value to selected value
-                      onChanged: (Competitor? newValue) {
-                        setState(() {
-                          selectedCompetitor2 = newValue!;
-                        });
-                      },
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: DropdownButton<Competitor>(
+                        hint: const Text('Select Competitor 2'),
+                        // Initial Value
+                        value: selectedCompetitor2,
+                        // Down Arrow Icon
+                        icon: const Icon(Icons.keyboard_arrow_down),
+                        // Array list of items
+                        items: competitors.map((Competitor competitor) {
+                          return DropdownMenuItem(
+                            value: competitor,
+                            child: Text(competitor.item.name),
+                          );
+                        }).toList(),
+                        // After selecting the desired option,it will
+                        // change button value to selected value
+                        onChanged: (Competitor? newValue) {
+                          setState(() {
+                            selectedCompetitor2 = newValue!;
+                          });
+                        },
+                      ),
                     ),
                   ],
                 ),

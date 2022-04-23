@@ -245,9 +245,9 @@ class _ConfirmEmailPageState extends State<ConfirmEmailPage> {
                             });
                           },
                         text: 'Resend.',
-                        style: const TextStyle(
+                        style: TextStyle(
                           decoration: TextDecoration.underline,
-                          color: COLOR_FLOATING_LINK_TEXT,
+                          color: Theme.of(context).colorScheme.secondary,
                         ),
                       ),
                     ]),

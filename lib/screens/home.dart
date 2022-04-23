@@ -14,7 +14,7 @@ const String APP_NAME = 'Eloit';
 //const Color COLOR_CONTRAST_BACKGROUND = Colors.white;
 //const Color COLOR_FLOATING_TEXT = Colors.white;
 //const Color COLOR_CONFINED_TEXT = Colors.black;
-const Color COLOR_FLOATING_LINK_TEXT = Colors.yellow;
+//const Color COLOR_FLOATING_LINK_TEXT = Colors.yellow;
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);

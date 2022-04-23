@@ -111,9 +111,9 @@ class _AuthBoxState extends State<AuthBox> {
                             recognizer: TapGestureRecognizer()
                               ..onTap = toggleSigninSignup,
                             text: 'Sign up.',
-                            style: const TextStyle(
+                            style: TextStyle(
                               decoration: TextDecoration.underline,
-                              color: COLOR_FLOATING_LINK_TEXT,
+                              color: Theme.of(context).colorScheme.secondary,
                             ),
                           ),
                         ]),
@@ -174,9 +174,9 @@ class _AuthBoxState extends State<AuthBox> {
                               recognizer: TapGestureRecognizer()
                                 ..onTap = toggleSigninSignup,
                               text: 'Log in.',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 decoration: TextDecoration.underline,
-                                color: COLOR_FLOATING_LINK_TEXT,
+                                color: Theme.of(context).colorScheme.secondary,
                               ),
                             ),
                           ]),

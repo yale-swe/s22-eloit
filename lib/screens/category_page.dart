@@ -65,7 +65,7 @@ class CategoryPage extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               const ListTile(
-                                title: Text('RANKINGS:'),
+                                title: Text('Rankings:'),
                               ),
                               Flexible(
                                 //making widget flexible lets it resize to its parent
@@ -85,7 +85,7 @@ class CategoryPage extends StatelessWidget {
                                 },
                                 child: const ListTile(
                                   title:
-                                      Center(child: Text('SEE FULL RANKINGS')),
+                                      Center(child: Text('See Full Rankings')),
                                 ),
                               ),
                             ],
@@ -94,7 +94,7 @@ class CategoryPage extends StatelessWidget {
                         const SizedBox(height: 15.0),
                         Card(
                           child: ListTile(
-                            title: const Text('RIVALRIES'),
+                            title: const Text('Rivalries'),
                             trailing: TextButton(
                               style: ButtonStyle(
                                 shape: MaterialStateProperty.all<

@@ -47,9 +47,9 @@ class _RegistrationBoxState extends State<RegistrationBox> {
     }
 
     return Scaffold(
-      backgroundColor: COLOR_BACKGROUND,
       appBar: AppBar(title: const Text(APP_NAME)),
       body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20.0),
         child: SizedBox(
           child: Form(
             // TODO: See what the line below would do

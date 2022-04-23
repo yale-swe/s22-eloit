@@ -12,7 +12,6 @@ class RankingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: COLOR_BACKGROUND,
       appBar: AppBar(
         title: Text("Rankings for ${category.name}"),
       ),
@@ -23,22 +22,17 @@ class RankingsPage extends StatelessWidget {
             sliver: SliverList(
               delegate: SliverChildListDelegate(
                 [
-                  Card(
-                    //rounder corner rectangle UI element
-                    //This card shows the Elo rankings
-                    color: COLOR_BACKGROUND,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Flexible(
-                          //making wideget flexible lets it resize to its parent
-                          child: TopFewRankings(
-                            category: category,
-                            separateCards: true,
-                          ),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Flexible(
+                        //making wideget flexible lets it resize to its parent
+                        child: TopFewRankings(
+                          category: category,
+                          separateCards: true,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ],
               ),

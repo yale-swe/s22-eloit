@@ -19,12 +19,18 @@ class CategoryPage extends StatelessWidget {
     DatabaseService _db = DatabaseService();
 
     return Scaffold(
-      backgroundColor: COLOR_BACKGROUND,
       appBar: AppBar(
         title: const Text(APP_NAME),
         actions: [
-          ElevatedButton(
-            child: const Text('Log Out'),
+          TextButton(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Log Out',
+                style: TextStyle(
+                    color: Theme.of(context).primaryTextTheme.button?.color),
+              ),
+            ),
             onPressed: () async {
               await FirebaseAuth.instance.signOut();
               // Now navigate to the auth page.

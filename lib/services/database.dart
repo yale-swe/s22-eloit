@@ -5,6 +5,7 @@ import 'package:eloit/models/item.dart';
 import 'package:eloit/models/user.dart';
 
 import 'package:eloit/models/rivalry.dart';
+import 'package:eloit/models/vote.dart';
 import 'package:flutter/material.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -30,8 +31,8 @@ class DatabaseService {
 
   Stream<List<Category>> searchCategory(String searchText, {int limit = 3}) {
     return categoryCollection
-        .where('name', isGreaterThanOrEqualTo: searchText)
-        .where('name', isLessThanOrEqualTo: searchText + '\uf7ff')
+        .where('searchKey', isGreaterThanOrEqualTo: searchText.toLowerCase())
+        .where('searchKey', isLessThanOrEqualTo: searchText.toLowerCase() + '\uf7ff')
         .limit(limit)
         .snapshots()
         .map((event) => event.docs
@@ -42,8 +43,8 @@ class DatabaseService {
   Stream<List<Rivalry>> searchRivalry(String searchText, {int limit = 3}) {
     return FirebaseFirestore.instance
         .collectionGroup('rivalries')
-        .where('name', isGreaterThanOrEqualTo: searchText)
-        .where('name', isLessThanOrEqualTo: searchText + '\uf7ff')
+        .where('name', isGreaterThanOrEqualTo: searchText.toLowerCase())
+        .where('name', isLessThanOrEqualTo: searchText.toLowerCase() + '\uf7ff')
         .limit(limit)
         .snapshots()
         .asyncMap(
@@ -63,6 +64,40 @@ class DatabaseService {
         .map((event) => event.docs
             .map((doc) => Competitor.fromDocumentSnapshot(doc))
             .toList());
+  }
+
+  Stream<List<Vote>> voteHistory(String? userID) {
+    return voteCollection
+        .where('userID', isEqualTo: userID)
+        .orderBy('time', descending: true)
+        .snapshots()
+        .asyncMap(
+          (event) => Future.wait(
+            [for (DocumentSnapshot doc in event.docs) getVote(doc)],
+          ),
+        );
+  }
+
+  Future<bool> canVote(String? userID, String rivalryID) async {
+    DateTime now = DateTime.now();
+    DateTime yesterday = DateTime(
+        now.year, now.month, now.day - 1, now.hour, now.minute, now.second);
+    QuerySnapshot query = await voteCollection
+        .where('userID', isEqualTo: userID)
+        .where('rivalryID', isEqualTo: rivalryID)
+        .where('time', isGreaterThan: yesterday)
+        .get();
+    return query.docs.isEmpty;
+  }
+
+  Future<Vote> getVote(DocumentSnapshot doc) async {
+    DocumentSnapshot rivalryDoc = await categoryCollection
+        .doc(doc.get('categoryID'))
+        .collection('rivalries')
+        .doc(doc.get('rivalryID'))
+        .get();
+    Rivalry rivalry = await getRivalryString(doc.get('categoryID'), rivalryDoc);
+    return Vote.fromDocumentSnapshot(doc, rivalry);
   }
 
   Stream<Map> streamRivalryVotes(Category category, Rivalry rivalry) {
@@ -164,6 +199,7 @@ class DatabaseService {
       'categoryID': category.cid,
       'rivalryID': rivalry.rid,
       'competitorID': winner.id,
+      'time': FieldValue.serverTimestamp(),
     });
 
     return batch.commit();

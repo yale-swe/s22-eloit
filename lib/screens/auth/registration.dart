@@ -63,7 +63,7 @@ class _RegistrationBoxState extends State<RegistrationBox> {
                   'Create a password',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontWeight: FontWeight.bold, color: COLOR_FLOATING_TEXT),
+                      fontWeight: FontWeight.bold),
                 ),
                 const FormPaddingLayer(),
                 RegisterPasswordField(controller: passwordController),
@@ -88,7 +88,7 @@ class _RegistrationBoxState extends State<RegistrationBox> {
                             context,
                             MaterialPageRoute(
                               // TODO: Fix this.
-                              builder: (context) => ConfirmEmailPage(),
+                              builder: (context) => const ConfirmEmailPage(),
                             ),
                           );
                         } else {
@@ -198,7 +198,6 @@ class _ConfirmEmailPageState extends State<ConfirmEmailPage> {
     }
 
     return Scaffold(
-      backgroundColor: COLOR_BACKGROUND,
       appBar: AppBar(
         title: const Text(APP_NAME),
         actions: [
@@ -226,13 +225,13 @@ class _ConfirmEmailPageState extends State<ConfirmEmailPage> {
               const FormPaddingLayer(),
               Text(
                 bodyContent,
-                style: TextStyle(color: COLOR_FLOATING_TEXT),
+                //style: TextStyle(color: COLOR_FLOATING_TEXT),
               ),
               const FormPaddingLayer(),
               RichText(
                 text: TextSpan(
-                    style: const TextStyle(
-                      color: COLOR_FLOATING_TEXT,
+                    style: TextStyle(
+                      color: Theme.of(context).textTheme.headline6?.color,
                     ),
                     text: "Can't find link? ",
                     children: [

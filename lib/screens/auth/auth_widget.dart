@@ -102,8 +102,8 @@ class _AuthBoxState extends State<AuthBox> {
                   const FormPaddingLayer(),
                   RichText(
                     text: TextSpan(
-                        style: const TextStyle(
-                          color: COLOR_FLOATING_TEXT,
+                        style: TextStyle(
+                          color: Theme.of(context).textTheme.headline6?.color,
                         ),
                         text: 'New to $APP_NAME? ',
                         children: [
@@ -165,8 +165,8 @@ class _AuthBoxState extends State<AuthBox> {
                     const FormPaddingLayer(),
                     RichText(
                       text: TextSpan(
-                          style: const TextStyle(
-                            color: COLOR_FLOATING_TEXT,
+                          style: TextStyle(
+                            color: Theme.of(context).textTheme.headline6?.color,
                           ),
                           text: 'Already have an account? ',
                           children: [

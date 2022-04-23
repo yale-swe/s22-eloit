@@ -23,21 +23,21 @@ class CustomFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      style: const TextStyle(
-        color: COLOR_FLOATING_TEXT,
-      ),
+      // style: const TextStyle(
+      //   color: COLOR_FLOATING_TEXT,
+      // ),
       validator: validator,
       controller: controller,
       obscureText: obscureText,
       decoration: InputDecoration(
         border: const OutlineInputBorder(
-          borderSide: BorderSide(
-            color: COLOR_CONTRAST_BACKGROUND,
-          ),
+          // borderSide: BorderSide(
+          //   color: COLOR_CONTRAST_BACKGROUND,
+          // ),
         ),
-        hintStyle: const TextStyle(
-          color: Color.fromARGB(255, 189, 167, 167),
-        ),
+        // hintStyle: const TextStyle(
+        //   color: Color.fromARGB(255, 189, 167, 167),
+        // ),
         hintText: hintText,
       ),
     );

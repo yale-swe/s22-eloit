@@ -77,8 +77,10 @@ class _VoteHistoryPageState extends State<VoteHistoryPage> {
                       child: Text(
                           '${rivalry.competitors[0].item.name} vs ${rivalry.competitors[1].item.name}'),
                     ),
-                    subtitle: Text(
-                        'You voted for ${rivalry.competitors.where((competitor) => competitor.id == vote.competitorID).first.item.name} on ${DateFormat.yMd().add_jm().format(vote.time)}'),
+                    subtitle: Center(
+                      child: Text(
+                          'You voted for ${rivalry.competitors.where((competitor) => competitor.id == vote.competitorID).first.item.name} on ${DateFormat.yMd().add_jm().format(vote.time)}'),
+                    ),
                   ),
                 );
               },

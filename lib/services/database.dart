@@ -32,7 +32,8 @@ class DatabaseService {
   Stream<List<Category>> searchCategory(String searchText, {int limit = 3}) {
     return categoryCollection
         .where('searchKey', isGreaterThanOrEqualTo: searchText.toLowerCase())
-        .where('searchKey', isLessThanOrEqualTo: searchText.toLowerCase() + '\uf7ff')
+        .where('searchKey',
+            isLessThanOrEqualTo: searchText.toLowerCase() + '\uf7ff')
         .limit(limit)
         .snapshots()
         .map((event) => event.docs
@@ -237,7 +238,9 @@ class DatabaseService {
           await categoryCollection.doc(cid).collection('rivalries').add({
         'cid': cid,
         'itemIDs': [competitor1.id, competitor2.id],
-        'name': competitor1.item.name + " vs " + competitor2.item.name,
+        'name': competitor1.item.name.toLowerCase() +
+            " vs " +
+            competitor2.item.name.toLowerCase(),
         'votes': {competitor1.id: 0, competitor2.id: 0},
       });
       DocumentSnapshot doc = await newRivRef.get();

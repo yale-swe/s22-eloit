@@ -57,21 +57,6 @@ class _CreateRivalryState extends State<CreateRivalry> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(APP_NAME),
-        actions: [
-          ElevatedButton(
-            child: const Text('Log Out'),
-            onPressed: () async {
-              await FirebaseAuth.instance.signOut();
-              // Now navigate to the auth page.
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const AuthBox(),
-                ),
-              );
-            },
-          ),
-        ],
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,

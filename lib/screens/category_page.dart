@@ -101,7 +101,7 @@ class CategoryPage extends StatelessWidget {
                                     RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(18.0),
-                                    side: const BorderSide(color: Colors.green),
+                                    side: BorderSide(color: Theme.of(context).colorScheme.secondary),
                                   ),
                                 ),
                               ),
@@ -115,10 +115,10 @@ class CategoryPage extends StatelessWidget {
                                   ),
                                 );
                               },
-                              child: const Text(
+                              child: Text(
                                 'Create Rivalry',
                                 style: TextStyle(
-                                  color: Colors.green,
+                                  color: Theme.of(context).colorScheme.secondary,
                                 ),
                               ),
                             ),

@@ -13,6 +13,7 @@ Our technology stack is built around two main technologies: the open-source UI S
 - iOS
 - Android
 - Mac
+
 with future options for Windows and Linux versions as well. Moreover, in terms of Firebase, we use a variety of cloud functionalities, including:
 - **Firebase Authentication** for secure registration and login
 - **Cloud Firestore** no-SQL database for storing our basic app data

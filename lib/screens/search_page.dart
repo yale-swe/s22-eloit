@@ -26,8 +26,15 @@ class _SearchPageState extends State<SearchPage> {
       appBar: AppBar(
         title: const Text(APP_NAME),
         actions: [
-          ElevatedButton(
-            child: const Text('Log Out'),
+          TextButton(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Log Out',
+                style: TextStyle(
+                    color: Theme.of(context).primaryTextTheme.button?.color),
+              ),
+            ),
             onPressed: () async {
               await FirebaseAuth.instance.signOut();
               // Now navigate to the auth page.
@@ -47,7 +54,7 @@ class _SearchPageState extends State<SearchPage> {
           child: Column(
             children: [
               TextField(
-                autofocus: true,
+                //autofocus: true,
                 style: const TextStyle(color: Colors.grey),
                 decoration: const InputDecoration(
                   enabledBorder: OutlineInputBorder(
@@ -68,6 +75,7 @@ class _SearchPageState extends State<SearchPage> {
                   });
                 },
               ),
+              const SizedBox(height: 10.0),
               Card(
                 child: StreamBuilder<List<Category>>(
                   stream: _db.searchCategory(searchText),
@@ -77,7 +85,11 @@ class _SearchPageState extends State<SearchPage> {
                           .map(
                             (category) => ListTile(
                               title: Text(category.name),
-                              leading: const CircleAvatar(),
+                              leading: CircleAvatar(
+                                //Shows Image1 at start of card
+                                backgroundImage:
+                                    NetworkImage(category.coverPicURL),
+                              ),
                               onTap: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
@@ -106,6 +118,7 @@ class _SearchPageState extends State<SearchPage> {
                   },
                 ),
               ),
+              const SizedBox(height: 10.0),
               Card(
                 child: StreamBuilder<List<Rivalry>>(
                   stream: _db.searchRivalry(searchText),

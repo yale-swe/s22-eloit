@@ -1,11 +1,13 @@
 import 'package:eloit/models/category.dart';
 import 'package:eloit/models/competitor.dart';
 import 'package:eloit/models/rivalry.dart';
+import 'package:eloit/services/database.dart';
 import 'package:eloit/services/elo.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 enum voteState {
+  loading,
   beforeVote,
   afterVote,
 }
@@ -22,74 +24,103 @@ class VotePage extends StatefulWidget {
 }
 
 class _VotePageState extends State<VotePage> {
-  voteState voted = voteState.beforeVote;
+  voteState voted = voteState.loading;
+  final DatabaseService _db = DatabaseService();
+
+  void loadVote() async {
+    bool canVote = await _db.canVote(
+        FirebaseAuth.instance.currentUser?.uid, widget.rivalry.rid);
+    setState(() {
+      voted = canVote ? voteState.beforeVote : voteState.afterVote;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     EloService _elo = EloService();
     double pageWidth = MediaQuery.of(context).size.width;
     double avatarRadius = pageWidth / 8;
+
+    if (voted == voteState.loading) {
+      loadVote();
+    }
+
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Vote'),
-        ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+      appBar: AppBar(
+        title: const Text('Vote'),
+      ),
+      body: voted != voteState.loading
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                GestureDetector(
-                  child: Column(
-                    children: [
-                      CircleAvatar(
-                        radius: avatarRadius,
-                        backgroundImage: NetworkImage(
-                            widget.rivalry.competitors[0].item.avatarURL),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    GestureDetector(
+                      child: Column(
+                        children: [
+                          CircleAvatar(
+                            radius: avatarRadius,
+                            backgroundImage: NetworkImage(
+                                widget.rivalry.competitors[0].item.avatarURL),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Text(widget.rivalry.competitors[0].item.name),
+                          ),
+                        ],
                       ),
-                      Text(widget.rivalry.competitors[0].item.name),
-                    ],
-                  ),
-                  onTap: () async {
-                    if (voted == voteState.beforeVote) {
-                      await _elo.vote(widget.category, widget.rivalry,
-                          widget.rivalry.competitors[0], FirebaseAuth.instance.currentUser?.uid);
-                      setState(() {
-                        voted = voteState.afterVote;
-                      });
-                    }
-                  },
-                ),
-                GestureDetector(
-                    child: Column(
-                      children: [
-                        CircleAvatar(
-                          radius: avatarRadius,
-                          backgroundImage: NetworkImage(
-                              widget.rivalry.competitors[1].item.avatarURL),
-                        ),
-                        Text(widget.rivalry.competitors[1].item.name),
-                      ],
+                      onTap: () async {
+                        if (voted == voteState.beforeVote) {
+                          await _elo.vote(
+                              widget.category,
+                              widget.rivalry,
+                              widget.rivalry.competitors[0],
+                              FirebaseAuth.instance.currentUser?.uid);
+                          setState(() {
+                            voted = voteState.afterVote;
+                          });
+                        }
+                      },
                     ),
-                    onTap: () async {
-                      if (voted == voteState.beforeVote) {
-                        await _elo.vote(widget.category, widget.rivalry,
-                            widget.rivalry.competitors[1], FirebaseAuth.instance.currentUser?.uid);
-                        setState(() {
-                          voted = voteState.afterVote;
-                        });
-                      }
-                    }),
+                    GestureDetector(
+                        child: Column(
+                          children: [
+                            CircleAvatar(
+                              radius: avatarRadius,
+                              backgroundImage: NetworkImage(
+                                  widget.rivalry.competitors[1].item.avatarURL),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Text(widget.rivalry.competitors[1].item.name),
+                            ),
+                          ],
+                        ),
+                        onTap: () async {
+                          if (voted == voteState.beforeVote) {
+                            await _elo.vote(
+                                widget.category,
+                                widget.rivalry,
+                                widget.rivalry.competitors[1],
+                                FirebaseAuth.instance.currentUser?.uid);
+                            setState(() {
+                              voted = voteState.afterVote;
+                            });
+                          }
+                        }),
+                  ],
+                ),
+                const SizedBox(height: 10.0),
+                VoteBar(
+                  category: widget.category,
+                  rivalry: widget.rivalry,
+                  voted: voted,
+                ),
               ],
-            ),
-            const SizedBox(height: 10.0),
-            VoteBar(
-              category: widget.category,
-              rivalry: widget.rivalry,
-              voted: voted,
-            ),
-          ],
-        ));
+            )
+          : const LinearProgressIndicator(),
+    );
   }
 }
 

@@ -37,6 +37,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.grey,
       ),
+      darkTheme: ThemeData.dark(),
+      themeMode: ThemeMode.system,
       home: const Wrapper(),
       debugShowCheckedModeBanner: false,
     );

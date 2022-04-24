@@ -17,7 +17,9 @@ Future<bool> RegisterFunc(email, password) async {
   try {
     await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: password)
-        .then((value) {DatabaseService().addUser(value.user?.uid, value.user?.email);});
+        .then((value) {
+      DatabaseService().addUser(value.user?.uid, value.user?.email);
+    });
     return true;
   } on FirebaseAuthException catch (e) {
     if (e.code == 'weak-password') {

@@ -64,7 +64,10 @@ class _VotePageState extends State<VotePage> {
                             backgroundImage: NetworkImage(
                                 widget.rivalry.competitors[0].item.avatarURL),
                           ),
-                          Text(widget.rivalry.competitors[0].item.name),
+                          Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Text(widget.rivalry.competitors[0].item.name),
+                          ),
                         ],
                       ),
                       onTap: () async {
@@ -88,7 +91,10 @@ class _VotePageState extends State<VotePage> {
                               backgroundImage: NetworkImage(
                                   widget.rivalry.competitors[1].item.avatarURL),
                             ),
-                            Text(widget.rivalry.competitors[1].item.name),
+                            Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Text(widget.rivalry.competitors[1].item.name),
+                            ),
                           ],
                         ),
                         onTap: () async {

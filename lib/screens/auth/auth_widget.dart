@@ -102,8 +102,8 @@ class _AuthBoxState extends State<AuthBox> {
                   const FormPaddingLayer(),
                   RichText(
                     text: TextSpan(
-                        style: const TextStyle(
-                          color: COLOR_FLOATING_TEXT,
+                        style: TextStyle(
+                          color: Theme.of(context).textTheme.headline6?.color,
                         ),
                         text: 'New to $APP_NAME? ',
                         children: [
@@ -111,9 +111,9 @@ class _AuthBoxState extends State<AuthBox> {
                             recognizer: TapGestureRecognizer()
                               ..onTap = toggleSigninSignup,
                             text: 'Sign up.',
-                            style: const TextStyle(
+                            style: TextStyle(
                               decoration: TextDecoration.underline,
-                              color: COLOR_FLOATING_LINK_TEXT,
+                              color: Theme.of(context).colorScheme.secondary,
                             ),
                           ),
                         ]),
@@ -165,8 +165,8 @@ class _AuthBoxState extends State<AuthBox> {
                     const FormPaddingLayer(),
                     RichText(
                       text: TextSpan(
-                          style: const TextStyle(
-                            color: COLOR_FLOATING_TEXT,
+                          style: TextStyle(
+                            color: Theme.of(context).textTheme.headline6?.color,
                           ),
                           text: 'Already have an account? ',
                           children: [
@@ -174,9 +174,9 @@ class _AuthBoxState extends State<AuthBox> {
                               recognizer: TapGestureRecognizer()
                                 ..onTap = toggleSigninSignup,
                               text: 'Log in.',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 decoration: TextDecoration.underline,
-                                color: COLOR_FLOATING_LINK_TEXT,
+                                color: Theme.of(context).colorScheme.secondary,
                               ),
                             ),
                           ]),

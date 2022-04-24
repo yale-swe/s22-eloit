@@ -9,12 +9,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 const String APP_NAME = 'Eloit';
 
-const Color COLOR_BACKGROUND = Color(0xFF000452);
-const Color COLOR_OBJECTS = Color(0xFF00FF04);
-const Color COLOR_CONTRAST_BACKGROUND = Colors.white;
-const Color COLOR_FLOATING_TEXT = Colors.white;
-const Color COLOR_CONFINED_TEXT = Colors.black;
-const Color COLOR_FLOATING_LINK_TEXT = Colors.yellow;
+//const Color COLOR_BACKGROUND = Color(0xFF000452);
+//const Color COLOR_OBJECTS = Color(0xFF00FF04);
+//const Color COLOR_CONTRAST_BACKGROUND = Colors.white;
+//const Color COLOR_FLOATING_TEXT = Colors.white;
+//const Color COLOR_CONFINED_TEXT = Colors.black;
+//const Color COLOR_FLOATING_LINK_TEXT = Colors.yellow;
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -46,15 +46,14 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: COLOR_BACKGROUND,
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         onTap: _onItemTapped,
         currentIndex: _selectedIndex,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.category),
-            label: 'Category',
+            icon: Icon(Icons.star),
+            label: 'Featured',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),

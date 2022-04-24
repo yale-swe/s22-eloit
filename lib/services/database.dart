@@ -25,11 +25,15 @@ class DatabaseService {
   final CollectionReference voteCollection = KiwiContainer()
       .resolve<FirebaseFirestore>('firebase')
       .collection('votes');
+  // final CollectionReference rivalryCollection = KiwiContainer()
+  //     .resolve<FirebaseFirestore>('firebase')
+  //     .collection('rivalries');
 
   Stream<List<Category>> searchCategory(String searchText, {int limit = 3}) {
     return categoryCollection
         .where('searchKey', isGreaterThanOrEqualTo: searchText.toLowerCase())
-        .where('searchKey', isLessThanOrEqualTo: searchText.toLowerCase() + '\uf7ff')
+        .where('searchKey',
+            isLessThanOrEqualTo: searchText.toLowerCase() + '\uf7ff')
         .limit(limit)
         .snapshots()
         .map((event) => event.docs
@@ -204,5 +208,62 @@ class DatabaseService {
 
   Future addUser(String? uid, String? email) async {
     await userCollection.doc(uid).set({"email": email});
+  }
+
+  Future<Rivalry> createRivalry(
+      String cid, Competitor competitor1, Competitor competitor2) async {
+    // DocumentReference p1Ref = itemCollection.doc(
+    //     iid1); // could also make it get the data from competitors subcollection
+    // DocumentSnapshot p1Snap = await p1Ref.get();
+    // Item p1 = Item.fromDocumentSnapshot(p1Snap);
+    //
+    // DocumentReference p2Ref = itemCollection.doc(
+    //     iid2); // could also make it get the data from competitors subcollection
+    // DocumentSnapshot p2Snap = await p2Ref.get();
+    // Item p2 = Item.fromDocumentSnapshot(p2Snap);
+
+    QuerySnapshot currentRivOptions = await categoryCollection
+        .doc(cid)
+        .collection('rivalries')
+        .where('itemIDs', arrayContains: competitor1.id)
+        .get();
+    List<DocumentSnapshot> rivDocs = currentRivOptions.docs
+        .where((doc) => doc.get('itemIDs').contains(competitor2.id))
+        .toList();
+    if (rivDocs.isNotEmpty) {
+      return Rivalry.fromDocumentSnapshot(
+          rivDocs.first, [competitor1, competitor2]);
+    } else {
+      DocumentReference newRivRef =
+          await categoryCollection.doc(cid).collection('rivalries').add({
+        'cid': cid,
+        'itemIDs': [competitor1.id, competitor2.id],
+        'name': competitor1.item.name.toLowerCase() +
+            " vs " +
+            competitor2.item.name.toLowerCase(),
+        'votes': {competitor1.id: 0, competitor2.id: 0},
+      });
+      DocumentSnapshot doc = await newRivRef.get();
+      return Rivalry.fromDocumentSnapshot(doc, [competitor1, competitor2]);
+    }
+
+    // DocumentReference rivDocRef = categoryCollection.doc();
+    // await rivDocRef.set({
+    //   'cid': cid,
+    //   'itemIDs': [p1.iid, p2.iid],
+    //   'name': p1.name + " vs " + p2.name,
+    //   'votes': {p1.iid: 0, p2.iid: 0},
+    // });
+  }
+
+  Future<List<Competitor>> getCompetitors(Category category) async {
+    QuerySnapshot snapshot = await categoryCollection
+        .doc(category.cid)
+        .collection('competitors')
+        .get();
+
+    return snapshot.docs
+        .map((doc) => Competitor.fromDocumentSnapshot(doc))
+        .toList();
   }
 }

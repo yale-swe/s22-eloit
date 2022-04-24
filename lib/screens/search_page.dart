@@ -54,7 +54,7 @@ class _SearchPageState extends State<SearchPage> {
           child: Column(
             children: [
               TextField(
-                autofocus: true,
+                //autofocus: true,
                 style: const TextStyle(color: Colors.grey),
                 decoration: const InputDecoration(
                   enabledBorder: OutlineInputBorder(

@@ -1,6 +1,7 @@
 import 'package:eloit/models/category.dart';
 import 'package:eloit/models/rivalry.dart';
 import 'package:eloit/screens/auth/auth_widget.dart';
+import 'package:eloit/screens/create_rivalry.dart';
 import 'package:eloit/screens/home.dart';
 import 'package:eloit/screens/rankings_page.dart';
 import 'package:eloit/screens/vote_page.dart';
@@ -53,7 +54,7 @@ class CategoryPage extends StatelessWidget {
             return CustomScrollView(
               slivers: [
                 SliverPadding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0.0),
                   sliver: SliverList(
                     delegate: SliverChildListDelegate(
                       [
@@ -64,10 +65,10 @@ class CategoryPage extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               const ListTile(
-                                title: Text('RANKINGS:'),
+                                title: Text('Rankings:'),
                               ),
                               Flexible(
-                                //making wideget flexible lets it resize to its parent
+                                //making widget flexible lets it resize to its parent
                                 child: TopFewRankings(
                                   category: category,
                                   numItems: 3,
@@ -84,10 +85,43 @@ class CategoryPage extends StatelessWidget {
                                 },
                                 child: const ListTile(
                                   title:
-                                      Center(child: Text('SEE FULL RANKINGS')),
+                                      Center(child: Text('See Full Rankings')),
                                 ),
                               ),
                             ],
+                          ),
+                        ),
+                        const SizedBox(height: 15.0),
+                        Card(
+                          child: ListTile(
+                            title: const Text('Rivalries'),
+                            trailing: TextButton(
+                              style: ButtonStyle(
+                                shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18.0),
+                                    side: BorderSide(color: Theme.of(context).colorScheme.secondary),
+                                  ),
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    //You are rerouted to the vote page
+                                    builder: (context) => CreateRivalry(
+                                      category: category,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                'Create Rivalry',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.secondary,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ],
@@ -95,9 +129,9 @@ class CategoryPage extends StatelessWidget {
                   ),
                 ),
                 SliverPadding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 15.0),
                   sliver: SliverList(
-                    //Scrollable list of current comparrisons between characters
+                    //Scrollable list of current comparisons between characters
                     delegate: SliverChildBuilderDelegate(
                       (BuildContext context, int index) {
                         Rivalry rivalry = snapshot.data![index];

@@ -1,12 +1,10 @@
 import 'package:eloit/models/category.dart';
 import 'package:eloit/models/rivalry.dart';
-import 'package:eloit/screens/auth/auth_widget.dart';
 import 'package:eloit/screens/create_rivalry.dart';
-import 'package:eloit/screens/home.dart';
 import 'package:eloit/screens/rankings_page.dart';
+import 'package:eloit/screens/ui_elements.dart';
 import 'package:eloit/screens/vote_page.dart';
 import 'package:eloit/services/database.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class CategoryPage extends StatelessWidget {
@@ -19,31 +17,7 @@ class CategoryPage extends StatelessWidget {
     DatabaseService _db = DatabaseService();
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(APP_NAME),
-        actions: [
-          TextButton(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Log Out',
-                style: TextStyle(
-                    color: Theme.of(context).primaryTextTheme.button?.color),
-              ),
-            ),
-            onPressed: () async {
-              await FirebaseAuth.instance.signOut();
-              // Now navigate to the auth page.
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const AuthBox(),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
+      appBar: createCustomAppBar(context, category.name),
       body: StreamBuilder<List<Rivalry>>(
         //listening for stream of data to update the UI
         stream:
@@ -101,7 +75,10 @@ class CategoryPage extends StatelessWidget {
                                     RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(18.0),
-                                    side: BorderSide(color: Theme.of(context).colorScheme.secondary),
+                                    side: BorderSide(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary),
                                   ),
                                 ),
                               ),
@@ -118,7 +95,8 @@ class CategoryPage extends StatelessWidget {
                               child: Text(
                                 'Create Rivalry',
                                 style: TextStyle(
-                                  color: Theme.of(context).colorScheme.secondary,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
                                 ),
                               ),
                             ),

@@ -1,5 +1,6 @@
 import 'package:eloit/models/category.dart';
-import 'package:eloit/screens/category_page.dart';
+import 'package:eloit/screens/featured.dart';
+//Above is changed
 import 'package:eloit/screens/search_page.dart';
 import 'package:eloit/screens/settings_page.dart';
 import 'package:eloit/screens/vote_history_page.dart';
@@ -33,12 +34,13 @@ class _HomeState extends State<Home> {
   }
 
   final List<Widget> _pages = [
-    const CategoryPage(
-      category: Category(
-          cid: '9A7IO38o2kHDRXDgSIhb',
-          name: 'Avengers',
-          coverPicURL: 'gs://eloit-c4540.appspot.com/heroImages/iron_man.png'),
-    ),
+    // const CategoryPage(
+    //   category: Category(
+    //       cid: '9A7IO38o2kHDRXDgSIhb',
+    //       name: 'Avengers',
+    //       coverPicURL: 'gs://eloit-c4540.appspot.com/heroImages/iron_man.png'),
+    // ),
+    const FeaturedPage(),
     const SearchPage(),
     const VoteHistoryPage(),
     SettingsPage(),

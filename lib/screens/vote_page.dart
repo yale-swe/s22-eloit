@@ -1,6 +1,7 @@
 import 'package:eloit/models/category.dart';
 import 'package:eloit/models/competitor.dart';
 import 'package:eloit/models/rivalry.dart';
+import 'package:eloit/screens/ui_elements.dart';
 import 'package:eloit/services/database.dart';
 import 'package:eloit/services/elo.dart';
 import 'package:flutter/material.dart';
@@ -46,9 +47,7 @@ class _VotePageState extends State<VotePage> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Vote'),
-      ),
+      appBar: createCustomAppBar(context, 'Vote'),
       body: voted != voteState.loading
           ? Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -66,7 +65,8 @@ class _VotePageState extends State<VotePage> {
                           ),
                           Padding(
                             padding: const EdgeInsets.all(15.0),
-                            child: Text(widget.rivalry.competitors[0].item.name),
+                            child:
+                                Text(widget.rivalry.competitors[0].item.name),
                           ),
                         ],
                       ),
@@ -93,7 +93,8 @@ class _VotePageState extends State<VotePage> {
                             ),
                             Padding(
                               padding: const EdgeInsets.all(15.0),
-                              child: Text(widget.rivalry.competitors[1].item.name),
+                              child:
+                                  Text(widget.rivalry.competitors[1].item.name),
                             ),
                           ],
                         ),

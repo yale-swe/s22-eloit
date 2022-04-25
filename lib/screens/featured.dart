@@ -40,7 +40,7 @@ class FeaturedPageState extends State<FeaturedPage> {
                     .collection('categories')
                     .snapshots()
                     .map((query) =>
-                        query.docs.map((map) => Tile.fromMap(map.data())).toList()),
+                        query.docs.map((map) => Tile.fromMap(map.data(), map.id)).toList()),
                 builder: (context, snapshot){                  
                     if (!snapshot.hasData) { // if snapshot has no data this is going to run
                       return Container(
@@ -48,6 +48,7 @@ class FeaturedPageState extends State<FeaturedPage> {
                         child: const CircularProgressIndicator());
                     }
                     final tileList = snapshot.data!;
+
                     return ListView.builder(
                       cacheExtent: 5000,
                       itemExtent: 150,

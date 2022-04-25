@@ -53,7 +53,7 @@ class categoryTile extends StatelessWidget {
                                 builder: (context) =>
                                   CategoryPage(
                                     category: Category(
-                                      cid: '9A7IO38o2kHDRXDgSIhb',
+                                      cid: tileList[index].mapId,
                                       name: tileList[index].name,
                                       coverPicURL: tileList[index].coverPicURL,
                                     ),
@@ -80,17 +80,20 @@ class categoryTile extends StatelessWidget {
 class Tile { //https://stackoverflow.com/questions/71014768/flutter-how-can-i-print-all-my-data-fields-from-firebase-documents
   final String name;
   final String coverPicURL;
+  final String mapId;
 
 
   const Tile({
     required this.name,
     required this.coverPicURL,
+    required this.mapId,
   });
 
-  factory Tile.fromMap(Map<String, dynamic> map) {
+  factory Tile.fromMap(Map<String, dynamic> map, String mapId2) {
     return Tile(     
       name: map['name'] as String,
       coverPicURL: map['coverPicURL'] as String,
+      mapId: mapId2,
     );
   }
 }

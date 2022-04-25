@@ -12,26 +12,26 @@ PreferredSizeWidget createCustomAppBar(BuildContext context,
   return AppBar(
     title: Text(barTitle),
     actions: [
-      TextButton(
-        child: Padding(
-          padding: EdgeInsets.all(edgeInset),
-          child: Text(
-            'Log Out',
-            style: TextStyle(
-                color: Theme.of(context).primaryTextTheme.button?.color),
-          ),
-        ),
-        onPressed: () async {
-          await FirebaseAuth.instance.signOut();
-          // Now navigate to the auth page.
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const AuthBox(),
-            ),
-          );
-        },
-      ),
+      // TextButton(
+      //   child: Padding(
+      //     padding: EdgeInsets.all(edgeInset),
+      //     child: Text(
+      //       'Log Out',
+      //       style: TextStyle(
+      //           color: Theme.of(context).primaryTextTheme.button?.color),
+      //     ),
+      //   ),
+      //   onPressed: () async {
+      //     await FirebaseAuth.instance.signOut();
+      //     // Now navigate to the auth page.
+      //     Navigator.pushReplacement(
+      //       context,
+      //       MaterialPageRoute(
+      //         builder: (context) => const AuthBox(),
+      //       ),
+      //     );
+      //   },
+      // ),
     ],
   );
 }

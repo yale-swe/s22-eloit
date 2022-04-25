@@ -41,6 +41,7 @@ class _HomeState extends State<Home> {
     ),
     const SearchPage(),
     const VoteHistoryPage(),
+    SettingsPage(),
   ];
 
   @override
@@ -48,6 +49,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         onTap: _onItemTapped,
         currentIndex: _selectedIndex,
         items: const [
@@ -62,6 +64,10 @@ class _HomeState extends State<Home> {
           BottomNavigationBarItem(
             icon: Icon(Icons.history),
             label: 'Vote History',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
           ),
         ],
       ),

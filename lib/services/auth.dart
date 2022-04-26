@@ -1,12 +1,38 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eloit/services/database.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 
 Future<bool> SignInFunc(_email, _password) async {
   try {
     await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: _email, password: _password);
-    return true;
+  } catch (e) {
+    print("SignInWithEmailAndPassword Failed. Returned this:");
+    print(e.toString());
+    return false;
+  }
+
+  try {
+    // Save a sign in token in a session (used for web)
+    await SessionManager()
+        .set('token', await FirebaseAuth.instance.currentUser?.getIdToken());
+  } catch (e) {
+    print("Saving session failed for this reason:");
+    print(e.toString());
+  }
+  return true;
+}
+
+Future<bool> RecoverSession() async {
+  try {
+    String? savedToken = await SessionManager().get('token');
+    if (savedToken != null && savedToken != '') {
+      await FirebaseAuth.instance.signInWithCustomToken(savedToken);
+      return true;
+    } else {
+      print("Login with session failed");
+      return false;
+    }
   } catch (e) {
     print(e.toString());
     return false;

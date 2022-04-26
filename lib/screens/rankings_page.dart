@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:eloit/models/category.dart';
 import 'package:eloit/models/competitor.dart';
 import 'package:eloit/screens/home.dart';
@@ -73,7 +75,9 @@ class TopFewRankings extends StatelessWidget {
                   false, //Listview will not use the default scrollController
               shrinkWrap:
                   true, //The ListView only occupies the space it needs (it will still scroll when there more items).
-              itemCount: numItems > -1 ? numItems : snapshot.data?.length,
+              itemCount: numItems > -1
+                  ? min(snapshot.data?.length ?? 0, numItems)
+                  : snapshot.data?.length,
               itemBuilder: (BuildContext context, int index) {
                 Competitor competitor = snapshot.data![index];
                 if (separateCards) {

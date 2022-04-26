@@ -2,6 +2,7 @@ import 'package:eloit/screens/auth/auth_widget.dart';
 import 'package:eloit/screens/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 
 PreferredSizeWidget createCustomAppBar(BuildContext context,
     [String? title = APP_NAME, double insetRatio = 0.009]) {
@@ -22,6 +23,9 @@ PreferredSizeWidget createCustomAppBar(BuildContext context,
           ),
         ),
         onPressed: () async {
+          // Clear session and log out
+          await SessionManager().remove('email');
+          await SessionManager().remove('password');
           await FirebaseAuth.instance.signOut();
           // Now navigate to the auth page.
           Navigator.pushReplacement(

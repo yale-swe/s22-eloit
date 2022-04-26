@@ -14,8 +14,8 @@ Future<bool> SignInFunc(_email, _password) async {
 
   try {
     // Save a sign in token in a session (used for web)
-    await SessionManager()
-        .set('token', await FirebaseAuth.instance.currentUser?.getIdToken());
+    await SessionManager().set('email', _email);
+    await SessionManager().set('password', _password);
   } catch (e) {
     print("Saving session failed for this reason:");
     print(e.toString());
@@ -25,12 +25,14 @@ Future<bool> SignInFunc(_email, _password) async {
 
 Future<bool> RecoverSession() async {
   try {
-    String? savedToken = await SessionManager().get('token');
-    if (savedToken != null && savedToken != '') {
-      await FirebaseAuth.instance.signInWithCustomToken(savedToken);
+    String? savedEmail = await SessionManager().get('email');
+    String? savedPassword = await SessionManager().get('password');
+    if (savedEmail != null && savedPassword != null) {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: savedEmail, password: savedPassword);
       return true;
     } else {
-      print("Login with session failed");
+      print("No user details saved in session");
       return false;
     }
   } catch (e) {

@@ -23,9 +23,10 @@ PreferredSizeWidget createCustomAppBar(BuildContext context,
           ),
         ),
         onPressed: () async {
-          // Logout and clear session
+          // Clear session and log out
+          await SessionManager().remove('email');
+          await SessionManager().remove('password');
           await FirebaseAuth.instance.signOut();
-          await SessionManager().remove('token');
           // Now navigate to the auth page.
           Navigator.pushReplacement(
             context,

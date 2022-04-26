@@ -18,7 +18,7 @@ class VoteHistoryPage extends StatefulWidget {
 }
 
 class _VoteHistoryPageState extends State<VoteHistoryPage> {
-  String? uid = 'RxHQkUzn4EN2OEmELGP6RBoyHfn1';
+  String? uid = FirebaseAuth.instance.currentUser?.uid;
 
   @override
   Widget build(BuildContext context) {

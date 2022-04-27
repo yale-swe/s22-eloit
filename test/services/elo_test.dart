@@ -27,6 +27,35 @@ void main() {
       expect(delta, 29);
       cleanupKiwi();
     });
+
+    test('upset2', () {
+      setupKiwi();
+      final _elo = EloService();
+      int delta = _elo.updateDelta(2400, 2000);
+      expect(delta, 3);
+      cleanupKiwi();
+    });
+    test('negative elo ratings', () {
+      setupKiwi();
+      final _elo = EloService();
+      int delta = _elo.updateDelta(-100, -100);
+      expect(delta, 16);
+      cleanupKiwi();
+    });
+    test('large difference elo ratings', () {
+      setupKiwi();
+      final _elo = EloService();
+      int delta = _elo.updateDelta(2400, 0);
+      expect(delta, 0);
+      cleanupKiwi();
+    });
+    test('positive, negative ratings', () {
+      setupKiwi();
+      final _elo = EloService();
+      int delta = _elo.updateDelta(10, -10);
+      expect(delta, 15);
+      cleanupKiwi();
+    });
   });
 
   group('mock db', () {

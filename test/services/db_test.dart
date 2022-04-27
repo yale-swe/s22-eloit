@@ -11,18 +11,39 @@ import '../setup_firestore.dart';
 
 void main() {
   group('fake firestore functionalities', () {
-    test('add a collection', () async {
+    test('add a collection(Avengers)', () async {
       // final DatabaseService db = DatabaseService();
       setupKiwi();
       final id = await generateCategory();
+
+      //check if id is valid
+      expect(id.length, greaterThanOrEqualTo(20));
+
       final instance = KiwiContainer().resolve<FirebaseFirestore>('firebase');
       var snapshot = await instance.collection('categories').snapshots().first;
+      //get first doc in catagories
       var doc = snapshot.docs.first;
       expect(doc.id, id);
+      expect(doc.get("name"), "Avengers");
       cleanupKiwi();
     });
 
-    test('add competitors', () async {
+    test('add user', () async {
+      // final DatabaseService db = DatabaseService();
+      setupKiwi();
+      final id = await createUser();
+      //check if id is valid
+      expect(id.length, greaterThanOrEqualTo(20));
+
+      final instance = KiwiContainer().resolve<FirebaseFirestore>('firebase');
+      var snapshot = await instance.collection('users').snapshots().first;
+      //get first doc in catagories
+      var doc = snapshot.docs.first;
+      expect(doc.get("email"), "test@test.com");
+      cleanupKiwi();
+    });
+
+    test('add competitors(ironman, hulk)', () async {
       setupKiwi();
       var l = await generateCompetitors();
 

@@ -54,7 +54,7 @@ class FeaturedPageState extends State<FeaturedPage> {
                       //   retyrb =
                       // }
                       return Padding(
-                        padding: const EdgeInsets.all(7.5),
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 7.5),
                         child: categoryTile(index, tileList),
                       );
                     }

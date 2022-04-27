@@ -39,6 +39,7 @@ dependencies:
   cloud_firestore: ^3.1.10
   firebase_core: ^1.13.1
   kiwi: ^4.0.2
+  flutter_session_manager: ^1.0.3
 
 dev_dependencies:
   flutter_test:

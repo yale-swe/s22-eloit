@@ -8,85 +8,85 @@ import 'auth/auth_widget.dart';
 DatabaseService _db = DatabaseService();
 
 class SettingsPage extends StatelessWidget {
+  const SettingsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SizedBox(
-      width: MediaQuery.of(context).size.width,
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(APP_NAME, style: TextStyle(fontSize: 60)),
-            const SizedBox(height: 20),
-            const Text("Rank Everything and Anything!",
-                style: TextStyle(fontSize: 30)),
-            const SizedBox(height: 20),
-            Expanded(
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                ),
-                child: Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.asset(
-                      'assets/eloitLogo.png',
+        body: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Center(
+            child: Column(
+              children: [
+                const Text(APP_NAME, style: TextStyle(fontSize: 60)),
+                const SizedBox(height: 20),
+                const Text("Rank Everything and Anything!",
+                    style: TextStyle(fontSize: 30)),
+                const SizedBox(height: 20),
+                Expanded(
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset(
+                          'assets/eloitLogo.png',
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-            SizedBox(height: 30),
-            Text("Creators: Harry, Xinli, Yofti, Jack, Kevin, Revant",
-                style: TextStyle(fontSize: 20)),
-            SizedBox(height: 30),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  primary: Colors.green,
-                  textStyle: const TextStyle(fontSize: 20)),
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Text(
-                  'Give Feedback',
-                  style: TextStyle(
-                      color: Theme.of(context).primaryTextTheme.button?.color),
-                ),
-              ),
-              onPressed: () async {
-                return _displayTextInputDialog(context);
-              },
-            ),
-            SizedBox(height: 30),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  primary: Colors.red,
-                  textStyle: const TextStyle(fontSize: 20)),
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Text(
-                  'Log Out',
-                  style: TextStyle(
-                      color: Theme.of(context).primaryTextTheme.button?.color),
-                ),
-              ),
-              onPressed: () async {
-                await FirebaseAuth.instance.signOut();
-                // Now navigate to the auth page.
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const AuthBox(),
+                const SizedBox(height: 30),
+                const Text("Creators: Harry, Xinli, Yofti, Jack, Kevin, Revant",
+                    style: TextStyle(fontSize: 20)),
+                const SizedBox(height: 30),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      primary: Colors.green,
+                      textStyle: const TextStyle(fontSize: 20)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text(
+                      'Give Feedback',
+                      style: TextStyle(
+                          color: Theme.of(context).primaryTextTheme.button?.color),
+                    ),
                   ),
-                );
-              },
+                  onPressed: () async {
+                    return _displayTextInputDialog(context);
+                  },
+                ),
+                const SizedBox(height: 30),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      primary: Colors.red,
+                      textStyle: const TextStyle(fontSize: 20)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text(
+                      'Log Out',
+                      style: TextStyle(
+                          color: Theme.of(context).primaryTextTheme.button?.color),
+                    ),
+                  ),
+                  onPressed: () async {
+                    await FirebaseAuth.instance.signOut();
+                    // Now navigate to the auth page.
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const AuthBox(),
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-    ));
+          ),
+        ));
   }
 }
 
@@ -97,26 +97,26 @@ Future<void> _displayTextInputDialog(BuildContext context) async {
     context: context,
     builder: (context) {
       return AlertDialog(
-        insetPadding: EdgeInsets.symmetric(vertical: 150),
-        title: Text('Feedback'),
+        insetPadding: const EdgeInsets.symmetric(vertical: 150),
+        title: const Text('Feedback'),
         content: Column(
           children: [
             TextField(
               maxLines: 5,
               controller: _textFieldController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: "What can we do better?"),
             ),
-            SizedBox(height: 20),
-            feedback(),
+            const SizedBox(height: 20),
+            const feedback(),
           ],
         ),
         actions: <Widget>[
           ElevatedButton(
-            child: Text('Submit'),
+            child: const Text('Submit'),
             onPressed: () {
-              if (_textFieldController.text != null) {
+              if (_textFieldController.text.isNotEmpty) {
                 _db.addUserFeedback(_textFieldController.text, _feedbackTopic);
                 _textFieldController.clear();
                 _feedbackTopic = "Category";
@@ -141,6 +141,9 @@ final _feedbackTopics = [
 ]; //This is the array for dropdown
 
 class feedback extends StatefulWidget {
+  const feedback({Key? key}) : super(key: key);
+
+  @override
   Feedback createState() => Feedback();
 }
 
@@ -148,7 +151,7 @@ class Feedback extends State<feedback> {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField(
-      decoration: InputDecoration(labelText: 'Area of Concern'),
+      decoration: const InputDecoration(labelText: 'Area of Concern'),
       value: _feedbackTopic,
       validator: (value) {
         if (value == null) {
@@ -163,7 +166,6 @@ class Feedback extends State<feedback> {
           .toList(),
       onChanged: (String? value) {
         setState(() {
-          print("previous");
           _feedbackTopic = value as String;
         });
       },

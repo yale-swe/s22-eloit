@@ -92,7 +92,7 @@ class _AuthBoxState extends State<AuthBox> {
                                     builder: (context) => Wrapper()));
                           } else {
                             // TODO: Show this message on the app
-                            print('Login failed!');
+                            print('Login failed! SignInFunc returned false');
                           }
                         }
                       },

@@ -31,34 +31,35 @@ class FeaturedPageState extends State<FeaturedPage> {
           appBar: createCustomAppBar(context, "Trending Categories"),
           
           body: SizedBox(
-            child: Scrollbar(
-              isAlwaysShown: true,
-              showTrackOnHover: true,
-              hoverThickness: 30.0,
-              child: StreamBuilder<List<Tile>>(
-                stream: FirebaseFirestore.instance
-                    .collection('categories')
-                    .snapshots()
-                    .map((query) =>
-                        query.docs.map((map) => Tile.fromMap(map.data(), map.id)).toList()),
-                builder: (context, snapshot){                  
-                    if (!snapshot.hasData) { // if snapshot has no data this is going to run
-                      return Container(
-                        alignment: FractionalOffset.center,
-                        child: const CircularProgressIndicator());
-                    }
-                    final tileList = snapshot.data!;
-
-                    return ListView.builder(
-                      cacheExtent: 5000,
-                      itemExtent: 150,
-                      itemCount: tileList.length,
-                      itemBuilder: (context, index) {//=> categoryTileImage(index, tileList), 
-                        return categoryTile(index, tileList);
-                      }
-                    );
+            child: StreamBuilder<List<Tile>>(
+              stream: FirebaseFirestore.instance
+                  .collection('categories')
+                  .snapshots()
+                  .map((query) =>
+                      query.docs.map((map) => Tile.fromMap(map.data(), map.id)).toList()),
+              builder: (context, snapshot){                  
+                  if (!snapshot.hasData) { // if snapshot has no data this is going to run
+                    return Container(
+                      alignment: FractionalOffset.center,
+                      child: const CircularProgressIndicator());
                   }
-              ),
+                  final tileList = snapshot.data!;
+
+                  return ListView.builder(
+                    cacheExtent: 5000,
+                    itemExtent: 150,
+                    itemCount: tileList.length,
+                    itemBuilder: (context, index) {//=> categoryTileImage(index, tileList), 
+                      // if (index == 0){
+                      //   retyrb =
+                      // }
+                      return Padding(
+                        padding: const EdgeInsets.all(7.5),
+                        child: categoryTile(index, tileList),
+                      );
+                    }
+                  );
+                }
             ),
           ),
         );

@@ -17,62 +17,68 @@ class categoryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      clipBehavior: Clip.antiAlias,
-      child: Container(
-        height: 100,
-        padding: const EdgeInsets.all(0),
-        child: Row(
-          children: [
-            Expanded(
-              flex: 9,
-              child: AspectRatio(
-                aspectRatio: 1,
-                child: CircleAvatar(
-                  backgroundImage: NetworkImage(tileList[index].coverPicURL),
-                ),
+    return InkWell(
+      onTap: () =>
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) =>
+            CategoryPage(
+              category: Category(
+                cid: tileList[index].mapId,
+                name: tileList[index].name,
+                coverPicURL: tileList[index].coverPicURL,
               ),
-            ),
-            const Spacer(flex: 1),
-            Expanded(
-              flex: 10,
-              child: Container(
-                //padding: const EdgeInsets.only(top: 5),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    Text(tileList[index].name, style: TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold)),
-                    SizedBox(height: 20,),
-                    Row(
-                      children: [
-                        ElevatedButton(       
-                          onPressed: () async {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                  CategoryPage(
-                                    category: Category(
-                                      cid: tileList[index].mapId,
-                                      name: tileList[index].name,
-                                      coverPicURL: tileList[index].coverPicURL,
-                                    ),
-                                  )
-                              ),
-                            );
-                            print("hee");
-                          },
-                          child: Text("More Info"))
-                      ],
-                    ),
-                    SizedBox(height: 20,),
-                  ],
-                ),
-              ),
-            ),
-          ]
+            )
         ),
-      )
+      ),
+      child: Card(
+        
+        clipBehavior: Clip.antiAlias,
+        child: Container(
+          height: 100,
+          padding: const EdgeInsets.all(0),
+          child: Row(
+            children: [
+              Expanded(
+                flex: 9,
+                child: AspectRatio(
+                  aspectRatio: 1,
+                  child: CircleAvatar(
+                    backgroundImage: NetworkImage(tileList[index].coverPicURL),
+                  ),
+                ),
+              ),
+              const Spacer(flex: 1),
+              Expanded(
+                flex: 10,
+                child: Container(
+                  //padding: const EdgeInsets.only(top: 5),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(tileList[index].name, style: TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold)),
+                      SizedBox(height: 20,),
+                      Row(
+                        children: [
+                          // ElevatedButton(       
+                          //   onPressed: () async {
+                              
+                          //     print("hee");
+                          //   },
+                          //   child: Text("More Info")
+                          // ),
+                        ],
+                      ),
+                      SizedBox(height: 20,),
+                    ],
+                  ),
+                ),
+              ),
+            ]
+          ),
+        )
+      ),
     );
   }
 }

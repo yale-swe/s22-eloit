@@ -1,6 +1,5 @@
 import 'package:eloit/screens/category_page.dart';
 import 'package:eloit/services/database.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'category.dart';
@@ -9,11 +8,11 @@ import 'category.dart';
 
 
 
-class categoryTile extends StatelessWidget {
+class CategoryTile extends StatelessWidget {
   final int index;
   final List<Tile> tileList;
 
-  const categoryTile(this.index, this.tileList);
+  const CategoryTile(this.index, this.tileList);
 
   @override
   Widget build(BuildContext context) {
@@ -51,28 +50,25 @@ class categoryTile extends StatelessWidget {
               const Spacer(flex: 1),
               Expanded(
                 flex: 10,
-                child: Container(
-                  //padding: const EdgeInsets.only(top: 5),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(tileList[index].name, style: TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold)),
-                      SizedBox(height: 20,),
-                      Row(
-                        children: [
-                          // ElevatedButton(       
-                          //   onPressed: () async {
-                              
-                          //     print("hee");
-                          //   },
-                          //   child: Text("More Info")
-                          // ),
-                        ],
-                      ),
-                      SizedBox(height: 20,),
-                    ],
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(tileList[index].name, style: const TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 20,),
+                    // Row(
+                    //   children: [
+                    //     // ElevatedButton(
+                    //     //   onPressed: () async {
+                    //
+                    //     //     print("hee");
+                    //     //   },
+                    //     //   child: Text("More Info")
+                    //     // ),
+                    //   ],
+                    // ),
+                    const SizedBox(height: 20,),
+                  ],
                 ),
               ),
             ]

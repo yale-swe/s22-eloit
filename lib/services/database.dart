@@ -203,6 +203,11 @@ class DatabaseService {
       'time': FieldValue.serverTimestamp(),
     });
 
+    var docCategory = categoryCollection.doc(category.cid);
+    batch.update(docCategory, {
+      'totalVotes': FieldValue.increment(1),
+    });
+
     return batch.commit();
   }
 

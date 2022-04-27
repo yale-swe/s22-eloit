@@ -33,7 +33,7 @@ class _HomeState extends State<Home> {
   }
 
   final List<Widget> _pages = [
-    const CategoryPage(
+    CategoryPage(
       category: Category(
           cid: '9A7IO38o2kHDRXDgSIhb',
           name: 'Avengers',

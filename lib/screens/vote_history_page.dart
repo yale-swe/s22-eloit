@@ -25,7 +25,7 @@ class _VoteHistoryPageState extends State<VoteHistoryPage> {
     DatabaseService _db = DatabaseService();
 
     return Scaffold(
-      appBar: createCustomAppBar(context),
+      appBar: createCustomAppBar(context, "Vote History"),
       body: StreamBuilder<List<Vote>>(
         stream: _db.voteHistory(uid),
         builder: (context, snapshot) {

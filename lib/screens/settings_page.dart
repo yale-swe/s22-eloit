@@ -32,9 +32,10 @@ class SettingsPage extends StatelessWidget {
                     child: Expanded(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Image.asset(
-                          'assets/eloitLogo.png',
-                        ),
+                        // child: Image.asset(
+                        //   'assets/eloitLogo.png',
+                        // ),
+                        child: Image.network("https://firebasestorage.googleapis.com/v0/b/eloit-c4540.appspot.com/o/eloitLogo.png?alt=media&token=0ff73827-47c3-464a-a609-05d762e9b7c5"),
                       ),
                     ),
                   ),

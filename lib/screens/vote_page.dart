@@ -95,7 +95,7 @@ class _VotePageState extends State<VotePage> {
                             shadows: [
                               Shadow(
                                 blurRadius: 10.0,
-                                color: Colors.red,
+                                color: Color.fromARGB(255, 255, 255, 255),
                                 offset: Offset(5.0, 5.0),
                               ),
                             ],
@@ -104,7 +104,7 @@ class _VotePageState extends State<VotePage> {
                       ),
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: Color.fromARGB(255, 255, 0, 0),
+                          color: Color.fromARGB(255, 255, 255, 255),
                           width: 4,
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(60))

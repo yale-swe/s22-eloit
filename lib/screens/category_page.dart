@@ -117,11 +117,15 @@ class CategoryPage extends StatelessWidget {
                           //Create a card for each comparison, format is below
                           //Image1     Character1 vs Chatacter2     Image2
                           child: ListTile(
-                            leading: CircleAvatar(
-                              //Shows Image1 at start of card
-                              backgroundImage: NetworkImage(
-                                  rivalry.competitors[0].item.avatarURL),
+                            leading: AspectRatio(
+                              aspectRatio: 1,
+                              child: CircleAvatar(
+                                //Shows Image1 at start of card
+                                backgroundImage: NetworkImage(
+                                    rivalry.competitors[0].item.avatarURL),
+                              ),
                             ),
+                            
                             trailing: CircleAvatar(
                               //Shows Image2 at trail end of card
                               backgroundImage: NetworkImage(

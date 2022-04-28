@@ -40,6 +40,7 @@ dependencies:
   firebase_core: ^1.13.1
   kiwi: ^4.0.2
   flutter_session_manager: ^1.0.3
+  swipable_stack: ^1.2.0
 
 dev_dependencies:
   flutter_test:
@@ -105,3 +106,7 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+  fonts:
+    - family: NotoEmoji
+      fonts:
+        - asset: fonts/NotoColorEmoji.ttf

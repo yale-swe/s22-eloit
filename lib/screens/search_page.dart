@@ -24,7 +24,7 @@ class _SearchPageState extends State<SearchPage> {
     DatabaseService _db = DatabaseService();
 
     return Scaffold(
-      appBar: createCustomAppBar(context),
+      appBar: createCustomAppBar(context, "Search"),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(15.0),

@@ -33,45 +33,42 @@ class CategoryTile extends StatelessWidget {
       child: Card(
         
         clipBehavior: Clip.antiAlias,
-        child: Container(
-          height: 100,
-          padding: const EdgeInsets.all(0),
-          child: Row(
-            children: [
-              Expanded(
-                flex: 9,
-                child: AspectRatio(
-                  aspectRatio: 1,
-                  child: CircleAvatar(
-                    backgroundImage: NetworkImage(tileList[index].coverPicURL),
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Container(
+            height: 100,
+            padding: const EdgeInsets.all(0),
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 9,
+                  child: Container(
+                    height: 200,
+                    width: 200,
+                    //color: Colors.grey.shade200,
+                    child: Image.network(
+                      tileList[index].coverPicURL,
+                      width: 200.0,
+                      height: 200.0,
+                      //fit: BoxFit.contain,
+                    ),
                   ),
                 ),
-              ),
-              const Spacer(flex: 1),
-              Expanded(
-                flex: 10,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(tileList[index].name, style: const TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold)),
-                    const SizedBox(height: 20,),
-                    // Row(
-                    //   children: [
-                    //     // ElevatedButton(
-                    //     //   onPressed: () async {
-                    //
-                    //     //     print("hee");
-                    //     //   },
-                    //     //   child: Text("More Info")
-                    //     // ),
-                    //   ],
-                    // ),
-                    const SizedBox(height: 20,),
-                  ],
+                const Spacer(flex: 1),
+                Expanded(
+                  flex: 10,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(tileList[index].name, style: const TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold)),
+                      const SizedBox(height: 20,),
+                      Text(tileList[index].blurb, style: const TextStyle(fontSize: 11.0, fontWeight: FontWeight.bold), textAlign: TextAlign.center,),
+                    ],
+                  ),
                 ),
-              ),
-            ]
+              ]
+            ),
           ),
         )
       ),
@@ -83,12 +80,14 @@ class Tile { //https://stackoverflow.com/questions/71014768/flutter-how-can-i-pr
   final String name;
   final String coverPicURL;
   final String mapId;
+  final String blurb;
 
 
   const Tile({
     required this.name,
     required this.coverPicURL,
     required this.mapId,
+    required this.blurb,
   });
 
   factory Tile.fromMap(Map<String, dynamic> map, String mapId2) {
@@ -96,6 +95,7 @@ class Tile { //https://stackoverflow.com/questions/71014768/flutter-how-can-i-pr
       name: map['name'] as String,
       coverPicURL: map['coverPicURL'] as String,
       mapId: mapId2,
+      blurb: map['blurb'] as String,
     );
   }
 }

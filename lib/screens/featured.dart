@@ -28,7 +28,7 @@ class FeaturedPageState extends State<FeaturedPage> {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         return Scaffold(
-          appBar: createCustomAppBar(context, "Trending Categories"),
+          appBar: createCustomAppBar(context, "🔥Trending Categories🔥"),
           
           body: SizedBox(
             child: StreamBuilder<List<Tile>>(
@@ -49,10 +49,7 @@ class FeaturedPageState extends State<FeaturedPage> {
                     cacheExtent: 5000,
                     itemExtent: 150,
                     itemCount: tileList.length,
-                    itemBuilder: (context, index) {//=> categoryTileImage(index, tileList), 
-                      // if (index == 0){
-                      //   retyrb =
-                      // }
+                    itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 7.5),
                         child: CategoryTile(index, tileList),

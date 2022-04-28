@@ -1,5 +1,6 @@
 import 'package:eloit/models/category.dart';
 import 'package:eloit/screens/featured.dart';
+import 'package:eloit/screens/randomScroll/randomScroll.dart';
 //Above is changed
 import 'package:eloit/screens/search_page.dart';
 import 'package:eloit/screens/settings_page.dart';
@@ -43,6 +44,7 @@ class _HomeState extends State<Home> {
     const FeaturedPage(),
     const SearchPage(),
     const VoteHistoryPage(),
+    randomScroll(),
     SettingsPage(),
   ];
 
@@ -66,6 +68,10 @@ class _HomeState extends State<Home> {
           BottomNavigationBarItem(
             icon: Icon(Icons.history),
             label: 'Vote History',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.mic_external_off_outlined),
+            label: 'Random',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),

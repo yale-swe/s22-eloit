@@ -276,4 +276,10 @@ class DatabaseService {
       'date': DateTime.now(),
     });
   }
+
+  Future<int> docCount() async{
+    var querySize = await FirebaseFirestore.instance.collection("categories").get(); // will return the collection size only for less than 100 roughly
+    return querySize.size;
+  }
+
 }

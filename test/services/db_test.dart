@@ -7,7 +7,7 @@ import 'package:eloit/services/database.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kiwi/kiwi.dart';
 
-import '../setup_firestore.dart';
+import 'package:eloit/setup_firestore.dart';
 
 void main() {
   group('fake firestore functionalities', () {

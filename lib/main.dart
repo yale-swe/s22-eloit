@@ -15,13 +15,14 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   iocLocator();
 
   if (USE_FIRESTORE_EMULATOR) {
     print("using firestore emulator");
     FirebaseFirestore.instance.settings = const Settings(
         host: 'localhost:8080', sslEnabled: false, persistenceEnabled: false);
-    await generateRivalry();
+    // await generateRivalry();
   }
 
   runApp(const MyApp());

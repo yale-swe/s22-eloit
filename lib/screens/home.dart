@@ -36,6 +36,7 @@ class _HomeState extends State<Home> {
     const CategoryPage(
       category: Category(
           cid: '9A7IO38o2kHDRXDgSIhb',
+          // cid: 'WelS6zkefVA94vjUjJpU',
           name: 'Avengers',
           coverPicURL: 'gs://eloit-c4540.appspot.com/heroImages/iron_man.png'),
     ),

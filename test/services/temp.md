@@ -1,0 +1,1 @@
+gsutil -m cp -r gs://eloit-c4540.appspot.com/firebase .

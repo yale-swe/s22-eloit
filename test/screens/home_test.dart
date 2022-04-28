@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:eloit/screens/home.dart';
-import '../setup_firestore.dart';
+import 'package:eloit/setup_firestore.dart';
 import 'mock.dart';
 
 Widget createHomeScreen() => const MaterialApp(home: Home());

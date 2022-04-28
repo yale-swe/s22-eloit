@@ -286,7 +286,7 @@ class DatabaseService {
     return querySize.size;
   }
 
-  Future<Category> randomCategory() async {
+  Future<Category?> randomCategory() async {
     // Arbitrary random document name to check to the "left" and "right" of
     String randIndex = FirebaseFirestore.instance.collection('tmp').doc().id;
     // 0 represents less than and 1 represents greater than
@@ -294,25 +294,33 @@ class DatabaseService {
 
     // Get a QuerySnapshot with a single random category
     QuerySnapshot snapshot;
-    randType == 1
-        ? snapshot = await categoryCollection
-            .where('__name__', isGreaterThanOrEqualTo: randIndex)
-            .orderBy('__name__')
-            .limit(1)
-            .get()
-        : snapshot = await categoryCollection
-            .where('__name__', isLessThanOrEqualTo: randIndex)
-            .orderBy('__name__')
-            .limit(1)
-            .get();
+    // Repeat until a category is found
+    while (randType != 2) {
+      randType == 1
+          ? snapshot = await categoryCollection
+              .where('__name__', isGreaterThanOrEqualTo: randIndex)
+              .orderBy('__name__')
+              .limit(1)
+              .get()
+          : snapshot = await categoryCollection
+              .where('__name__', isLessThanOrEqualTo: randIndex)
+              .orderBy('__name__')
+              .limit(1)
+              .get();
+      snapshot.size < 1 ? randType = Random().nextInt(2) : randType = 2;
 
-    // Return a Category from the QuerySnapshot
-    return Category.fromDocumentSnapshot(snapshot.docs.first);
+      if (randType == 2) {
+        // Return a Category from the QuerySnapshot
+        return Category.fromDocumentSnapshot(snapshot.docs.first);
+      }
+    }
+
+    return null;
   }
 
-  Future<Rivalry> randomRivalry() async {
+  Future<Rivalry?> randomRivalry() async {
     // Get a random category to select the rivalry from
-    Category randomCat = await randomCategory();
+    Category? randomCat = await randomCategory();
 
     // Arbitrary random document name to check to the "left" and "right" of
     String randIndex = FirebaseFirestore.instance.collection('tmp').doc().id;
@@ -321,23 +329,31 @@ class DatabaseService {
 
     // Get a QuerySnapshot with a single random rivalry from the category
     QuerySnapshot snapshot;
-    randType == 1
-        ? snapshot = await categoryCollection
-            .doc(randomCat.cid)
-            .collection('rivalries')
-            .where('__name__', isGreaterThanOrEqualTo: randIndex)
-            .orderBy('__name__')
-            .limit(1)
-            .get()
-        : snapshot = await categoryCollection
-            .doc(randomCat.cid)
-            .collection('rivalries')
-            .where('__name__', isLessThanOrEqualTo: randIndex)
-            .orderBy('__name__')
-            .limit(1)
-            .get();
+    // Repeat until a category is found
+    while (randType != 2) {
+      randType == 1
+          ? snapshot = await categoryCollection
+              .doc(randomCat?.cid)
+              .collection('rivalries')
+              .where('__name__', isGreaterThanOrEqualTo: randIndex)
+              .orderBy('__name__')
+              .limit(1)
+              .get()
+          : snapshot = await categoryCollection
+              .doc(randomCat?.cid)
+              .collection('rivalries')
+              .where('__name__', isLessThanOrEqualTo: randIndex)
+              .orderBy('__name__')
+              .limit(1)
+              .get();
+      snapshot.size < 1 ? randType = Random().nextInt(2) : randType = 2;
 
-    // Return a Category from the QuerySnapshot
-    return getRivalry(randomCat, snapshot.docs.first);
+      if (randType == 2) {
+        // Return a Category from the QuerySnapshot
+        return getRivalry(randomCat!, snapshot.docs.first);
+      }
+    }
+
+    return null;
   }
 }

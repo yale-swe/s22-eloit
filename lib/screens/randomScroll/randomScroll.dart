@@ -23,14 +23,14 @@ import 'package:swipable_stack/swipable_stack.dart';
 
 import '../REVANTvote_page.dart';
 
-class randomScroll extends StatefulWidget {
-  const randomScroll({ Key? key }) : super(key: key);
+class RandomScroll extends StatefulWidget {
+  const RandomScroll({ Key? key }) : super(key: key);
 
   @override
-  State<randomScroll> createState() => _randomScrollState();
+  State<RandomScroll> createState() => _RandomScrollState();
 }
 
-class _randomScrollState extends State<randomScroll> {
+class _RandomScrollState extends State<RandomScroll> {
   final DatabaseService _db = DatabaseService();
   final controller = SwipableStackController();
 //   Category cate = const Category(
@@ -44,8 +44,20 @@ class _randomScrollState extends State<randomScroll> {
 // ]
 // , name: "iron man vs black widow")
 
+  void getRandomCat() async {
+    Category? randomCat = await _db.randomCategory();
+    print(randomCat);
+  }
+
+  void getRandomRiv() async {
+    Rivalry? randomRiv = await _db.randomRivalry();
+    print(randomRiv);
+  }
+
   @override
   Widget build(BuildContext context) {
+    getRandomCat();
+    getRandomRiv();
     return Scaffold(
       //appBar: createCustomAppBar(context, 'Random Scroll'),
       body: Stack(children: [

@@ -44,8 +44,8 @@ class _HomeState extends State<Home> {
     const FeaturedPage(),
     const SearchPage(),
     const VoteHistoryPage(),
-    randomScroll(),
-    SettingsPage(),
+    const RandomScroll(),
+    const SettingsPage(),
   ];
 
   @override

@@ -192,6 +192,7 @@ class DatabaseService {
 
     batch.update(docRivalry, {
       'votes.${winner.id}': FieldValue.increment(1),
+      'totalVotes': FieldValue.increment(1),
     });
 
     DocumentReference voteRef = voteCollection.doc();
@@ -247,6 +248,7 @@ class DatabaseService {
             " vs " +
             competitor2.item.name.toLowerCase(),
         'votes': {competitor1.id: 0, competitor2.id: 0},
+        'totalVotes': 0,
       });
       DocumentSnapshot doc = await newRivRef.get();
       return Rivalry.fromDocumentSnapshot(doc, [competitor1, competitor2]);

@@ -16,16 +16,16 @@ enum loadState {
   loaded,
 }
 
-class CreateRivalry extends StatefulWidget {
-  const CreateRivalry({Key? key, required this.category}) : super(key: key);
+class SelectRivalry extends StatefulWidget {
+  const SelectRivalry({Key? key, required this.category}) : super(key: key);
 
   final Category category;
 
   @override
-  State<CreateRivalry> createState() => _CreateRivalryState();
+  State<SelectRivalry> createState() => _SelectRivalryState();
 }
 
-class _CreateRivalryState extends State<CreateRivalry> {
+class _SelectRivalryState extends State<SelectRivalry> {
   loadState loaded = loadState.unloaded;
   List<Competitor> competitors = [];
   Competitor? selectedCompetitor1;

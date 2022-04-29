@@ -86,14 +86,14 @@ class CategoryPage extends StatelessWidget {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     //You are rerouted to the vote page
-                                    builder: (context) => CreateRivalry(
+                                    builder: (context) => SelectRivalry(
                                       category: category,
                                     ),
                                   ),
                                 );
                               },
                               child: Text(
-                                'Create Rivalry',
+                                'Select Rivalry',
                                 style: TextStyle(
                                   color:
                                       Theme.of(context).colorScheme.secondary,

@@ -192,6 +192,7 @@ class DatabaseService {
 
     batch.update(docRivalry, {
       'votes.${winner.id}': FieldValue.increment(1),
+      'totalVotes': FieldValue.increment(1),
     });
 
     DocumentReference voteRef = voteCollection.doc();
@@ -201,6 +202,11 @@ class DatabaseService {
       'rivalryID': rivalry.rid,
       'competitorID': winner.id,
       'time': FieldValue.serverTimestamp(),
+    });
+
+    var docCategory = categoryCollection.doc(category.cid);
+    batch.update(docCategory, {
+      'totalVotes': FieldValue.increment(1),
     });
 
     return batch.commit();
@@ -242,6 +248,7 @@ class DatabaseService {
             " vs " +
             competitor2.item.name.toLowerCase(),
         'votes': {competitor1.id: 0, competitor2.id: 0},
+        'totalVotes': 0,
       });
       DocumentSnapshot doc = await newRivRef.get();
       return Rivalry.fromDocumentSnapshot(doc, [competitor1, competitor2]);
@@ -265,5 +272,15 @@ class DatabaseService {
     return snapshot.docs
         .map((doc) => Competitor.fromDocumentSnapshot(doc))
         .toList();
+  }
+
+  Future <void> addUserFeedback(String feedback, String category) async{
+    // QuerySnapshot feedbackUpload = await categoryCollection
+    //     .col("userFeedback")
+    await FirebaseFirestore.instance.collection('userFeedback').add({
+      'category': category,
+      'feedback': feedback,
+      'date': DateTime.now(),
+    });
   }
 }

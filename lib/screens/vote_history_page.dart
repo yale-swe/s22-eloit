@@ -3,6 +3,7 @@ import 'package:eloit/models/rivalry.dart';
 import 'package:eloit/models/vote.dart';
 import 'package:eloit/screens/auth/auth_widget.dart';
 import 'package:eloit/screens/home.dart';
+import 'package:eloit/screens/ui_elements.dart';
 import 'package:eloit/screens/vote_page.dart';
 import 'package:eloit/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,38 +18,14 @@ class VoteHistoryPage extends StatefulWidget {
 }
 
 class _VoteHistoryPageState extends State<VoteHistoryPage> {
-  String? uid = 'RxHQkUzn4EN2OEmELGP6RBoyHfn1';
+  String? uid = FirebaseAuth.instance.currentUser?.uid;
 
   @override
   Widget build(BuildContext context) {
     DatabaseService _db = DatabaseService();
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(APP_NAME),
-        actions: [
-          TextButton(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Log Out',
-                style: TextStyle(
-                    color: Theme.of(context).primaryTextTheme.button?.color),
-              ),
-            ),
-            onPressed: () async {
-              await FirebaseAuth.instance.signOut();
-              // Now navigate to the auth page.
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const AuthBox(),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
+      appBar: createCustomAppBar(context),
       body: StreamBuilder<List<Vote>>(
         stream: _db.voteHistory(uid),
         builder: (context, snapshot) {

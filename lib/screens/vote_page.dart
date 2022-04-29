@@ -1,6 +1,7 @@
 import 'package:eloit/models/category.dart';
 import 'package:eloit/models/competitor.dart';
 import 'package:eloit/models/rivalry.dart';
+import 'package:eloit/screens/ui_elements.dart';
 import 'package:eloit/services/database.dart';
 import 'package:eloit/services/elo.dart';
 import 'package:flutter/material.dart';
@@ -46,9 +47,7 @@ class _VotePageState extends State<VotePage> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Vote'),
-      ),
+      appBar: createCustomAppBar(context, 'Vote'),
       body: voted != voteState.loading
           ? Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -66,7 +65,8 @@ class _VotePageState extends State<VotePage> {
                           ),
                           Padding(
                             padding: const EdgeInsets.all(15.0),
-                            child: Text(widget.rivalry.competitors[0].item.name),
+                            child:
+                                Text(widget.rivalry.competitors[0].item.name),
                           ),
                         ],
                       ),
@@ -83,6 +83,33 @@ class _VotePageState extends State<VotePage> {
                         }
                       },
                     ),
+                    Container(
+                      height: pageWidth/10,
+                      width: pageWidth/10,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          'VS',
+                          style: TextStyle(
+                            fontSize: pageWidth/20,
+                            shadows: [
+                              Shadow(
+                                blurRadius: 10.0,
+                                color: Colors.red,
+                                offset: Offset(5.0, 5.0),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Color.fromARGB(255, 255, 0, 0),
+                          width: 4,
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(60))
+                      ),
+                    ),
                     GestureDetector(
                         child: Column(
                           children: [
@@ -93,7 +120,8 @@ class _VotePageState extends State<VotePage> {
                             ),
                             Padding(
                               padding: const EdgeInsets.all(15.0),
-                              child: Text(widget.rivalry.competitors[1].item.name),
+                              child:
+                                  Text(widget.rivalry.competitors[1].item.name),
                             ),
                           ],
                         ),
@@ -184,9 +212,15 @@ class _VoteBarState extends State<VoteBar> {
                   width: (widget.voted == voteState.beforeVote
                       ? 0.5 * barWidth
                       : competitorOneProportion * barWidth),
-                  color: widget.voted == voteState.beforeVote
+                  decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          bottomLeft: Radius.circular(20),
+                        ),
+                        color: widget.voted == voteState.beforeVote
                       ? Colors.grey[400]
                       : Colors.blue,
+                  ),
                 ),
                 AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
@@ -194,9 +228,15 @@ class _VoteBarState extends State<VoteBar> {
                   width: (widget.voted == voteState.beforeVote
                       ? 0.5 * barWidth
                       : competitorTwoProportion * barWidth),
-                  color: widget.voted == voteState.beforeVote
+                  decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(20),
+                          bottomRight: Radius.circular(20),
+                        ),
+                        color: widget.voted == voteState.beforeVote
                       ? Colors.grey[600]
                       : Colors.red,
+                  ),
                 )
               ],
             );

@@ -17,10 +17,6 @@ void main() async {
     await Firebase.initializeApp();
   });
 
-  group('Home Page Widget Tests', () {
-    testWidgets('Test for appbar with title', (tester) async {
-      await tester.pumpWidget(createHomeScreen());
-      expect(find.text(APP_NAME), findsOneWidget);
-    });
-  });
+  // Removed test that searched for the app name on the home page (which is currently the Avengers category page)
+  group('Home Page Widget Tests', () {});
 }

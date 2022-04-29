@@ -5,21 +5,23 @@ class Category extends Equatable {
   final String cid;
   final String name;
   final String coverPicURL;
+  int totalVotes;
 
-  const Category(
-      {required this.cid, required this.name, required this.coverPicURL});
+  Category(
+      {required this.cid, required this.name, required this.coverPicURL, this.totalVotes=0});
 
   Map<String, dynamic> toMap() {
     return {
       'cid': cid,
       'name': name,
       'coverPicURL': coverPicURL,
+      'totalVotes': totalVotes,
     };
   }
 
   @override
   List<Object> get props {
-    return [cid, name, coverPicURL];
+    return [cid, name, coverPicURL, totalVotes];
   }
 
   @override
@@ -28,5 +30,6 @@ class Category extends Equatable {
   Category.fromDocumentSnapshot(DocumentSnapshot doc)
       : cid = doc.id,
         name = doc.get("name"),
-        coverPicURL = doc.get("coverPicURL");
+        coverPicURL = doc.get("coverPicURL"),
+        totalVotes = doc.get("totalVotes");
 }

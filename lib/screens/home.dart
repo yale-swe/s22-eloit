@@ -1,5 +1,6 @@
 import 'package:eloit/models/category.dart';
-import 'package:eloit/screens/category_page.dart';
+import 'package:eloit/screens/featured.dart';
+//Above is changed
 import 'package:eloit/screens/search_page.dart';
 import 'package:eloit/screens/settings_page.dart';
 import 'package:eloit/screens/vote_history_page.dart';
@@ -33,14 +34,16 @@ class _HomeState extends State<Home> {
   }
 
   final List<Widget> _pages = [
-    CategoryPage(
-      category: Category(
-          cid: '9A7IO38o2kHDRXDgSIhb',
-          name: 'Avengers',
-          coverPicURL: 'gs://eloit-c4540.appspot.com/heroImages/iron_man.png'),
-    ),
+    // const CategoryPage(
+    //   category: Category(
+    //       cid: '9A7IO38o2kHDRXDgSIhb',
+    //       name: 'Avengers',
+    //       coverPicURL: 'gs://eloit-c4540.appspot.com/heroImages/iron_man.png'),
+    // ),
+    const FeaturedPage(),
     const SearchPage(),
     const VoteHistoryPage(),
+    SettingsPage(),
   ];
 
   @override
@@ -48,6 +51,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         onTap: _onItemTapped,
         currentIndex: _selectedIndex,
         items: const [
@@ -62,6 +66,10 @@ class _HomeState extends State<Home> {
           BottomNavigationBarItem(
             icon: Icon(Icons.history),
             label: 'Vote History',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
           ),
         ],
       ),

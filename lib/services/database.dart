@@ -273,4 +273,14 @@ class DatabaseService {
         .map((doc) => Competitor.fromDocumentSnapshot(doc))
         .toList();
   }
+
+  Future <void> addUserFeedback(String feedback, String category) async{
+    // QuerySnapshot feedbackUpload = await categoryCollection
+    //     .col("userFeedback")
+    await FirebaseFirestore.instance.collection('userFeedback').add({
+      'category': category,
+      'feedback': feedback,
+      'date': DateTime.now(),
+    });
+  }
 }

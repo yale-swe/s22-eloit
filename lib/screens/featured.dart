@@ -17,14 +17,17 @@ class FeaturedPage extends StatefulWidget {
 }
 
 
-class FeaturedPageState extends State<FeaturedPage> {
+class FeaturedPageState extends State<FeaturedPage> with AutomaticKeepAliveClientMixin {
   //const CategoryPage({Key? key}) : super(key: key);
 
   //final Category category;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     DatabaseService _db = DatabaseService();
+
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         return Scaffold(
@@ -39,13 +42,12 @@ class FeaturedPageState extends State<FeaturedPage> {
                       query.docs.map((map) => Tile.fromMap(map.data(), map.id)).toList()),
               builder: (context, snapshot){                  
                   if (!snapshot.hasData) { // if snapshot has no data this is going to run
-                    return Container(
-                      alignment: FractionalOffset.center,
-                      child: const CircularProgressIndicator());
+                    return const LinearProgressIndicator();
                   }
                   final tileList = snapshot.data!;
 
                   return ListView.builder(
+                    controller: ScrollController(),
                     cacheExtent: 5000,
                     itemExtent: 150,
                     itemCount: tileList.length,
@@ -63,4 +65,7 @@ class FeaturedPageState extends State<FeaturedPage> {
       }
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

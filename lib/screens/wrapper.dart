@@ -43,7 +43,7 @@ class Wrapper extends StatelessWidget {
             }
 
             // If snapshot doesn't return anything, just have a status indicator
-            return const CircularProgressIndicator();
+            return const LinearProgressIndicator();
           });
     }
   }

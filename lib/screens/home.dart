@@ -1,4 +1,5 @@
 import 'package:eloit/models/category.dart';
+import 'package:eloit/screens/coming_soon.dart';
 import 'package:eloit/screens/featured.dart';
 import 'package:eloit/screens/randomScroll/randomScroll.dart';
 //Above is changed
@@ -28,7 +29,13 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
 
+  PageController pageController = PageController();
+
   void _onItemTapped(int index) {
+    pageController.jumpToPage(index);
+  }
+
+  void _onPageChanged(int index) {
     setState(() {
       _selectedIndex = index;
     });
@@ -44,14 +51,20 @@ class _HomeState extends State<Home> {
     const FeaturedPage(),
     const SearchPage(),
     const VoteHistoryPage(),
-    const RandomScroll(),
+    const ComingSoon(title: 'Random Rivalries'),
     const SettingsPage(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_selectedIndex],
+      //body: _pages[_selectedIndex],
+      body: PageView(
+        physics: const NeverScrollableScrollPhysics(),
+        controller: pageController,
+        onPageChanged: _onPageChanged,
+        children: _pages,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         onTap: _onItemTapped,

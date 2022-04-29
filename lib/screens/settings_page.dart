@@ -7,11 +7,19 @@ import 'auth/auth_widget.dart';
 
 DatabaseService _db = DatabaseService();
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
 
   @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClientMixin {
+  @override
   Widget build(BuildContext context) {
+
+    super.build(context);
+
     return Scaffold(
         body: Padding(
           padding: const EdgeInsets.all(15.0),
@@ -23,21 +31,17 @@ class SettingsPage extends StatelessWidget {
                 const Text("Rank Everything and Anything!",
                     style: TextStyle(fontSize: 30)),
                 const SizedBox(height: 20),
-                Expanded(
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        // child: Image.asset(
-                        //   'assets/eloitLogo.png',
-                        // ),
-                        child: Image.network("https://firebasestorage.googleapis.com/v0/b/eloit-c4540.appspot.com/o/eloitLogo.png?alt=media&token=0ff73827-47c3-464a-a609-05d762e9b7c5"),
-                      ),
-                    ),
+                Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    // child: Image.asset(
+                    //   'assets/eloitLogo.png',
+                    // ),
+                    child: Image.network("https://firebasestorage.googleapis.com/v0/b/eloit-c4540.appspot.com/o/eloitLogo.png?alt=media&token=0ff73827-47c3-464a-a609-05d762e9b7c5"),
                   ),
                 ),
                 const SizedBox(height: 30),
@@ -89,6 +93,9 @@ class SettingsPage extends StatelessWidget {
           ),
         ));
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 TextEditingController _textFieldController = TextEditingController();

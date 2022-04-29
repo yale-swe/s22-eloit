@@ -17,11 +17,13 @@ class VoteHistoryPage extends StatefulWidget {
   State<VoteHistoryPage> createState() => _VoteHistoryPageState();
 }
 
-class _VoteHistoryPageState extends State<VoteHistoryPage> {
+class _VoteHistoryPageState extends State<VoteHistoryPage> with AutomaticKeepAliveClientMixin {
   String? uid = FirebaseAuth.instance.currentUser?.uid;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     DatabaseService _db = DatabaseService();
 
     return Scaffold(
@@ -32,6 +34,7 @@ class _VoteHistoryPageState extends State<VoteHistoryPage> {
           if (snapshot.hasData) {
             List<Vote> votes = snapshot.data ?? [];
             return ListView.builder(
+              controller: ScrollController(),
               padding: const EdgeInsets.all(15.0),
               itemCount: votes.length,
               itemBuilder: (BuildContext context, int index) {
@@ -69,4 +72,7 @@ class _VoteHistoryPageState extends State<VoteHistoryPage> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

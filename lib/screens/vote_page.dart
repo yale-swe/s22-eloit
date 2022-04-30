@@ -80,18 +80,22 @@ class _VotePageState extends State<VotePage> {
                           setState(() {
                             voted = voteState.afterVote;
                           });
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
+                            content: Text('You Voted!'),
+                          ));
                         }
                       },
                     ),
                     Container(
-                      height: pageWidth/10,
-                      width: pageWidth/10,
+                      height: pageWidth / 10,
+                      width: pageWidth / 10,
                       child: Align(
                         alignment: Alignment.center,
                         child: Text(
                           'VS',
                           style: TextStyle(
-                            fontSize: pageWidth/20,
+                            fontSize: pageWidth / 20,
                             shadows: [
                               Shadow(
                                 blurRadius: 10.0,
@@ -103,12 +107,11 @@ class _VotePageState extends State<VotePage> {
                         ),
                       ),
                       decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Color.fromARGB(255, 255, 0, 0),
-                          width: 4,
-                        ),
-                        borderRadius: BorderRadius.all(Radius.circular(60))
-                      ),
+                          border: Border.all(
+                            color: Color.fromARGB(255, 255, 0, 0),
+                            width: 4,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(60))),
                     ),
                     GestureDetector(
                         child: Column(
@@ -135,6 +138,10 @@ class _VotePageState extends State<VotePage> {
                             setState(() {
                               voted = voteState.afterVote;
                             });
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text('You Voted!'),
+                            ));
                           }
                         }),
                   ],
@@ -213,13 +220,13 @@ class _VoteBarState extends State<VoteBar> {
                       ? 0.5 * barWidth
                       : competitorOneProportion * barWidth),
                   decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          bottomLeft: Radius.circular(20),
-                        ),
-                        color: widget.voted == voteState.beforeVote
-                      ? Colors.grey[400]
-                      : Colors.blue,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      bottomLeft: Radius.circular(20),
+                    ),
+                    color: widget.voted == voteState.beforeVote
+                        ? Colors.grey[400]
+                        : Colors.blue,
                   ),
                 ),
                 AnimatedContainer(
@@ -229,13 +236,13 @@ class _VoteBarState extends State<VoteBar> {
                       ? 0.5 * barWidth
                       : competitorTwoProportion * barWidth),
                   decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(20),
-                          bottomRight: Radius.circular(20),
-                        ),
-                        color: widget.voted == voteState.beforeVote
-                      ? Colors.grey[600]
-                      : Colors.red,
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(20),
+                      bottomRight: Radius.circular(20),
+                    ),
+                    color: widget.voted == voteState.beforeVote
+                        ? Colors.grey[600]
+                        : Colors.red,
                   ),
                 )
               ],

@@ -47,3 +47,9 @@ app.*.map.json
 
 # Other files
 ./dart_test/
+
+*.exe
+
+data/
+
+**/screenshots

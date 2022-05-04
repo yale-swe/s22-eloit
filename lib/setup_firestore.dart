@@ -83,7 +83,7 @@ Future<List<DocumentReference>> generateCompetitors() async {
   });
 
   await itemCollection.doc(l[0].id).update({
-    "categoryIds": FieldValue.arrayUnion([catId])
+    "categoryIDs": FieldValue.arrayUnion([catId])
   });
 
   final hulk = await competitorCollection.add({
@@ -91,7 +91,7 @@ Future<List<DocumentReference>> generateCompetitors() async {
     "item": data[1],
   });
   await itemCollection.doc(l[1].id).update({
-    "categoryIds": FieldValue.arrayUnion([catId])
+    "categoryIDs": FieldValue.arrayUnion([catId])
   });
   // dumpInstance("after generateCompetitors");
   return [ironman, hulk];

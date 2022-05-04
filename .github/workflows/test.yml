@@ -40,7 +40,7 @@ jobs:
         with:
           name: "${{ steps.gen_name.outputs.artifact_name }}"
           path: build/web
-          retention-days: 1
+          retention-days: 5
       - name: Deploy To Preview
         if: ${{ github.ref_name != 'main' }} 
         uses: FirebaseExtended/action-hosting-deploy@v0
@@ -48,5 +48,5 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_ELOIT_C4540 }}'
           projectId: eloit-c4540
-          expires: 1d
+          expires: 3d
           channelId: $(echo ${{ github.ref_name }} | tr / _)

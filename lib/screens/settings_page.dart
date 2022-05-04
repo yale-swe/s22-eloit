@@ -31,63 +31,65 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
                 const Text("Rank Everything and Anything!",
                     style: TextStyle(fontSize: 30)),
                 const SizedBox(height: 20),
-                Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    // child: Image.asset(
-                    //   'assets/eloitLogo.png',
-                    // ),
-                    child: Image.network("https://firebasestorage.googleapis.com/v0/b/eloit-c4540.appspot.com/o/eloitLogo.png?alt=media&token=0ff73827-47c3-464a-a609-05d762e9b7c5"),
+                Expanded(
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Image.network("https://firebasestorage.googleapis.com/v0/b/eloit-c4540.appspot.com/o/eloitLogo.png?alt=media&token=0ff73827-47c3-464a-a609-05d762e9b7c5"),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 30),
                 const Text("Creators: Harry, Xinli, Yofti, Jack, Kevin, Revant",
                     style: TextStyle(fontSize: 20)),
                 const SizedBox(height: 30),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      primary: Colors.green,
-                      textStyle: const TextStyle(fontSize: 20)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Text(
-                      'Give Feedback',
-                      style: TextStyle(
-                          color: Theme.of(context).primaryTextTheme.button?.color),
-                    ),
-                  ),
-                  onPressed: () async {
-                    return _displayTextInputDialog(context);
-                  },
-                ),
-                const SizedBox(height: 30),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      primary: Colors.red,
-                      textStyle: const TextStyle(fontSize: 20)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Text(
-                      'Log Out',
-                      style: TextStyle(
-                          color: Theme.of(context).primaryTextTheme.button?.color),
-                    ),
-                  ),
-                  onPressed: () async {
-                    await FirebaseAuth.instance.signOut();
-                    // Now navigate to the auth page.
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const AuthBox(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        primary: Colors.green,
+                        textStyle: const TextStyle(fontSize: 20)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text(
+                        'Give Feedback',
+                        style: TextStyle(
+                            color: Theme.of(context).primaryTextTheme.button?.color),
                       ),
-                    );
-                  },
-                ),
+                    ),
+                    onPressed: () async {
+                      return _displayTextInputDialog(context);
+                    },
+                  ),
+                  //const SizedBox(height: 30),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        primary: Colors.red,
+                        textStyle: const TextStyle(fontSize: 20)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text(
+                        'Log Out',
+                        style: TextStyle(
+                            color: Theme.of(context).primaryTextTheme.button?.color),
+                      ),
+                    ),
+                    onPressed: () async {
+                      await FirebaseAuth.instance.signOut();
+                      // Now navigate to the auth page.
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const AuthBox(),
+                        ),
+                      );
+                    },
+                  ),
+                ]),
               ],
             ),
           ),

@@ -1,27 +1,11 @@
-// Navigator.of(context).push(
-//   MaterialPageRoute(
-//     //You are rerouted to the vote page
-//     builder: (context) => VotePage(
-//       category: category,
-//       rivalry: rivalry,
-//     ),
-//   ),
-// ),
-
-
-
 import 'package:eloit/models/category.dart';
-import 'package:eloit/models/competitor.dart';
 import 'package:eloit/models/rivalry.dart';
-import 'package:eloit/screens/create_rivalry.dart';
-import 'package:eloit/screens/rankings_page.dart';
-import 'package:eloit/screens/ui_elements.dart';
-import 'package:eloit/screens/vote_page.dart';
+import 'package:eloit/shared/ui_elements.dart';
 import 'package:eloit/services/database.dart';
 import 'package:flutter/material.dart';
-import 'package:swipable_stack/swipable_stack.dart';
-
+import 'package:swipeable_card_stack/swipeable_card_stack.dart';
 import '../REVANTvote_page.dart';
+import 'package:swipable_stack/swipable_stack.dart'; 
 
 class RandomScroll extends StatefulWidget {
   const RandomScroll({ Key? key }) : super(key: key);
@@ -32,75 +16,121 @@ class RandomScroll extends StatefulWidget {
 
 class _RandomScrollState extends State<RandomScroll> {
   final DatabaseService _db = DatabaseService();
-  final controller = SwipableStackController();
-//   Category cate = const Category(
-//   cid: "9A7IO38o2kHDRXDgSIhb",
-//   name: "Avengers",
-//   coverPicURL: "https://firebasestorage.googleapis.com/v0/b/eloit-c4540.appspot.com/o/heroImages%2Favengers.png?alt=media&token=393e5b8d-9e46-4395-841f-251c734897b7",
-//   );
-//   Rivalry rivalz = Rivalry(rid: "4dWgwPGCuB82e6v3Px0t", cid: "9A7IO38o2kHDRXDgSIhb", itemIDs: ["RGLHK1xZfryvvGumxnrO", 
-// "SsgMttyq6lkgYT6jPzLS"], votes: [32, 15], competitors: [
-//   Competitor(id: "Hulk", item: item, eloScore: 1200)
-// ]
-// , name: "iron man vs black widow")
-
-  void getRandomCat() async {
-    Category? randomCat = await _db.randomCategory();
-    print(randomCat);
+  List cards = [];
+  void getRandomRiv() async {
+    for (int i=0; i<10; i++) {
+      cards.add(await _db.randomRivalry());
+      print(cards[i]);
+    }
+    setState(() {
+      Loading = false;
+    });
+    
+    //return await _db.randomRivalry(); 
   }
 
-  void getRandomRiv() async {
-    Rivalry? randomRiv = await _db.randomRivalry();
-    print(randomRiv);
+  SwipeableCardSectionController _cardController = SwipeableCardSectionController();
+
+  bool Loading = true;
+  int index1 = 0;
+  @override
+  Widget build(BuildContext context) {
+    
+    DatabaseService _db = DatabaseService();
+    if (!Loading) {
+      return Scaffold(
+        appBar: createCustomAppBar(context, 'Explore'),
+        body: Container(
+          alignment: Alignment.center,
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.8,
+                  width: MediaQuery.of(context).size.width * 0.7,
+                  child: SwipableStack(
+                    builder: (context, properties) {   
+                      return Card3(category: cards[index1][0], rivalry: cards[index1][1]);                   
+                    },
+                    itemCount: 10,
+                    onSwipeCompleted: (index, direction) {
+                      index1++;
+                      print('$index, $direction');
+                      
+                    }, 
+                  ),
+                ),
+              ],
+          ),
+        ),
+      );
+    }
+    else{
+      getRandomRiv();
+      return Align(
+        alignment: Alignment.center,
+        child: CircularProgressIndicator()
+      );
+    }
+  }
+}
+
+class Card3 extends StatelessWidget{
+
+  final DatabaseService _db = DatabaseService();
+  final Category category;
+  final Rivalry rivalry;
+  Card3({Key? key, required this.category, required this.rivalry}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          color: Color.fromARGB(255, 181, 166, 165),
+        ),
+        child: VotePageRandom(category: category, rivalry: rivalry),
+
+      );
+  }
+}
+
+
+
+class Card2 extends StatelessWidget{
+  final DatabaseService _db = DatabaseService();
+
+  Card2({Key? key}) : super(key: key);
+  Future<List?> getRandomRiv() async {
+    print("hey");
+    return await _db.randomRivalry();   
   }
 
   @override
   Widget build(BuildContext context) {
-    getRandomCat();
-    getRandomRiv();
-    return Scaffold(
-      //appBar: createCustomAppBar(context, 'Random Scroll'),
-      body: Stack(children: [
-
-        // SwipableStack(
-        //   controller: controller,
-        //   builder: (context, index){
-          
-        //     return VotePageRandom(
-        //       category: "Avengers",
-        //       rivalry: rivalry,
-        //     );
-            
-        //   }
-        // ),
-
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Align(
-            alignment: Alignment.bottomLeft,
-            child: FloatingActionButton(
-              onPressed: () => controller.rewind(),
-              tooltip: 'Rewind',
-              child: Icon(Icons.fast_rewind_outlined),
-            ),
-          ),
+    return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          color: Color.fromARGB(255, 181, 166, 165),
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Align(
-            alignment: Alignment.bottomRight,
-            child: FloatingActionButton(
-                onPressed: () async {
-                  print(await _db.docCount());
-                  controller.currentIndex = 0;
-                },
-                tooltip: 'Reset',
-                child: Icon(Icons.reset_tv),
-            ),
-          ),
-        )
-      ],)
-    );
+        child: FutureBuilder(
+          future: getRandomRiv(),
+          builder: (BuildContext context, AsyncSnapshot<List<dynamic>?> snapshot) {
+            if (snapshot.data != null){
+              Category category = snapshot.data![0];
+              Rivalry rivalry = snapshot.data![1];
+              return VotePageRandom(category: category, rivalry: rivalry);
+            }
+            else{
+              return Container(
+                alignment: Alignment.center,
+                child: const CircularProgressIndicator(),
+              );
+            }
+          },
+        ),
+
+      );
   }
 }
 

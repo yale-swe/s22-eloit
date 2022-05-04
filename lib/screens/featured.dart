@@ -1,10 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:eloit/models/category.dart';
-import 'package:eloit/models/rivalry.dart';
-import 'package:eloit/screens/create_rivalry.dart';
-import 'package:eloit/screens/rankings_page.dart';
-import 'package:eloit/screens/ui_elements.dart';
-import 'package:eloit/screens/vote_page.dart';
+import 'package:eloit/shared/ui_elements.dart';
 import 'package:eloit/services/database.dart';
 import 'package:flutter/material.dart';
 
@@ -31,7 +26,7 @@ class FeaturedPageState extends State<FeaturedPage> with AutomaticKeepAliveClien
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         return Scaffold(
-          appBar: createCustomAppBar(context, "🔥Trending Categories🔥"),
+          appBar: createCustomAppBar(context, "Trending Categories"),
           
           body: SizedBox(
             child: StreamBuilder<List<Tile>>(

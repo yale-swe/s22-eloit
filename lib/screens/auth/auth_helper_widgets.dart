@@ -1,7 +1,3 @@
-import 'package:eloit/screens/home.dart';
-import 'package:eloit/services/auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 // Some custom widgets to make this easier...
@@ -154,7 +150,7 @@ String? inspectEmail(String? formEmail) {
 String? inspectSigninPassword(String? formPassword) {
   // First check that the password field is not empty
   if (formPassword == null || formPassword.isEmpty) {
-    return 'I need your password pls.';
+    return 'I need your password please.';
   }
 
   // Then check if the given password has the right number of characters...
@@ -171,7 +167,7 @@ String? inspectSigninPassword(String? formPassword) {
 String? inspectRegisterPassword(String? formPassword) {
   // First check that the password field is not empty
   if (formPassword == null || formPassword.isEmpty) {
-    return 'Pls insert a password';
+    return 'Please insert a password';
   }
 
   // Define the requirements for a password.
@@ -184,7 +180,7 @@ String? inspectRegisterPassword(String? formPassword) {
       return 'This must be between 6 and 20 characters long.';
     }
 
-    return 'Must include alphabetical character, number, and one of @#\\\$%^&)(-+=';
+    return 'Must include alphabetical character, number, or one of @#\\\$%^&)(-+=';
   }
 
   return null;

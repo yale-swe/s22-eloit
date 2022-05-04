@@ -1,17 +1,18 @@
 import 'package:eloit/models/category.dart';
-import 'package:eloit/models/competitor.dart';
 import 'package:eloit/models/rivalry.dart';
-import 'package:eloit/screens/ui_elements.dart';
+import 'package:eloit/shared/ui_elements.dart';
 import 'package:eloit/services/database.dart';
 import 'package:eloit/services/elo.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:share_plus/share_plus.dart';
 
 enum voteState {
   loading,
   beforeVote,
   afterVote,
 }
+String character = "";
 
 class VotePage extends StatefulWidget {
   const VotePage({Key? key, required this.category, required this.rivalry})
@@ -27,12 +28,28 @@ class VotePage extends StatefulWidget {
 class _VotePageState extends State<VotePage> {
   voteState voted = voteState.loading;
   final DatabaseService _db = DatabaseService();
+  String _content = "";
+  
+  
+  void _shareContent() {
+    Share.share(_content);
+  }
+
+  bool _isVisible = false;
+  void showToast() {
+  setState(() {
+    _isVisible = !_isVisible;
+  });
+}
 
   void loadVote() async {
     bool canVote = await _db.canVote(
         FirebaseAuth.instance.currentUser?.uid, widget.rivalry.rid);
     setState(() {
       voted = canVote ? voteState.beforeVote : voteState.afterVote;
+      if (voted==voteState.afterVote){
+        showToast();
+      }
     });
   }
 
@@ -79,8 +96,10 @@ class _VotePageState extends State<VotePage> {
                               FirebaseAuth.instance.currentUser?.uid);
                           setState(() {
                             voted = voteState.afterVote;
+                            showToast();
                           });
                         }
+                        character = widget.rivalry.competitors[1].item.name.toString();
                       },
                     ),
                     Container(
@@ -133,8 +152,12 @@ class _VotePageState extends State<VotePage> {
                                 FirebaseAuth.instance.currentUser?.uid);
                             setState(() {
                               voted = voteState.afterVote;
-                            });
+                              showToast();
+                              
+                            }
+                            );
                           }
+                          character = widget.rivalry.competitors[1].item.name.toString();
                         }),
                   ],
                 ),
@@ -144,6 +167,19 @@ class _VotePageState extends State<VotePage> {
                   rivalry: widget.rivalry,
                   voted: voted,
                 ),
+                const SizedBox(height: 40.0),
+                Visibility(
+                  visible: _isVisible,
+                  child: ElevatedButton.icon(  //Only works for phones
+                    onPressed: (){
+                      _content = "I just voted for " + character + " on Eloit! Visit https://eloit-c4540.web.app/#/ to vote now!";
+                      _shareContent();
+                    },
+                    icon: const Icon(Icons.share),
+                    label: const Text('Share Your Vote!')
+                  ),
+                )
+                
               ],
             )
           : const LinearProgressIndicator(),
@@ -171,12 +207,6 @@ class _VoteBarState extends State<VoteBar> {
   double competitorOneProportion = 0.5;
   double competitorTwoProportion = 0.5;
 
-  // void addVote() {
-  //   setState(() {
-  //     currentState = voteState.afterVote;
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     EloService _elo = EloService();
@@ -186,8 +216,8 @@ class _VoteBarState extends State<VoteBar> {
     // double sideLength = (width < height ? width : height);
     return Container(
       width: barWidth,
-      decoration:
-          BoxDecoration(borderRadius: BorderRadius.circular(barWidth / 20)),
+      // decoration:
+      //     BoxDecoration(borderRadius: BorderRadius.circular(barWidth / 20)),
       child: StreamBuilder<Map>(
           stream: _elo.streamRivalryVotes(widget.category, widget.rivalry),
           builder: (context, snapshot) {
@@ -196,7 +226,14 @@ class _VoteBarState extends State<VoteBar> {
                   snapshot.data?[widget.rivalry.competitors[0].id] ?? 1;
               int votes_2 =
                   snapshot.data?[widget.rivalry.competitors[1].id] ?? 1;
-
+              if (widget.voted == voteState.afterVote){
+                if (votes_1>votes_2){
+                  character = widget.rivalry.competitors[0].item.name.toString();
+                }
+                if (votes_1>votes_2){
+                  character = widget.rivalry.competitors[1].item.name.toString();
+                }
+              }
               competitorOneProportion =
                   votes_1 + votes_2 > 0 ? votes_1 / (votes_1 + votes_2) : 0.5;
               competitorTwoProportion = 1.0 - competitorOneProportion;

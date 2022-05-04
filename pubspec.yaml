@@ -40,7 +40,9 @@ dependencies:
   firebase_core: ^1.13.1
   kiwi: ^4.0.2
   flutter_session_manager: ^1.0.3
-  swipable_stack: ^1.2.0
+  swipeable_card_stack: ^0.0.5
+  swipable_stack: ^1.3.0 
+  share_plus: ^4.0.4 
 
 dev_dependencies:
   flutter_test:

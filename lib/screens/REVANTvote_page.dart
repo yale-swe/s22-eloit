@@ -1,7 +1,7 @@
 import 'package:eloit/models/category.dart';
 import 'package:eloit/models/competitor.dart';
 import 'package:eloit/models/rivalry.dart';
-import 'package:eloit/screens/ui_elements.dart';
+import 'package:eloit/shared/ui_elements.dart';
 import 'package:eloit/services/database.dart';
 import 'package:eloit/services/elo.dart';
 import 'package:flutter/material.dart';
@@ -92,7 +92,7 @@ class _VotePageStateRANDOM extends State<VotePageRandom> {
                           'VS',
                           style: TextStyle(
                             fontSize: pageWidth/20,
-                            shadows: [
+                            shadows: const [
                               Shadow(
                                 blurRadius: 10.0,
                                 color: Color.fromARGB(255, 255, 255, 255),
@@ -104,10 +104,10 @@ class _VotePageStateRANDOM extends State<VotePageRandom> {
                       ),
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: Color.fromARGB(255, 255, 255, 255),
+                          color: const Color.fromARGB(255, 255, 255, 255),
                           width: 4,
                         ),
-                        borderRadius: BorderRadius.all(Radius.circular(60))
+                        borderRadius: const BorderRadius.all(Radius.circular(60))
                       ),
                     ),
                     GestureDetector(
@@ -181,7 +181,7 @@ class _VoteBarState extends State<VoteBar> {
   @override
   Widget build(BuildContext context) {
     EloService _elo = EloService();
-    double width = MediaQuery.of(context).size.width;
+    double width = MediaQuery.of(context).size.width * 0.7;
     double barWidth = width / 1.2;
     // double height = MediaQuery.of(context).size.height;
     // double sideLength = (width < height ? width : height);
@@ -213,13 +213,15 @@ class _VoteBarState extends State<VoteBar> {
                       ? 0.5 * barWidth
                       : competitorOneProportion * barWidth),
                   decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          bottomLeft: Radius.circular(20),
-                        ),
-                        color: widget.voted == voteState.beforeVote
-                      ? Colors.grey[400]
-                      : Colors.blue,
+                    borderRadius: competitorOneProportion < 1.0
+                        ? const BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            bottomLeft: Radius.circular(20),
+                          )
+                        : const BorderRadius.all(Radius.circular(20)),
+                    color: widget.voted == voteState.beforeVote
+                        ? Colors.grey[400]
+                        : Colors.blue,
                   ),
                 ),
                 AnimatedContainer(
@@ -229,13 +231,15 @@ class _VoteBarState extends State<VoteBar> {
                       ? 0.5 * barWidth
                       : competitorTwoProportion * barWidth),
                   decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(20),
-                          bottomRight: Radius.circular(20),
-                        ),
-                        color: widget.voted == voteState.beforeVote
-                      ? Colors.grey[600]
-                      : Colors.red,
+                    borderRadius: competitorTwoProportion < 1.0
+                        ? const BorderRadius.only(
+                            topRight: Radius.circular(20),
+                            bottomRight: Radius.circular(20),
+                          )
+                        : const BorderRadius.all(Radius.circular(20)),
+                    color: widget.voted == voteState.beforeVote
+                        ? Colors.grey[600]
+                        : Colors.red,
                   ),
                 )
               ],

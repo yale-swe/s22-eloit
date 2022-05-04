@@ -4,7 +4,7 @@ import 'package:eloit/models/item.dart';
 import 'package:eloit/models/rivalry.dart';
 import 'package:eloit/screens/auth/auth_widget.dart';
 import 'package:eloit/screens/home.dart';
-import 'package:eloit/screens/ui_elements.dart';
+import 'package:eloit/shared/ui_elements.dart';
 import 'package:eloit/screens/vote_page.dart';
 import 'package:eloit/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';

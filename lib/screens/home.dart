@@ -50,8 +50,8 @@ class _HomeState extends State<Home> {
     // ),
     const FeaturedPage(),
     const SearchPage(),
+    const RandomScroll(), 
     const VoteHistoryPage(),
-    const ComingSoon(title: 'Random Rivalries'),
     const SettingsPage(),
   ];
 
@@ -79,12 +79,12 @@ class _HomeState extends State<Home> {
             label: 'Search',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.history),
-            label: 'Vote History',
+            icon: Icon(Icons.auto_awesome_outlined),
+            label: 'Explore',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.mic_external_off_outlined),
-            label: 'Random',
+            icon: Icon(Icons.history),
+            label: 'Vote History',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),

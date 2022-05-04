@@ -318,7 +318,8 @@ class DatabaseService {
     return null;
   }
 
-  Future<Rivalry?> randomRivalry() async {
+  //Future<Rivalry?> randomRivalry() async {
+  Future<List<dynamic>?> randomRivalry() async {
     // Get a random category to select the rivalry from
     Category? randomCat = await randomCategory();
 
@@ -350,10 +351,12 @@ class DatabaseService {
 
       if (randType == 2) {
         // Return a Category from the QuerySnapshot
-        return getRivalry(randomCat!, snapshot.docs.first);
+        Rivalry? randomRiv = await getRivalry(randomCat!, snapshot.docs.first);
+        return [randomCat, randomRiv];
       }
     }
 
     return null;
   }
+
 }

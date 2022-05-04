@@ -11,9 +11,6 @@ PreferredSizeWidget createCustomAppBar(BuildContext context,
   double edgeInset = MediaQuery.of(context).size.width * barInsetRatio;
 
   return AppBar(
-    title: Text(barTitle, style: TextStyle(fontFamily: 'NotoEmoji')),
-    // title: Text("🔥" + " Trending Categories " + "🔥", 
-    //   style: TextStyle(fontFamily: 'NotoEmoji'),
-    // ),
+    title: Text(barTitle),
   );
 }

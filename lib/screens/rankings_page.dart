@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:eloit/models/category.dart';
 import 'package:eloit/models/competitor.dart';
 import 'package:eloit/screens/home.dart';
-import 'package:eloit/screens/ui_elements.dart';
+import 'package:eloit/shared/ui_elements.dart';
 import 'package:eloit/services/database.dart';
 import 'package:flutter/material.dart';
 

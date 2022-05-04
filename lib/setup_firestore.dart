@@ -33,6 +33,17 @@ Future<String> generateCategory() async {
   return id;
 }
 
+Future<String> createUser() async {
+  KiwiContainer container = KiwiContainer();
+  final instance = container.resolve<FirebaseFirestore>('firebase');
+
+  final CollectionReference users = instance.collection('users');
+  var doc = await users
+      .add({"email": "test@test.com"});
+  var id = doc.id;
+  return id;
+}
+
 Future<DocumentReference> getCategoryDoc() async {
   final instance = KiwiContainer().resolve<FirebaseFirestore>('firebase');
   var snapshot = await instance.collection('categories').snapshots().first;

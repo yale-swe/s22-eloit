@@ -77,6 +77,7 @@ class _AuthBoxState extends State<AuthBox> {
                   SignInPasswordField(controller: passwordController),
                   const FormPaddingLayer(),
                   SizedBox(
+                    key: const Key('sign_in_button'),
                     width: width,
                     child: ElevatedButton(
                       onPressed: () async {
@@ -139,7 +140,9 @@ class _AuthBoxState extends State<AuthBox> {
                   // crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     const FormPaddingLayer(),
-                    EmailField(controller: emailController),
+                    EmailField(
+                        key: const Key("signup_email"),
+                        controller: emailController),
                     const FormPaddingLayer(),
                     SizedBox(
                       width: width,

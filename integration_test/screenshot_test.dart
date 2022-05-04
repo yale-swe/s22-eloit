@@ -11,8 +11,8 @@ void main() {
     app.main();
 
     // Trigger a frame.
-    print("waiting for ");
-    await tester.pumpAndSettle();
+    print("waiting for");
+    await tester.pumpAndSettle(const Duration(seconds: 2));
     print("take a screen shot");
     await binding.takeScreenshot('screenshot-1');
   });

@@ -31,10 +31,10 @@ class CustomFormField extends StatelessWidget {
       obscureText: obscureText,
       decoration: InputDecoration(
         border: const OutlineInputBorder(
-          // borderSide: BorderSide(
-          //   color: COLOR_CONTRAST_BACKGROUND,
-          // ),
-        ),
+            // borderSide: BorderSide(
+            //   color: COLOR_CONTRAST_BACKGROUND,
+            // ),
+            ),
         // hintStyle: const TextStyle(
         //   color: Color.fromARGB(255, 189, 167, 167),
         // ),
@@ -52,6 +52,7 @@ class EmailField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomFormField(
+      key: const Key('custom_field'),
       controller: controller,
       validator: inspectEmail,
       hintText: 'Email',
@@ -68,6 +69,7 @@ class SignInPasswordField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomFormField(
+      key: const Key('password_field'),
       validator: inspectSigninPassword,
       controller: controller,
       hintText: 'Password',
@@ -85,6 +87,7 @@ class RegisterPasswordField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomFormField(
+      key: key,
       validator: inspectRegisterPassword,
       controller: controller,
       obscureText: true,
@@ -107,6 +110,7 @@ class ConfirmPasswordField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomFormField(
+      key: key,
       validator: (String? givenText) => givenText == passwordController.text
           ? null
           : 'Passwords do not match.',

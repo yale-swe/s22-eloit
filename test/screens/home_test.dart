@@ -18,5 +18,12 @@ void main() async {
   });
 
   // Removed test that searched for the app name on the home page (which is currently the Avengers category page)
-  group('Home Page Widget Tests', () {});
+  group('Home Page Widget Tests', () {
+    testWidgets('home page base test1', (WidgetTester tester) async {
+      await tester.pumpWidget(createHomeScreen());
+
+      final titleFinder = find.text('Eloit');
+      expect(titleFinder, findsNothing);
+    });
+  });
 }
